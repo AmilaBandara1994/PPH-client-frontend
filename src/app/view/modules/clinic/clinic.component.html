@@ -48,7 +48,7 @@
               <mat-form [formGroup]="csearch" class="csearch">
                 <mat-form-field appearance="outline">
                   <mat-label>{{csprompts[i]}}</mat-label>
-                  <input matInput [formControlName]="cscolumn">
+                  <input matInput [formControlName]="cscolumn"   (keyup)="filterTable()">
                 </mat-form-field>
               </mat-form>
             </mat-header-cell>

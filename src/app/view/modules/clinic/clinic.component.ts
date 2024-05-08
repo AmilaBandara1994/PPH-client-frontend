@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Employee} from "../../../entity/employee";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -35,9 +35,9 @@ export class ClinicComponent {
   headers: string[] = ['Clinic Type', 'Clinic Status', 'Doctor Name', 'Date', 'Start time','End Time', 'Patient Count' , 'Modification'];
   binders: string[] = ['clinictype.name', 'clinicstatus.name', 'doctor.name', 'date' ,'starttime', 'endtime','patientcount' , 'getModi()'];
 
-  cscolumns: string[] = ['csnumber', 'cscallingname', 'csgender', 'csdesignation', 'csname', 'csmodi'];
-  csprompts: string[] = ['Search by Number', 'Search by Name', 'Search by Gender',
-    'Search by Designation', 'Search by Full Name', 'Search by Modi'];
+  cscolumns: string[] = ['csclinictype', 'csclinicstatus', 'csdoctor', 'csdate', 'csstarttime', 'csendtime','cspatientcount' , 'csmodi'];
+  csprompts: string[] = ['Search by Clinic Type', 'Search by Clinic Status', 'Search by Doctor',
+    'Search by Date', 'Search by start time', 'Search by end time','Search by Patient Count' ,'Search by Modi'];
 
   public csearch!: FormGroup;
   public ssearch!: FormGroup;
@@ -62,7 +62,19 @@ export class ClinicComponent {
                   private dg: MatDialog,
                   private dp: DatePipe,
                   public authService:AuthorizationManager) {
-    this.uiassist  = new UiAssist(this);
+
+     this.uiassist  = new UiAssist(this);
+
+     this.csearch = this.fb.group({
+        'csclinictype': new FormControl(),
+        'csclinicstatus': new FormControl(),
+        'csdoctor': new FormControl(),
+        'csdate': new FormControl(),
+        'csstarttime': new FormControl(),
+        'csendtime': new FormControl(),
+        'cspatientcount': new FormControl(),
+        'csmodi': new FormControl(),
+     })
   }
 
   ngOnInit() {
@@ -105,9 +117,24 @@ export class ClinicComponent {
 
   }
 
-  // getModi(element: Clinic ) {
-  //   return element.number + '(' + element.callingname + ')';
-  // }
+  getModi(element: Clinic ) {
+  }
+
+  filterTable():void{
+    const csearchdata = this.csearch.getRawValue();
+
+    this.data.filterPredicate = (clinic : Clinic, filter:string) =>{
+      return (csearchdata.csclinictype == null ) || clinic.clinictype.name.includes(csearchdata.csclinictype) &&
+        (csearchdata.csclinicstatus == null ) || clinic.clinicstatus.name.includes(csearchdata.csclinicstatus) &&
+        (csearchdata.csdoctor == null ) || clinic.doctor.name.includes(csearchdata.csdoctor) &&
+        (csearchdata.csdate == null ) || clinic.date.includes(csearchdata.csdate) &&
+        (csearchdata.csstarttime == null ) || clinic.starttime.includes(csearchdata.csstarttime) &&
+        (csearchdata.csendtime == null ) || clinic.endtime.includes(csearchdata.csendtime) ;
+        // (csearchdata.cspatientcount == null ) || clinic.patientcount.(csearchdata.cspatientcount) &&
+        // (csearchdata.csmodi == null ) || this.getModi(clinic).toLowerCase().includes(csearchdata.csmodi) ;
+    }
+    this.data.filter="xx"
+  }
 
   clear():void{
     const confirm = this.dg.open(ConfirmComponent, {
