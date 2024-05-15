@@ -15,6 +15,7 @@ import {StudentComponent} from "./view/modules/student/student.component";
 import {BatchregistrationComponent} from "./view/modules/batchregistration/batchregistration.component";
 import {ClassComponent} from "./view/modules/class/class.component";
 import {BookdistributionComponent} from "./view/modules/bookdistribution/bookdistribution.component";
+import {ClinicComponent} from "./view/modules/clinic/clinic.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
       {path: "home", component: HomeComponent},
       {path: "employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
+      {path: "clinic", component: ClinicComponent},
       {path:"reports", component: ArrearsByProgramComponent},
       {path:"payments",component:PaymentComponent},
       {path: "home/payments", redirectTo: 'payments', pathMatch: 'full'},

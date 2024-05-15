@@ -29,6 +29,7 @@ export class MainwindowComponent {
     acdMenuItems = this.authService.acdMenuItems;
     regMenuItems = this.authService.regMenuItems;
     clsMenuItems = this.authService.clsMenuItems;
+    clinicMenuItems = this.authService.clinicMenuItems;
 
   isMenuVisible(category: string): boolean {
     switch (category) {
@@ -40,6 +41,8 @@ export class MainwindowComponent {
         return this.regMenuItems.some(menuItem => menuItem.accessFlag);
         case 'Class':
         return this.clsMenuItems.some(menuItem => menuItem.accessFlag);
+        case 'Clinic':
+        return this.clinicMenuItems.some(menuItem => menuItem.accessFlag);
       default:
         return false;
     }
