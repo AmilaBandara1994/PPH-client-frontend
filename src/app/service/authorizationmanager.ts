@@ -10,6 +10,7 @@ export class AuthorizationManager {
   private readonly localStorageAcdMenus = 'acdMenuState';
   private readonly localStorageRegMenus = 'regMenuState';
   private readonly localStorageClsMenus = 'clsMenuState';
+  private readonly localStorageClinicMenus = 'clinicMenuState';
 
   public enaadd = false;
   public enaupd = false;
@@ -28,6 +29,9 @@ export class AuthorizationManager {
     { name: 'Batch', accessFlag: true, routerLink: 'batch' },
     { name: 'Payment Schedule', accessFlag: true, routerLink: 'pymtschedule' },
     { name: 'Course Material', accessFlag: true, routerLink: 'crsmaterial' }
+  ];
+  clinicMenuItems = [
+    { name: 'Clinic', accessFlag: true, routerLink: 'clinic' }
   ];
 
   regMenuItems = [
@@ -63,6 +67,9 @@ export class AuthorizationManager {
     this.acdMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
+    this.clinicMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
 
     this.regMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
@@ -77,6 +84,7 @@ export class AuthorizationManager {
     localStorage.setItem(this.localStorageAcdMenus, JSON.stringify(this.acdMenuItems));
     localStorage.setItem(this.localStorageRegMenus, JSON.stringify(this.regMenuItems));
     localStorage.setItem(this.localStorageClsMenus, JSON.stringify(this.clsMenuItems));
+    localStorage.setItem(this.localStorageClinicMenus, JSON.stringify(this.clinicMenuItems));
 
   }
 
@@ -146,6 +154,11 @@ export class AuthorizationManager {
       this.acdMenuItems = JSON.parse(acdMenuState);
     }
 
+    const clinicMenuState = localStorage.getItem(this.localStorageClinicMenus);
+    if (clinicMenuState) {
+      this.clinicMenuItems = JSON.parse(clinicMenuState);
+    }
+
     const regMenuState = localStorage.getItem(this.localStorageRegMenus);
     if (regMenuState) {
       this.regMenuItems = JSON.parse(regMenuState);
@@ -170,6 +183,7 @@ export class AuthorizationManager {
     localStorage.removeItem(this.localStorageAcdMenus);
     localStorage.removeItem(this.localStorageRegMenus);
     localStorage.removeItem(this.localStorageClsMenus);
+    localStorage.removeItem(this.localStorageClinicMenus);
   }
 
   isMenuItemDisabled(menuItem: { accessFlag: boolean }): boolean {

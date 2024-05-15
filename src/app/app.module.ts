@@ -45,6 +45,7 @@ import { StudentComponent } from './view/modules/student/student.component';
 import { BatchregistrationComponent } from './view/modules/batchregistration/batchregistration.component';
 import { ClassComponent } from './view/modules/class/class.component';
 import { BookdistributionComponent } from './view/modules/bookdistribution/bookdistribution.component';
+import { ClinicComponent } from './view/modules/clinic/clinic.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { BookdistributionComponent } from './view/modules/bookdistribution/bookd
     StudentComponent,
     BatchregistrationComponent,
     ClassComponent,
-    BookdistributionComponent
+    BookdistributionComponent,
+    ClinicComponent
 
   ],
   imports: [
