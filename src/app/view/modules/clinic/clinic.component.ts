@@ -1,28 +1,21 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Employee} from "../../../entity/employee";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {UiAssist} from "../../../util/ui/ui.assist";
-import {Gender} from "../../../entity/gender";
-import {Designation} from "../../../entity/designation";
-import {Empstatus} from "../../../entity/empstatus";
-import {Emptype} from "../../../entity/emptype";
 import {Clinicstatus} from "../../../entity/clinicstatus";
 import {Doctor} from "../../../entity/doctor";
 import {Clinic} from "../../../entity/clinic";
 import {Clinictype} from "../../../entity/clinictype";
 import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
-import {EmployeeService} from "../../../service/employeeservice";
-import {GenderService} from "../../../service/genderservice";
-import {DesignationService} from "../../../service/designationservice";
-import {Empstatusservice} from "../../../service/empstatusservice";
-import {Emptypeservice} from "../../../service/emptypeservice";
 import {RegexService} from "../../../service/regexservice";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../service/authorizationmanager";
 import {ClinicService} from "../../../service/clinic.service";
+import {ClinicstatusService} from "../../../service/clinicstatus.service";
+import {ClinictypeService} from "../../../service/clinictype.service";
+import {DoctorService} from "../../../service/doctor.service";
 
 @Component({
   selector: 'app-clinic',
@@ -53,7 +46,7 @@ export class ClinicComponent {
 
   clinics: Array<Clinic> = [];
   clinictypes: Array<Clinictype> = [];
-  dctors: Array<Doctor> = [];
+  doctors: Array<Doctor> = [];
   clinicstatuses: Array<Clinicstatus> = [];
 
   constructor(    private cs: ClinicService,
@@ -61,6 +54,9 @@ export class ClinicComponent {
                   private fb: FormBuilder,
                   private dg: MatDialog,
                   private dp: DatePipe,
+                  private css: ClinicstatusService,
+                  private cts: ClinictypeService,
+                  private ds: DoctorService,
                   public authService:AuthorizationManager) {
 
      this.uiassist  = new UiAssist(this);
@@ -75,6 +71,12 @@ export class ClinicComponent {
         'cspatientcount': new FormControl(),
         'csmodi': new FormControl(),
      })
+
+    this.ssearch = this.fb.group({
+      "ssclinicstatus": new FormControl(),
+      "ssdname": new FormControl(),
+      "ssclinictype": new FormControl(),
+    })
   }
 
   ngOnInit() {
@@ -85,12 +87,20 @@ export class ClinicComponent {
 
     this.createView();
 
-    // this.gs.getAllList().then((gens: Gender[]) => {
-    //   this.genders = gens;
-    // });
+    this.ds.getAllList().then((docts:Doctor[]) =>{
+      console.log("this is doctors ",docts);
+      this.doctors = docts;
+    });
 
+    this.css.getAllList().then((cstatuses: Clinicstatus[])=>{
+      console.log("this is clinicstatus", cstatuses);
+      this.clinicstatuses = cstatuses;
+    });
 
-
+    this.cts.getAllList().then((ctypes: Clinictype[])=>{
+      console.log("thsi is clinictype" ,ctypes);
+      this.clinictypes = ctypes;
+    });
   }
 
   createView() {
@@ -115,6 +125,8 @@ export class ClinicComponent {
         this.data.paginator = this.paginator;
       });
 
+
+
   }
 
   getModi(element: Clinic ) {
@@ -134,6 +146,44 @@ export class ClinicComponent {
         // (csearchdata.csmodi == null ) || this.getModi(clinic).toLowerCase().includes(csearchdata.csmodi) ;
     }
     this.data.filter="xx"
+  }
+
+  btnSearchSS(){
+    const ssearchdata = this.ssearch.getRawValue();
+    let dname = ssearchdata.ssdname;
+    let clinictype = ssearchdata.ssclinictype;
+    let clinicstatus = ssearchdata.ssclinicstatus;
+
+    let query :string = "";
+
+    console.log(dname);
+    console.log(clinicstatus);
+    console.log(clinictype);
+
+    if(dname != null &&  dname.trim() != "") query =  query + "&doctorname=" + dname;
+    if(clinictype != null ) query = query + "&clinictype=" + clinictype;
+    if(clinicstatus != null ) query = query + "&clinicstatus=" + clinicstatus;
+
+    console.log('before'+ query);
+    if(query != "") query = query.replace(/^./, "?");
+    this.loadTable(query);
+    console.log('after'+ query);
+  }
+
+  btnSSearchClear(){
+    const confirm = this.dg.open(ConfirmComponent,{
+      width: '500px',
+      data:{
+        heading: "Search Clear",
+        message: "Are you sure you want to clear the search",
+      }
+    })
+    confirm.afterClosed().subscribe(async result =>{
+      if(result){
+        this.ssearch.reset();
+        this.loadTable('');
+      }
+    })
   }
 
   clear():void{
