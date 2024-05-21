@@ -415,6 +415,4 @@ export class ClinicComponent {
     this.enaupd=upd;
     this.enadel=del;
   }
-
-
 }
