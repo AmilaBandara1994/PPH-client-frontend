@@ -5,10 +5,103 @@
       <mat-card-header>
         <mat-card-title>Clinic Detail</mat-card-title>
       </mat-card-header>
+      <mat-card-content id="clinicform">
+      <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Select a Clinictype</mat-label>
+          <mat-select formControlName="clinictype">
+<!--            <mat-option [value]="null">Not Selected</mat-option>-->
+            <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype" >{{clinictype.name}}</mat-option>
+          </mat-select>
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Doctor</mat-label>
+          <mat-select formControlName="doctor">
+<!--            <mat-option [value]="null">Not Selected</mat-option>-->
+            <mat-option *ngFor="let doctor of doctorByClinictype" [value]="doctor" >{{doctor.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nurse</mat-label>
+          <mat-select formControlName="nurse1">
+            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Assistant Nurse</mat-label>
+          <mat-select formControlName="nurse2">
+            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Assign an Employee</mat-label>
+          <mat-select formControlName="nurse1">
+            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Selet a Date for Clinic</mat-label>
+          <input matInput  [matDatepicker]="clinicdate" formControlName="date">
+          <mat-datepicker-toggle matIconSuffix [for]="clinicdate"></mat-datepicker-toggle>
+          <mat-datepicker #clinicdate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Time</mat-label>
+          <input type="time" id="appt" name="appt"  matInput formControlName="starttime">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Time</mat-label>
+          <input type="time" id="appt2" name="appt2"  matInput formControlName="endtime">
+        </mat-form-field>
 
 
+        <mat-form-field appearance="outline">
+          <mat-label>Patient Count</mat-label>
+          <input type="number" matInput formControlName="patientcount">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Doctor Payment</mat-label>
+          <input type="number" matInput formControlName="doctorpayment">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Total Income</mat-label>
+          <input type="number" matInput formControlName="totalincome">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Clinic Status</mat-label>
+          <mat-select formControlName="clinicstatus">
+            <mat-option [value]="null">Not Selected</mat-option>
+            <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus.id" >{{clinicstatus.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Published</mat-label>
+          <input matInput [matDatepicker]="dateofpublished" formControlName="dopublish">
+          <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
+          <mat-datepicker #dateofpublished></mat-datepicker>
+        </mat-form-field>
 
 
+        <div id="butpanel">
+          <button mat-raised-button  (click)="add()" [disabled]="!enaadd">Add</button>
+          <button mat-raised-button >Clear</button>
+          <button mat-raised-button  [disabled]="!enaupd">Update</button>
+          <button mat-raised-button  [disabled]="!enadel">Delete</button>
+        </div>
+
+      </form>
+      </mat-card-content>
     </mat-card>
   </mat-grid-tile>
 

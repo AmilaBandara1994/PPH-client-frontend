@@ -8,7 +8,7 @@ export class Clinic {
   public id !: number;
   public clinictype !: Clinictype;
   public doctor !: Doctor;
-  public date !: string;
+  public date !: string ;
   public starttime !: string;
   public endtime !: string;
   public nurse1 !: Employee;
@@ -17,11 +17,11 @@ export class Clinic {
   public totalincome !: number;
   public doctorpayment !: number;
   public clinicstatus !: Clinicstatus;
-  public dopublish !: number;
+  public dopublish !: string ;
   public employee !: Employee;
 
 
-  constructor(id: number, clinictype: Clinictype, doctor: Doctor, date: string, starttime: string, endtime: string, nurse1: Employee, nurse2: Employee, patientcount: number, totalincome: number, doctorpayment: number, clinicstatus: Clinicstatus, dopublish: number, employee: Employee) {
+  constructor(id: number, clinictype: Clinictype, doctor: Doctor, date: string, starttime: string, endtime: string, nurse1: Employee, nurse2: Employee, patientcount: number, totalincome: number, doctorpayment: number, clinicstatus: Clinicstatus, dopublish: string, employee: Employee) {
     this.id = id;
     this.clinictype = clinictype;
     this.doctor = doctor;

@@ -9,8 +9,8 @@ export class DoctorService {
 
   constructor(private http: HttpClient) { }
 
-  async getAllList(): Promise<Array<Doctor>> {
-    const doctor = await this.http.get<Array<Doctor>>('http://localhost:8080/doctors').toPromise();
+  async getAllList(query:string): Promise<Array<Doctor>> {
+    const doctor = await this.http.get<Array<Doctor>>('http://localhost:8080/doctors/list'+query).toPromise();
     if(doctor == undefined){
       return [];
     }
