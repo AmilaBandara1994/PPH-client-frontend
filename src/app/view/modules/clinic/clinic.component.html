@@ -5,10 +5,107 @@
       <mat-card-header>
         <mat-card-title>Clinic Detail</mat-card-title>
       </mat-card-header>
+      <mat-card-content id="clinicform">
+      <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Select a Clinictype</mat-label>
+          <mat-select formControlName="clinictype">
+<!--            <mat-option [value]="null">Not Selected</mat-option>-->
+            <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype" >{{clinictype.name}}</mat-option>
+          </mat-select>
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Doctor</mat-label>
+          <mat-select formControlName="doctor">
+<!--            <mat-option [value]="null">Not Selected</mat-option>-->
+            <mat-option *ngFor="let doctor of doctorByClinictype" [value]="doctor" >{{doctor.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nurse</mat-label>
+          <mat-select formControlName="nurse1">
+            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Assistant Nurse</mat-label>
+          <mat-select formControlName="nurse2">
+            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Assign an Employee</mat-label>
+          <mat-select formControlName="employee">
+            <mat-option *ngFor="let employee of employees" [value]="employee" >{{employee.callingname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Selet a Date for Clinic</mat-label>
+          <input matInput  [matDatepicker]="clinicdate" formControlName="date">
+          <mat-datepicker-toggle matIconSuffix [for]="clinicdate"></mat-datepicker-toggle>
+          <mat-datepicker #clinicdate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Time</mat-label>
+          <input type="text" placeholder="12:00:00" matInput formControlName="starttime">
+<!--          <mat-hint>12:00:00</mat-hint>-->
+<!--          <input type="time" id="appt" name="appt"  matInput formControlName="starttime">-->
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Time</mat-label>
+          <input type="text" placeholder="12:00:00" matInput formControlName="endtime">
+<!--          <mat-hint>12:00:00</mat-hint>-->
+<!--          <input type="time" id="appt2" name="appt2"  matInput formControlName="endtime">-->
+        </mat-form-field>
 
 
+        <mat-form-field appearance="outline">
+          <mat-label>Patient Count</mat-label>
+          <input type="number" matInput formControlName="patientcount">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Doctor Payment</mat-label>
+          <input type="number" matInput formControlName="doctorpayment">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Total Income</mat-label>
+          <input type="number" matInput formControlName="totalincome">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Clinic Status</mat-label>
+          <mat-select formControlName="clinicstatus">
+            <mat-option [value]="null">Not Selected</mat-option>
+            <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus" >{{clinicstatus.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Published</mat-label>
+          <input matInput [matDatepicker]="dateofpublished" formControlName="dopublish">
+          <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
+          <mat-datepicker #dateofpublished></mat-datepicker>
+        </mat-form-field>
 
 
+        <div id="butpanel">
+          <button mat-raised-button  (click)="add()" [disabled]="!enaadd">Add</button>
+          <button mat-raised-button (click)="clear()">Clear</button>
+          <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
+          <button mat-raised-button  (click)="delete()" [disabled]="!enadel">Delete</button>
+        </div>
+
+      </form>
+      </mat-card-content>
     </mat-card>
   </mat-grid-tile>
 
@@ -19,7 +116,38 @@
         <mat-card-title>Clinic Search</mat-card-title>
       </mat-card-header>
 
+      <mat-card-content>
+        <form [formGroup]="ssearch" >
+          <mat-form-field appearance="outline">
+            <mat-label>Search By Doctor Name</mat-label>
+            <input  matInput formControlName="ssdname" >
+          </mat-form-field>
 
+          <mat-form-field appearance="outline">
+              <mat-label>Search By Clinic Status</mat-label>
+            <mat-select formControlName="ssclinicstatus">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus.name" >{{clinicstatus.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Search By Clinic Type</mat-label>
+            <mat-select formControlName="ssclinictype">
+              <mat-option [value]="null" >Not Selected</mat-option>
+              <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype.name" >{{clinictype.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <div>
+            <button mat-raised-button color="primary" (click)="btnSearchSS()"><mat-icon>search</mat-icon>Serch</button>
+            <button mat-raised-button color="primary" (click)="btnSSearchClear()"><mat-icon>reorder</mat-icon>Clease Search</button>
+          </div>
+
+
+        </form>
+      </mat-card-content>
 
     </mat-card>
   </mat-grid-tile>
@@ -56,7 +184,7 @@
 
           <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
           <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columns;" ></mat-row>
+          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>
 
         </mat-table>
 

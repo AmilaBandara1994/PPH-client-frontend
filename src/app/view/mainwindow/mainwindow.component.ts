@@ -12,7 +12,10 @@ import {DarkModeService} from "../../service/DarkModeService";
 export class MainwindowComponent {
 
   opened: boolean = true;
-
+  repGroup:any[] = [
+    {name:"Count By Designation", routerLink:"reports/countbydesignation" },
+    {name:"Count Clinic By Clinictype", routerLink:"reports/cliniccountbyclinictype"  }
+  ];
 
   constructor(private router: Router,public authService: AuthorizationManager,public darkModeSevice:DarkModeService) {
   }
