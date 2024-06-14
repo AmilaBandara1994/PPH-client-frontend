@@ -46,6 +46,7 @@ import { BatchregistrationComponent } from './view/modules/batchregistration/bat
 import { ClassComponent } from './view/modules/class/class.component';
 import { BookdistributionComponent } from './view/modules/bookdistribution/bookdistribution.component';
 import { ClinicComponent } from './view/modules/clinic/clinic.component';
+import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbyclinictype/cliniccountbyclinictype.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { ClinicComponent } from './view/modules/clinic/clinic.component';
     BatchregistrationComponent,
     ClassComponent,
     BookdistributionComponent,
-    ClinicComponent
+    ClinicComponent,
+    CliniccountbyclinictypeComponent
 
   ],
   imports: [

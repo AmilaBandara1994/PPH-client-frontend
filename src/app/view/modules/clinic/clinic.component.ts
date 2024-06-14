@@ -19,6 +19,7 @@ import {DoctorService} from "../../../service/doctor.service";
 import {Employee} from "../../../entity/employee";
 import {EmployeeService} from "../../../service/employeeservice";
 import {MessageComponent} from "../../../util/dialog/message/message.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-clinic',
@@ -42,7 +43,6 @@ export class ClinicComponent {
   data!: MatTableDataSource<Clinic>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  imageempurl: string = 'assets/default.png'
 
   uiassist: UiAssist;
 
@@ -50,7 +50,7 @@ export class ClinicComponent {
   oldClinic!:Clinic;
 
   regexes: any;
-
+  selectedrow: any;
 
   clinics: Array<Clinic> = [];
   clinictypes: Array<Clinictype> = [];
@@ -58,7 +58,9 @@ export class ClinicComponent {
   doctorByClinictype: Array<Doctor> = [];
   clinicstatuses: Array<Clinicstatus> = [];
   nurses:Array<Employee> = [];
-
+  employees:Array<Employee> = [];
+  filvaluesubscribe!:Subscription;
+  filformsub!:Subscription;
 
   enaadd:boolean = false;
   enaupd:boolean = false;
@@ -131,6 +133,9 @@ export class ClinicComponent {
     this.cts.getAllList().then((ctypes: Clinictype[])=>{
       this.clinictypes = ctypes;
     });
+    this.es.getAll('').then((emp: Employee[])=>{
+      this.employees = emp;
+    });
 
     this.rs.get('clinic').then((regs: []) => {
       this.regexes = regs;
@@ -150,7 +155,7 @@ export class ClinicComponent {
     this.form.controls['endtime'].setValidators([Validators.required]);
     this.form.controls['patientcount'];
     this.form.controls['totalincome'];
-    this.form.controls['doctorpayment'];
+    this.form.controls['doctorpayment'].setValidators([Validators.required]);
     this.form.controls['clinictype'].setValidators([Validators.required]);
     this.form.controls['doctor'].setValidators([Validators.required]);
     this.form.controls['nurse1'].setValidators([Validators.required]);
@@ -168,17 +173,6 @@ export class ClinicComponent {
           // @ts-ignore
           if (controlName == "dopublish" || controlName == "date")
             value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
-
-          // if (this.oldemployee != undefined && control.valid) {
-          //   // @ts-ignore
-          //   if (value === this.employee[controlName]) {
-          //     control.markAsPristine();
-          //   } else {
-          //     control.markAsDirty();
-          //   }
-          // } else {
-          //   control.markAsPristine();
-          // }
         }
       );
 
@@ -269,13 +263,15 @@ export class ClinicComponent {
   }
 
   filterDoctorByclinictype(){
-    this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) =>{
+    // @ts-ignore
+    this.filvaluesubscribe = this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) =>{
+      console.log('this also executed ?');
       let query = "";
       query = "?clinictypeid="+ value.id;
-      this.ds.getAllList(query).then((docts:Doctor[]) =>{
-        this.doctorByClinictype  = docts;
-      })
-    })
+      this.ds.getAllList(query).then((doct:Doctor[]) =>{
+        this.doctorByClinictype  = doct;
+      });
+    });
   }
 
   getNurseFromEmployees(){
@@ -374,7 +370,6 @@ export class ClinicComponent {
     }
   }
 
-
   getErrors(): string {
 
     let errors: string = "";
@@ -405,14 +400,178 @@ export class ClinicComponent {
 
     confirm.afterClosed().subscribe(async result => {
       if (result) {
-        this.form.reset()
+        this.form.reset();
+        this.createForm();
       }
     });
   }
-
   enableButtons(add:boolean, upd:boolean, del:boolean){
     this.enaadd=add;
     this.enaupd=upd;
     this.enadel=del;
+  }
+
+  fillForm(clinic:Clinic){
+    this.selectedrow = clinic;
+    this.newclinic = JSON.parse(JSON.stringify(clinic));
+    this.oldClinic = JSON.parse(JSON.stringify(clinic));
+
+    this.filvaluesubscribe.unsubscribe();
+
+    // @ts-ignore
+    this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype:Clinictype)=>{
+      let query = "?clinictypeid="+ clinictype.id;
+      this.ds.getAllList(query).then((docto:Doctor[]) =>{
+        this.doctorByClinictype  = docto;
+        // @ts-ignore
+        this.newclinic.doctor = this.doctorByClinictype.find(d=> d.id === this.newclinic.doctor.id );
+        // @ts-ignore
+        this.newclinic.nurse1 = this.nurses.find(n=> this.newclinic.nurse1.id === n.id );
+        // @ts-ignore
+        this.newclinic.clinicstatus = this.clinicstatuses.find(cs=> cs.id === this.newclinic.clinicstatus.id );
+
+        this.form.patchValue(this.newclinic);
+        this.form.markAsPristine();
+
+        this.enableButtons(false,true,true);
+      })
+    });
+
+    // @ts-ignore
+    this.newclinic.clinictype = this.clinictypes.find(cs=> cs.id === this.newclinic.clinictype.id );
+    this.form.controls['clinictype'].setValue(this.newclinic.clinictype);
+    this.filformsub.unsubscribe();
+  }
+
+  update() {
+
+    let errors = this.getErrors();
+
+    if (errors != "") {
+
+      const errmsg = this.dg.open(MessageComponent, {
+        width: '500px',
+        data: {heading: "Errors - Clinic Update ", message: "You have following Errors <br> " + errors}
+      });
+      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+
+    } else {
+
+      let updates: string = this.getUpdates();
+
+      if (updates != "") {
+
+        let updstatus: boolean = false;
+        let updmessage: string = "Server Not Found";
+
+        const confirm = this.dg.open(ConfirmComponent, {
+          width: '500px',
+          data: {
+            heading: "Confirmation - Clinic Update",
+            message: "Are you sure to Save folowing Updates? <br> <br>" + updates
+          }
+        });
+        confirm.afterClosed().subscribe(async result => {
+          if (result) {
+            this.newclinic = this.form.getRawValue();
+            this.newclinic.id = this.oldClinic.id;
+
+            this.cs.update(this.newclinic).then((responce: [] | undefined) => {
+              if (responce != undefined) {
+                // @ts-ignore
+                updstatus = responce['errors'] == "";
+                if (!updstatus) { // @ts-ignore
+                  updmessage = responce['errors'];
+                }
+              } else {
+                updstatus = false;
+                updmessage = "Content Not Found"
+              }
+            } ).finally(() => {
+              if (updstatus) {
+                updmessage = "Successfully Updated";
+                this.form.reset();
+                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+                this.loadTable("");
+              }
+
+              const stsmsg = this.dg.open(MessageComponent, {
+                width: '500px',
+                data: {heading: "Status - Clinic Add", message: updmessage}
+              });
+              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+
+            });
+          }
+        });
+      }
+      else {
+
+        const updmsg = this.dg.open(MessageComponent, {
+          width: '500px',
+          data: {heading: "Confirmation - Clinic Update", message: "Nothing Changed"}
+        });
+        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+
+      }
+    }
+
+  }
+
+  delete() {
+
+    const confirm = this.dg.open(ConfirmComponent, {
+      width: '500px',
+      data: {
+        heading: "Confirmation - Clinic Delete",
+        message: "Are you sure to Delete following Clinic ? <br> <br>" + this.newclinic.clinictype.name
+      }
+    });
+
+    confirm.afterClosed().subscribe(async result => {
+      if (result) {
+        let delstatus: boolean = false;
+        let delmessage: string = "Server Not Found";
+
+        this.cs.delete(this.newclinic.id).then((responce: [] | undefined) => {
+
+          if (responce != undefined) { // @ts-ignore
+            delstatus = responce['errors'] == "";
+            if (!delstatus) { // @ts-ignore
+              delmessage = responce['errors'];
+            }
+          } else {
+            delstatus = false;
+            delmessage = "Content Not Found"
+          }
+        } ).finally(() => {
+          if (delstatus) {
+            delmessage = "Successfully Deleted";
+            this.form.reset();
+            Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+            this.loadTable("");
+          }
+
+          const stsmsg = this.dg.open(MessageComponent, {
+            width: '500px',
+            data: {heading: "Status - Clinic Delete ", message: delmessage}
+          });
+          stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+
+        });
+      }
+    });
+  }
+
+  getUpdates() {
+    let updates = '';
+    for (const controlName in this.form.controls){
+      const control = this.form.controls[controlName];
+
+      if(control.dirty){
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
+      }
+    }
+    return updates;
   }
 }

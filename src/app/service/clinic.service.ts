@@ -23,4 +23,14 @@ export class ClinicService {
     //employee.number="47457";
     return this.http.post<[]>('http://localhost:8080/clinics', clinic).toPromise();
   }
+
+  async update(clinic: Clinic): Promise<[]|undefined>{
+    return this.http.put<[]>('http://localhost:8080/clinics', clinic).toPromise();
+  }
+
+  async delete(id: number): Promise<[]|undefined>{
+    // @ts-ignore
+    return this.http.delete('http://localhost:8080/clinics/' + id).toPromise();
+  }
+
 }

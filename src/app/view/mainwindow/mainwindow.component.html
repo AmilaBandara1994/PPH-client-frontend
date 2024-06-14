@@ -94,9 +94,14 @@
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-list-item>
-        <a routerLink="reports"><mat-icon>poll</mat-icon>Report</a>
-      </mat-list-item>
+      <mat-expansion-panel *ngIf="isMenuVisible('Class')">
+        <mat-expansion-panel-header>
+          <mat-list-item><a>
+            <mat-icon>poll</mat-icon>
+            Report</a></mat-list-item>
+        </mat-expansion-panel-header>
+            <mat-list-item class="item" *ngFor="let menuItem of repGroup" [routerLink]="menuItem.routerLink"><a>{{ menuItem.name }}</a></mat-list-item>
+      </mat-expansion-panel>
 
     </mat-nav-list>
   </mat-sidenav>

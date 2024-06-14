@@ -39,8 +39,8 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Assign an Employee</mat-label>
-          <mat-select formControlName="nurse1">
-            <mat-option *ngFor="let nurse of nurses" [value]="nurse" >{{nurse.callingname}}</mat-option>
+          <mat-select formControlName="employee">
+            <mat-option *ngFor="let employee of employees" [value]="employee" >{{employee.callingname}}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -53,12 +53,16 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Start Time</mat-label>
-          <input type="time" id="appt" name="appt"  matInput formControlName="starttime">
+          <input type="text" placeholder="12:00:00" matInput formControlName="starttime">
+<!--          <mat-hint>12:00:00</mat-hint>-->
+<!--          <input type="time" id="appt" name="appt"  matInput formControlName="starttime">-->
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>End Time</mat-label>
-          <input type="time" id="appt2" name="appt2"  matInput formControlName="endtime">
+          <input type="text" placeholder="12:00:00" matInput formControlName="endtime">
+<!--          <mat-hint>12:00:00</mat-hint>-->
+<!--          <input type="time" id="appt2" name="appt2"  matInput formControlName="endtime">-->
         </mat-form-field>
 
 
@@ -81,7 +85,7 @@
           <mat-label>Clinic Status</mat-label>
           <mat-select formControlName="clinicstatus">
             <mat-option [value]="null">Not Selected</mat-option>
-            <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus.id" >{{clinicstatus.name}}</mat-option>
+            <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus" >{{clinicstatus.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -95,9 +99,9 @@
 
         <div id="butpanel">
           <button mat-raised-button  (click)="add()" [disabled]="!enaadd">Add</button>
-          <button mat-raised-button >Clear</button>
-          <button mat-raised-button  [disabled]="!enaupd">Update</button>
-          <button mat-raised-button  [disabled]="!enadel">Delete</button>
+          <button mat-raised-button (click)="clear()">Clear</button>
+          <button mat-raised-button (click)="update()" [disabled]="!enaupd">Update</button>
+          <button mat-raised-button  (click)="delete()" [disabled]="!enadel">Delete</button>
         </div>
 
       </form>
@@ -180,7 +184,7 @@
 
           <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
           <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columns;" ></mat-row>
+          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>
 
         </mat-table>
 

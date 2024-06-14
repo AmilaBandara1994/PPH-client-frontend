@@ -16,6 +16,9 @@ import {BatchregistrationComponent} from "./view/modules/batchregistration/batch
 import {ClassComponent} from "./view/modules/class/class.component";
 import {BookdistributionComponent} from "./view/modules/bookdistribution/bookdistribution.component";
 import {ClinicComponent} from "./view/modules/clinic/clinic.component";
+import {
+  CliniccountbyclinictypeComponent
+} from "./report/view/cliniccountbyclinictype/cliniccountbyclinictype.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -29,6 +32,8 @@ const routes: Routes = [
       {path: "user", component: UserComponent},
       {path: "clinic", component: ClinicComponent},
       {path:"reports", component: ArrearsByProgramComponent},
+      {path:"reports/cliniccountbyclinictype", component: CliniccountbyclinictypeComponent},
+      {path:"reports/countbydesignation", component: CountByDesignationComponent},
       {path:"payments",component:PaymentComponent},
       {path: "home/payments", redirectTo: 'payments', pathMatch: 'full'},
       {path:"batchregistration",component:BatchregistrationComponent},
