@@ -29,23 +29,21 @@ export class MainwindowComponent {
     localStorage.removeItem("Authorization");
   }
     admMenuItems = this.authService.admMenuItems;
-    acdMenuItems = this.authService.acdMenuItems;
     regMenuItems = this.authService.regMenuItems;
-    clsMenuItems = this.authService.clsMenuItems;
     clinicMenuItems = this.authService.clinicMenuItems;
+    doctorMenuItems = this.authService.docMenuItems;
 
   isMenuVisible(category: string): boolean {
     switch (category) {
       case 'Admin':
-        return this.admMenuItems.some(menuItem => menuItem.accessFlag);
-      case 'Academic':
-        return this.acdMenuItems.some(menuItem => menuItem.accessFlag);
-        case 'Registration':
-        return this.regMenuItems.some(menuItem => menuItem.accessFlag);
-        case 'Class':
-        return this.clsMenuItems.some(menuItem => menuItem.accessFlag);
-        case 'Clinic':
-        return this.clinicMenuItems.some(menuItem => menuItem.accessFlag);
+      return this.admMenuItems.some(menuItem => menuItem.accessFlag);
+
+      case 'Registration':
+      return this.regMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Doctor':
+      return this.doctorMenuItems.some(menuItem => menuItem.accessFlag);
+      case 'Clinic':
+      return this.clinicMenuItems.some(menuItem => menuItem.accessFlag);
       default:
         return false;
     }

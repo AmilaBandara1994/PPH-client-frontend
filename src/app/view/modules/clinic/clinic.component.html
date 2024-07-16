@@ -19,7 +19,7 @@
           <mat-label>Select Doctor</mat-label>
           <mat-select formControlName="doctor">
 <!--            <mat-option [value]="null">Not Selected</mat-option>-->
-            <mat-option *ngFor="let doctor of doctorByClinictype" [value]="doctor" >{{doctor.name}}</mat-option>
+            <mat-option *ngFor="let doctor of doctorByClinictype" [value]="doctor" >{{doctor.employee.fullname}}</mat-option>
           </mat-select>
         </mat-form-field>
 

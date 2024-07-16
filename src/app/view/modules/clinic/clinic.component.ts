@@ -30,7 +30,7 @@ export class ClinicComponent {
 
   columns: string[] = ['clinictype', 'clinicstatus' ,'doctor', 'date', 'starttime', 'endtime', 'patientcount', 'modi'];
   headers: string[] = ['Clinic Type', 'Clinic Status', 'Doctor Name', 'Date', 'Start time','End Time', 'Patient Count' , 'Modification'];
-  binders: string[] = ['clinictype.name', 'clinicstatus.name', 'doctor.name', 'date' ,'starttime', 'endtime','patientcount' , 'getModi()'];
+  binders: string[] = ['clinictype.name', 'clinicstatus.name', 'doctor.employee.fullname', 'date' ,'starttime', 'endtime','patientcount' , 'getModi()'];
 
   cscolumns: string[] = ['csclinictype', 'csclinicstatus', 'csdoctor', 'csdate', 'csstarttime', 'csendtime','cspatientcount' , 'csmodi'];
   csprompts: string[] = ['Search by Clinic Type', 'Search by Clinic Status', 'Search by Doctor',
@@ -214,7 +214,7 @@ export class ClinicComponent {
     this.data.filterPredicate = (clinic : Clinic, filter:string) =>{
       return (csearchdata.csclinictype == null ) || clinic.clinictype.name.includes(csearchdata.csclinictype) &&
         (csearchdata.csclinicstatus == null ) || clinic.clinicstatus.name.includes(csearchdata.csclinicstatus) &&
-        (csearchdata.csdoctor == null ) || clinic.doctor.name.includes(csearchdata.csdoctor) &&
+        (csearchdata.csdoctor == null ) || clinic.doctor.employee.fullname.includes(csearchdata.csdoctor) &&
         (csearchdata.csdate == null ) || clinic.date.includes(csearchdata.csdate) &&
         (csearchdata.csstarttime == null ) || clinic.starttime.includes(csearchdata.csstarttime) &&
         (csearchdata.csendtime == null ) || clinic.endtime.includes(csearchdata.csendtime) ;
@@ -310,7 +310,7 @@ export class ClinicComponent {
       let clinic: string = "";
 
       clinic = clinic + "<br>Type of Clinic is : " + this.newclinic.clinictype.name;
-      clinic = clinic + "<br>Doctor Name is : " + this.newclinic.doctor.name;
+      clinic = clinic + "<br>Doctor Name is : " + this.newclinic.doctor.employee.fullname;
       clinic = clinic + "<br>Stat time is : " + this.newclinic.starttime;
       clinic = clinic + "<br>End time is : " + this.newclinic.endtime;
       clinic = clinic + "<br>Clinic status is : " + this.newclinic.clinicstatus.name;

@@ -41,12 +41,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { OperationComponent } from './view/modules/operation/operation.component';
 import { PaymentComponent } from './view/modules/payment/payment.component';
 import { AttendanceComponent } from './view/modules/attendance/attendance.component';
-import { StudentComponent } from './view/modules/student/student.component';
-import { BatchregistrationComponent } from './view/modules/batchregistration/batchregistration.component';
-import { ClassComponent } from './view/modules/class/class.component';
-import { BookdistributionComponent } from './view/modules/bookdistribution/bookdistribution.component';
 import { ClinicComponent } from './view/modules/clinic/clinic.component';
 import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbyclinictype/cliniccountbyclinictype.component';
+import { DoctorComponent } from './view/modules/doctor/doctor.component';
 
 
 @NgModule({
@@ -65,12 +62,9 @@ import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbycli
     OperationComponent,
     PaymentComponent,
     AttendanceComponent,
-    StudentComponent,
-    BatchregistrationComponent,
-    ClassComponent,
-    BookdistributionComponent,
     ClinicComponent,
-    CliniccountbyclinictypeComponent
+    CliniccountbyclinictypeComponent,
+    DoctorComponent
 
   ],
   imports: [

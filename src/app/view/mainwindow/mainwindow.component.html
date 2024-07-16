@@ -42,18 +42,7 @@
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngIf="isMenuVisible('Academic')">
-        <mat-expansion-panel-header>
-          <mat-list-item><a>
-            <mat-icon>event_note</mat-icon>
-            Academic</a></mat-list-item>
-        </mat-expansion-panel-header>
-        <ng-container *ngFor="let menuItem of acdMenuItems">
-          <mat-list-item *ngIf="menuItem.accessFlag">
-            <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
-          </mat-list-item>
-        </ng-container>
-      </mat-expansion-panel>
+
 
       <mat-expansion-panel *ngIf="isMenuVisible('Registration')">
         <mat-expansion-panel-header>
@@ -71,7 +60,7 @@
       <mat-expansion-panel *ngIf="isMenuVisible('Clinic')">
         <mat-expansion-panel-header>
           <mat-list-item><a>
-            <mat-icon>person_add</mat-icon>
+            <mat-icon> local_pharmacy</mat-icon>
             Clinic</a></mat-list-item>
         </mat-expansion-panel-header>
         <ng-container *ngFor="let menuItem of clinicMenuItems">
@@ -81,20 +70,21 @@
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngIf="isMenuVisible('Class')">
+      <mat-expansion-panel *ngIf="isMenuVisible('Doctor')">
         <mat-expansion-panel-header>
           <mat-list-item><a>
-            <mat-icon>class</mat-icon>
-            Class</a></mat-list-item>
+            <mat-icon> local_pharmacy</mat-icon>
+            Doctor</a></mat-list-item>
         </mat-expansion-panel-header>
-        <ng-container *ngFor="let menuItem of clsMenuItems">
+        <ng-container *ngFor="let menuItem of doctorMenuItems">
           <mat-list-item *ngIf="menuItem.accessFlag">
             <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null"><a>{{ menuItem.name }}</a></mat-list-item>
           </mat-list-item>
         </ng-container>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngIf="isMenuVisible('Class')">
+
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-list-item><a>
             <mat-icon>poll</mat-icon>
