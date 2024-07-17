@@ -1,9 +1,9 @@
 <mat-toolbar>
-  <mat-toolbar-row style="background-image: url('assets/headerimg.png')">
+  <mat-toolbar-row style="background-image: url('assets/my-img/banner/banner-background6.jpg'); background-size: cover">
 
     <span class="toolbar-left">
     <button mat-icon-button (click)="opened=!opened" class="btn-nav"><mat-icon>menu</mat-icon></button>
-      <img src="/assets/small-white-open.png" class="img-logo">
+      <img src="/assets/my-img/logo-with.png" class="img-logo">
     </span>
 
     <span class="toolbar-right">
@@ -15,9 +15,9 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-sidenav-container>
+<mat-sidenav-container style="background-color: var(--background-color) ;">
 
-  <mat-sidenav [(opened)]="opened" mode="side">
+  <mat-sidenav [(opened)]="opened" mode="side" style="background-color: var(--background-color)">
 
     <mat-nav-list>
 
@@ -44,7 +44,8 @@
 
 
 
-      <mat-expansion-panel *ngIf="isMenuVisible('Registration')">
+<!--      <mat-expansion-panel *ngIf="isMenuVisible('Registration')">-->
+      <mat-expansion-panel >
         <mat-expansion-panel-header>
           <mat-list-item><a>
             <mat-icon>person_add</mat-icon>

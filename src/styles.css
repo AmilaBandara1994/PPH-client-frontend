@@ -1,6 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+:root{
+  --primary-color:#041472;
+  --secondary-color: #4960ea;
+  --background-color: #007eff29;
+  --header-background-color: #96c9ff;
 
+}
 html, body {
   height: 100%;
 }
@@ -45,4 +51,15 @@ mat-form-field input {
   filter: invert(100%) hue-rotate(180deg);
 }
 
-
+.primary{
+  background-color: #041472;
+  color: #ffffff;
+}
+.secondary{
+  background-color: #475fde;
+  color: #ffffff;
+}
+.warning{
+  background-color: #2339c7;
+  color: #ffffff;
+}

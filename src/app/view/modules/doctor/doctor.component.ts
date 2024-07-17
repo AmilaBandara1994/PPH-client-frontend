@@ -33,9 +33,9 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
   styleUrls: ['./doctor.component.css']
 })
 export class DoctorComponent {
-  columns: string[] = ['name', 'doctorgrade', 'gender', 'degrees', 'slmcregno', 'mobile', 'modi'];
-  headers: string[] = ['Name', 'Doctor Grade', 'Gender', 'Degrees', 'SMLC Reg:NO', 'Mobile', 'Modification'];
-  binders: string[] = ['employee.fullname', 'doctorgrade.name', 'employee.gender.name', 'getDegree()', 'slmcregno', 'employee.mobile', 'getModi()'];
+  columns: string[] = ['name', 'doctorgrade', 'gender', 'degrees', 'university' , 'slmcregno', 'mobile', 'modi'];
+  headers: string[] = ['Name', 'Doctor Grade', 'Gender', 'Degrees', 'University', 'SMLC Reg:NO', 'Mobile', 'Modification'];
+  binders: string[] = ['employee.fullname', 'doctorgrade.name',  'employee.gender.name', 'getDegree()', 'getUniversity()','slmcregno', 'employee.mobile', 'getModi()'];
 
   cscolumns: string[] = ['csname', 'csgrade', 'csgender',];
   csprompts: string[] = ['Search by Name', 'Search by Grade', 'Search by Gender'];
@@ -190,14 +190,7 @@ export class DoctorComponent {
 
 
   getModi(element: Doctor) {
-    // element.doctordegrees.map(ele => {
-    //   return ele.degree.name;
-    // // })
-    // for (const ele  in element.doctordegrees) {
-    //
-    // }
-    // return element.doctordegrees[0] ;
-    // console.log(element);
+    // element.doctordegrees.map(ele =>
   }
   getDegree(element: Doctor) {
     let degree = ""
@@ -209,6 +202,17 @@ export class DoctorComponent {
     if( degree.charAt( 0 ) === ',' )
       degree = degree.slice( 1 );
     return degree;
+  }
+  getUniversity(element: Doctor) {
+    let university = ""
+    if(element.doctordegrees.length > 0){
+      element.doctordegrees.map( element => {
+        university += ", " + element.university.name;
+      })
+    }
+    if( university.charAt( 0 ) === ',' )
+      university = university.slice( 1 );
+    return university;
   }
   filterTable(): void {
 

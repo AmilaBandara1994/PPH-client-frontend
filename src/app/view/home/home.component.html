@@ -1,34 +1,42 @@
 <mat-grid-list gutterSize="7" [cols]="4" rowHeight="4rem">
 
   <mat-grid-tile [colspan]="4" [rowspan]="2" >
-    <mat-card style="background-image: url('assets/header2img.png')"><img id="headImg" src="assets/logo_.png"></mat-card>
+    <mat-card style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain ">
+      <div class="logo-back" style="display: flex; align-items: center; justify-content: center; ">
+        <img id="headImg" src="assets/my-img/logo-with.png">
+        <div class="logo-left-section" >
+          <p>Pannipitiya Private Hospital (PPH)</p>
+          <span>( Nursing Home )</span>
+        </div>
+      </div>
+    </mat-card>
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="4" [rowspan]="4" id="quicklinks">
+  <mat-grid-tile [colspan]="4" [rowspan]="4" id="quicklinks" style="background-image: url('assets/my-img/section-background.jpg'); background-size: contain ">
     <mat-card>
-      <mat-card-content><img  src="assets/payment.png"></mat-card-content>
+      <mat-card-content><img  src="assets/my-img/payment.jpg"></mat-card-content>
       <mat-card-footer ><a routerLink="payments">Payments</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
-      <mat-card-content><img  src="assets/register.png"></mat-card-content>
+      <mat-card-content><img  src="assets/my-img/register.jpg"></mat-card-content>
       <mat-card-footer ><a routerLink="batchregistration" >Register</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
-      <mat-card-content><img  src="assets/studnet.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="students">Student</a></mat-card-footer>
+      <mat-card-content><img  src="assets/my-img/doctor.jpg"></mat-card-content>
+      <mat-card-footer ><a routerLink="students">Doctor</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
-      <mat-card-content><img  src="assets/classshedule.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="classes">Classes</a></mat-card-footer>
+      <mat-card-content><img  src="assets/my-img/patient.jpg"></mat-card-content>
+      <mat-card-footer ><a routerLink="classes">Patient</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
-      <mat-card-content><img  src="assets/tutes.png"></mat-card-content>
-      <mat-card-footer ><a routerLink="books">Books</a></mat-card-footer>
+      <mat-card-content><img  src="assets/my-img/appointment.jpg"></mat-card-content>
+      <mat-card-footer ><a routerLink="books">Appointments</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
