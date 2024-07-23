@@ -33,9 +33,9 @@ import {ConfirmComponent} from "../../../util/dialog/confirm/confirm.component";
   styleUrls: ['./doctor.component.css']
 })
 export class DoctorComponent {
-  columns: string[] = ['name', 'doctorgrade', 'gender', 'degrees', 'university' , 'slmcregno', 'mobile', 'modi'];
-  headers: string[] = ['Name', 'Doctor Grade', 'Gender', 'Degrees', 'University', 'SMLC Reg:NO', 'Mobile', 'Modification'];
-  binders: string[] = ['employee.fullname', 'doctorgrade.name',  'employee.gender.name', 'getDegree()', 'getUniversity()','slmcregno', 'employee.mobile', 'getModi()'];
+  columns: string[] = ['name', 'doctorgrade', 'gender', 'degrees', 'university' , 'slmcregno', 'mobile'];
+  headers: string[] = ['Name', 'Doctor Grade', 'Gender', 'Degrees', 'University', 'SMLC Reg:NO', 'Mobile'];
+  binders: string[] = ['employee.fullname', 'doctorgrade.name',  'employee.gender.name', 'getDegree()', 'getUniversity()','slmcregno', 'employee.mobile'];
 
   cscolumns: string[] = ['csname', 'csgrade', 'csgender',];
   csprompts: string[] = ['Search by Name', 'Search by Grade', 'Search by Gender'];

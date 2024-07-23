@@ -13,7 +13,7 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="4" [rowspan]="4" id="quicklinks" style="background-image: url('assets/my-img/section-background.jpg'); background-size: contain ">
+  <mat-grid-tile [colspan]="4" [rowspan]="4" id="quicklinks" style="background-image: url('assets/my-img/section-background.jpg'); border-radius: 10px; background-size: contain; ">
     <mat-card>
       <mat-card-content><img  src="assets/my-img/payment.jpg"></mat-card-content>
       <mat-card-footer ><a routerLink="payments">Payments</a></mat-card-footer>
@@ -26,12 +26,12 @@
 
     <mat-card>
       <mat-card-content><img  src="assets/my-img/doctor.jpg"></mat-card-content>
-      <mat-card-footer ><a routerLink="students">Doctor</a></mat-card-footer>
+      <mat-card-footer ><a routerLink="doctor">Doctor</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
       <mat-card-content><img  src="assets/my-img/patient.jpg"></mat-card-content>
-      <mat-card-footer ><a routerLink="classes">Patient</a></mat-card-footer>
+      <mat-card-footer ><a routerLink="patient">Patient</a></mat-card-footer>
     </mat-card>
 
     <mat-card>
@@ -47,7 +47,7 @@
 
   <mat-grid-tile [colspan]="2" [rowspan]="4" >
     <mat-card>
-      <mat-card-title style="background-image: url('assets/header2img.png')">User Specific Messages</mat-card-title>
+      <mat-card-title style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain">User Specific Messages</mat-card-title>
       <mat-card-content >
         <mat-list>
           <mat-list-item *ngFor="let message of userspecmessages">
@@ -63,7 +63,7 @@
 
   <mat-grid-tile [colspan]="2" [rowspan]="4" >
       <mat-card>
-        <mat-card-title style="background-image: url('assets/header2img.png')">General Messages</mat-card-title>
+        <mat-card-title style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain">General Messages</mat-card-title>
         <mat-card-content >
           <mat-list>
             <mat-list-item *ngFor="let message of generalmessages">

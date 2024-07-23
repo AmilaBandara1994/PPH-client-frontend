@@ -44,6 +44,8 @@ import { AttendanceComponent } from './view/modules/attendance/attendance.compon
 import { ClinicComponent } from './view/modules/clinic/clinic.component';
 import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbyclinictype/cliniccountbyclinictype.component';
 import { DoctorComponent } from './view/modules/doctor/doctor.component';
+import { PatientComponent } from './view/modules/patient/patient.component';
+import { DashboardComponent } from './view/modules/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -64,7 +66,9 @@ import { DoctorComponent } from './view/modules/doctor/doctor.component';
     AttendanceComponent,
     ClinicComponent,
     CliniccountbyclinictypeComponent,
-    DoctorComponent
+    DoctorComponent,
+    PatientComponent,
+    DashboardComponent
 
   ],
   imports: [

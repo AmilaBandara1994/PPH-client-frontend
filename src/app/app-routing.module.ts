@@ -14,6 +14,8 @@ import {
   CliniccountbyclinictypeComponent
 } from "./report/view/cliniccountbyclinictype/cliniccountbyclinictype.component";
 import {DoctorComponent} from "./view/modules/doctor/doctor.component";
+import {PatientComponent} from "./view/modules/patient/patient.component";
+import {DashboardComponent} from "./view/modules/dashboard/dashboard.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -23,6 +25,7 @@ const routes: Routes = [
     component: MainwindowComponent,
     children: [
       {path: "home", component: HomeComponent},
+      {path: "dashboard", component: DashboardComponent},
       {path: "employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
       {path: "clinic", component: ClinicComponent},
@@ -37,6 +40,10 @@ const routes: Routes = [
       {path: "home/class", redirectTo: 'class', pathMatch: 'full'},
       {path: "home/books", redirectTo: 'books', pathMatch: 'full'},
       {path:"attendance",component:AttendanceComponent},
+      {path: "home/clinic", component: ClinicComponent},
+      {path: "home/doctor", component: DoctorComponent},
+      // {path: "main/dashboard/reports", component: CountByDesignationComponent},
+      {path: "home/patient", component: PatientComponent},
       {path: "home/attendance", redirectTo: 'attendance', pathMatch: 'full'},
 
     ]

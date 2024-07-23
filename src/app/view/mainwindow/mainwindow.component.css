@@ -108,5 +108,110 @@ mat-nav-list mat-expansion-panel mat-list-item {
   height: 28px;
 }
 
+.logo-back{
+  margin-left: 1rem;
+  color: #ffffff;
+}
 
+.logo-back img{
+  height: 3rem;
+}
+
+.logo-left-section{
+  margin: 2px;
+  border-left: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-left: 1rem;
+  justify-content: center;
+}
+
+.logo-left-section p:hover{
+  /*box-shadow: 0px 0px 100px #ffffff;*/
+  filter: shadow(0px 0px 100px #ffffff);
+}
+
+.logo-left-section span{
+  font-size: 1rem;
+  margin: 0;
+}
+.logo-left-section p{
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/*custom  theme*/
+
+
+.outer-container{
+
+  background-color: var(--light-blue);
+  padding: 3rem;
+
+}
+.main-container{
+  display: flex;
+  border-radius: 20px;
+  background-color: var(--theme-primary);
+}
+
+.side-nav{
+  flex: 2;
+}
+.nav-logo{
+  margin: 3rem 2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+.nav-logo p{
+  text-align: center;
+  color: var(--font-primary);
+}
+
+.nav-logo span{
+  color: var(--font-primary);
+}
+
+.nav-outer{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.nav-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0rem;
+  color: white;
+  /*border-left: 2px solid var(--theme-primary);*/
+}
+.nav-item:hover{
+  border-left: 2px solid var(--font-primary);
+  /*border: 1px 0px 1px 2px solid var(--font-primary);*/
+}
+.nav-item mat-icon{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--font-secondary);
+}
+
+.nav-item p{
+  justify-content: flex-start;
+  padding-left: 1rem;
+  margin: 0;
+  flex: 2;
+  font-weight: 400;
+  color: var(--font-secondary);
+}
+
+.inner-container{
+  border-radius: 20px;
+  flex: 10;
+  background-color: white;
+}
 

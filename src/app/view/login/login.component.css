@@ -11,7 +11,7 @@ mat-card-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5rem 1rem;
+  padding: 2rem 1rem;
 }
 
 mat-card-title img {
@@ -34,11 +34,16 @@ mat-card-title p {
   color: #3648af;
   text-align: center;
   font-size: 2rem;
+  border: 1px solid white;
+  padding: 5px;
+  /*filter: drop-shadow(0 0 1rem #ffffff);*/
+  /*-webkit-box-reflect: below 1px -webkit-linear-gradient(transparent ,#3648af );*/
 }
 mat-card-title span {
-  color: #041472;
+  color: #ffffff;
   text-align: center;
   font-size: 1.5rem;
+  filter: drop-shadow(0 0 1rem #000000);
 }
 
 mat-card-content {
@@ -58,12 +63,12 @@ button {
 }
 
 button[btn-a] {
-  background: darkolivegreen !important;
+  background: var(--secondary-color) !important;
 
 }
 
 button[btn-b] {
-  background: #355E3B !important;
+  background: var(--primary-color) !important;
 }
 
 

@@ -57,18 +57,20 @@ export class CliniccountbyclinictypeComponent implements OnInit{
     barData.addColumn('number', 'clinicCount');
     barData.addColumn('number', 'patientCount');
 
-    // const pieData = new google.visualization.DataTable();
-    // pieData.addColumn('string', 'Designation');
-    // pieData.addColumn('number', 'Count');
-    //
-    // const lineData = new google.visualization.DataTable();
-    // lineData.addColumn('string', 'Designation');
-    // lineData.addColumn('number', 'Count');
+    const pieData = new google.visualization.DataTable();
+    pieData.addColumn('string', 'clinicType');
+    pieData.addColumn('number', 'clinicCount');
+    pieData.addColumn('number', 'patientCount');
+
+    const lineData = new google.visualization.DataTable();
+    lineData.addColumn('string', 'clinicType');
+    lineData.addColumn('number', 'clinicCount');
+    lineData.addColumn('number', 'patientCount');
 
     this.clinicbyclinictype.forEach((clinic: ClinicCountByClinictype) => {
       barData.addRow([clinic.clinicType, clinic.clinicCount, clinic.patientCount]);
-      // pieData.addRow([des.clinictype, des.cliniccount, des.patientcount]);
-      // lineData.addRow([des.clinictype, des.cliniccount, des.patientcount]);
+      pieData.addRow([clinic.clinicType, clinic.clinicCount, clinic.patientCount]);
+      lineData.addRow([clinic.clinicType, clinic.clinicCount, clinic.patientCount]);
     });
 
     const barOptions = {
@@ -79,26 +81,26 @@ export class CliniccountbyclinictypeComponent implements OnInit{
       width: 600
     };
 
-    // const pieOptions = {
-    //   title: 'Designation Count (Pie Chart)',
-    //   height: 400,
-    //   width: 550
-    // };
-    //
-    // const lineOptions = {
-    //   title: 'Designation Count (Line Chart)',
-    //   height: 400,
-    //   width: 600
-    // };
+    const pieOptions = {
+      title: 'Clinic Count (Pie Chart)',
+      height: 400,
+      width: 550
+    };
+
+    const lineOptions = {
+      title: 'Clinic Count (Line Chart)',
+      height: 400,
+      width: 600
+    };
 
     const barChart = new google.visualization.BarChart(this.barchart.nativeElement);
     barChart.draw(barData, barOptions);
 
-    // const pieChart = new google.visualization.PieChart(this.piechart.nativeElement);
-    // pieChart.draw(pieData, pieOptions);
-    //
-    // const lineChart = new google.visualization.LineChart(this.linechart.nativeElement);
-    // lineChart.draw(lineData, lineOptions);
+    const pieChart = new google.visualization.PieChart(this.piechart.nativeElement);
+    pieChart.draw(pieData, pieOptions);
+
+    const lineChart = new google.visualization.LineChart(this.linechart.nativeElement);
+    lineChart.draw(lineData, lineOptions);
   }
 
 
