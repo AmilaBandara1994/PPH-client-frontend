@@ -215,3 +215,29 @@ mat-nav-list mat-expansion-panel mat-list-item {
   background-color: white;
 }
 
+.logo-back{
+  height: 65px;
+  padding: 0.5rem 2rem;
+  background-color: rgb(0 0 0 / 36%);
+  width: fit-content;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-left-section{
+  border-left: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-left: 1rem;
+  justify-content: center;
+}
+
+.logo-left-section p{
+  font-size: 1.3rem;
+  /*-webkit-box-reflect: below 1px -webkit-linear-gradient(transparent ,#3648af );*/
+
+}

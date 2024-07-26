@@ -1,0 +1,76 @@
+<div class="outer">
+  <div class="search">
+      <form [formGroup]="ssearch" >
+        <mat-grid-list cols="3" rowHeight="80px">
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Search By Doctor Name</mat-label>
+              <input  matInput formControlName="ssdname" >
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Search By Clinic Status</mat-label>
+              <mat-select formControlName="ssclinicstatus">
+                <mat-option [value]="null">Not Selected</mat-option>
+                <mat-option *ngFor="let clinicstatus of clinicstatuses" [value]="clinicstatus.name" >{{clinicstatus.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="outline">
+              <mat-label>Search By Clinic Type</mat-label>
+              <mat-select formControlName="ssclinictype">
+                <mat-option [value]="null" >Not Selected</mat-option>
+                <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype.name" >{{clinictype.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+
+        <div>
+          <button mat-raised-button class="btn-p" (click)="btnSearchSS()"><mat-icon>search</mat-icon>Serch</button>
+          <button mat-raised-button class="btn-p" (click)="btnSSearchClear()"><mat-icon>reorder</mat-icon>Clease Search</button>
+        </div>
+
+
+      </form>
+
+  </div>
+
+
+  <div>
+
+    <p> Clinic Details</p>
+
+        <mat-table [dataSource]="data">
+          <ng-container *ngFor="let column of columns;let i = index;" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef> {{headers[i]}} </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }} </mat-cell>
+          </ng-container>
+
+          <ng-container *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form [formGroup]="csearch" class="csearch">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{csprompts[i]}}</mat-label>
+                  <input matInput [formControlName]="cscolumn"   (keyup)="filterTable()">
+                </mat-form-field>
+              </mat-form>
+            </mat-header-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+          <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columns;" (click)="fillForm(row)" [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>
+
+        </mat-table>
+
+        <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
+
+
+  </div>
+
+</div>
+

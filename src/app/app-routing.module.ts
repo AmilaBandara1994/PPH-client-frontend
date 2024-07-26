@@ -24,12 +24,20 @@ const routes: Routes = [
     path: "main",
     component: MainwindowComponent,
     children: [
+      {path: "", component: DashboardComponent},
+      {path: 'patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
+      {path: 'doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
+      {path: 'clinic', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
+      //
+      // {path: 'home/patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
+      // {path: 'home/doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
+      // {path: 'home/clinic', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
+      //
+
       {path: "home", component: HomeComponent},
       {path: "dashboard", component: DashboardComponent},
       {path: "employee", component: EmployeeComponent},
       {path: "user", component: UserComponent},
-      {path: "clinic", component: ClinicComponent},
-      {path: "doctor", component: DoctorComponent},
       {path:"reports", component: ArrearsByProgramComponent},
       {path:"reports/cliniccountbyclinictype", component: CliniccountbyclinictypeComponent},
       {path:"reports/countbydesignation", component: CountByDesignationComponent},
@@ -40,14 +48,15 @@ const routes: Routes = [
       {path: "home/class", redirectTo: 'class', pathMatch: 'full'},
       {path: "home/books", redirectTo: 'books', pathMatch: 'full'},
       {path:"attendance",component:AttendanceComponent},
-      {path: "home/clinic", component: ClinicComponent},
-      {path: "home/doctor", component: DoctorComponent},
       // {path: "main/dashboard/reports", component: CountByDesignationComponent},
-      {path: "home/patient", component: PatientComponent},
       {path: "home/attendance", redirectTo: 'attendance', pathMatch: 'full'},
 
+
+
     ]
-  }];
+  }
+
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

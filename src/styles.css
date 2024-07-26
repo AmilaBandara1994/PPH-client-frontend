@@ -26,9 +26,12 @@
 
   --primary-border: #E6E9F8;
 
+  --primary-background:#F2F2F2;
+  --secondary-background: #fefeff;
+
 }
 html, body {
-  height: 100%;
+  height: 100% !important;
 }
 
 body {
