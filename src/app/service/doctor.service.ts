@@ -18,7 +18,7 @@ export class DoctorService {
   }
 
   async get(id:number): Promise<Doctor|undefined> {
-    const doctor = await this.http.get<Doctor>('http://localhost:8080/doctors'+ id).toPromise();
+    const doctor = await this.http.get<Doctor>('http://localhost:8080/doctors/details/'+ id).toPromise();
     if(doctor == undefined){
       return undefined;
     }

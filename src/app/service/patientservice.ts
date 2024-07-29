@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Patient} from "../entity/patient";
+import {Doctor} from "../entity/doctor";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,14 @@ export class Patientservice {
       return [];
     }
     return patients;
+  }
+
+  async get(id:number): Promise<Patient|undefined> {
+    const patient = await this.http.get<Patient>('http://localhost:8080/patients/details/'+ id).toPromise();
+    if(patient == undefined){
+      return undefined;
+    }
+    return patient;
   }
 
   // async getAllListNameId(): Promise<Array<Employee>> {

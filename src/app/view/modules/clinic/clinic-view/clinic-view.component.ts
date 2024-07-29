@@ -20,6 +20,7 @@ import {Employee} from "../../../../entity/employee";
 import {Subscription} from "rxjs";
 import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.component";
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-clinic-view',
@@ -40,14 +41,14 @@ export class ClinicViewComponent {
   public ssearch!: FormGroup;
   public form!: FormGroup;
 
+  showform:boolean = false;
+
   data!: MatTableDataSource<Clinic>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   uiassist: UiAssist;
 
-  newclinic!:Clinic;
-  oldClinic!:Clinic;
 
   regexes: any;
   selectedrow: any;
@@ -60,14 +61,9 @@ export class ClinicViewComponent {
   nurses:Array<Employee> = [];
   employees:Array<Employee> = [];
   filvaluesubscribe!:Subscription;
-  filformsub!:Subscription;
-
-  enaadd:boolean = false;
-  enaupd:boolean = false;
-  enadel:boolean = false;
-
 
   constructor(    private cs: ClinicService,
+                  private router: Router,
                   private rs: RegexService,
                   private fb: FormBuilder,
                   private dg: MatDialog,
@@ -76,7 +72,8 @@ export class ClinicViewComponent {
                   private cts: ClinictypeService,
                   private es: EmployeeService,
                   private ds: DoctorService,
-                  public authService:AuthorizationManager) {
+                  public authService:AuthorizationManager
+  ) {
 
     this.uiassist  = new UiAssist(this);
 
@@ -97,21 +94,6 @@ export class ClinicViewComponent {
       "ssclinictype": new FormControl(),
     })
 
-    this.form = this.fb.group({
-      "date": new FormControl("", Validators.required),
-      "starttime": new FormControl("", Validators.required),
-      "endtime": new FormControl("", Validators.required),
-      "patientcount": new FormControl("", Validators.required),
-      "totalincome": new FormControl("", Validators.required),
-      "doctorpayment": new FormControl("", Validators.required),
-      "clinictype": new FormControl("", Validators.required),
-      "doctor": new FormControl("", Validators.required),
-      "nurse1": new FormControl("", Validators.required),
-      "nurse2": new FormControl(),
-      "employee": new FormControl(),
-      "clinicstatus": new FormControl("", Validators.required),
-      "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
-    })
   }
 
   ngOnInit() {
@@ -179,7 +161,6 @@ export class ClinicViewComponent {
     }
     this.filterDoctorByclinictype();
     this.getNurseFromEmployees();
-    this.enableButtons(true,false,false);
 
   }
 
@@ -283,92 +264,6 @@ export class ClinicViewComponent {
     });
   }
 
-  add() {
-
-    let errors = this.getErrors();
-
-    if (errors != "") {
-      const errmsg = this.dg.open(MessageComponent, {
-        width: '500px',
-        data: {heading: "Errors - Clinic Add ", message: "You have following Errors <br> " + errors}
-      });
-      errmsg.afterClosed().subscribe(async result => {
-        if (!result) {
-          return;
-        }
-      });
-    } else {
-
-      this.newclinic = this.form.getRawValue();
-      // @ts-ignore
-      this.newclinic.date = this.dp.transform( this.newclinic.date, 'yyyy-MM-dd');
-      // @ts-ignore
-      this.newclinic.dopublish = this.dp.transform( this.newclinic.dopublish, 'yyyy-MM-dd');
-      this.newclinic.starttime = "08:00:00";
-      this.newclinic.endtime = "12:00:00";
-
-      let clinic: string = "";
-
-      clinic = clinic + "<br>Type of Clinic is : " + this.newclinic.clinictype.name;
-      clinic = clinic + "<br>Doctor Name is : " + this.newclinic.doctor.employee.fullname;
-      clinic = clinic + "<br>Stat time is : " + this.newclinic.starttime;
-      clinic = clinic + "<br>End time is : " + this.newclinic.endtime;
-      clinic = clinic + "<br>Clinic status is : " + this.newclinic.clinicstatus.name;
-
-      const confirm = this.dg.open(ConfirmComponent, {
-        width: '500px',
-        data: {
-          heading: "Confirmation - Clinic Add",
-          message: "Are you sure to Add the following Clinic data? <br> <br>" + clinic
-        }
-      });
-
-      let addstatus: boolean = false;
-      let addmessage: string = "Server Not Found";
-
-      confirm.afterClosed().subscribe(async result => {
-        if (result) {
-          this.cs.add(this.newclinic).then((responce: [] | undefined) => {
-            if (responce != undefined) { // @ts-ignore
-              console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
-              // @ts-ignore
-              addstatus = responce['errors'] == "";
-              console.log("Add Sta-" + addstatus);
-              if (!addstatus) { // @ts-ignore
-                addmessage = responce['errors'];
-              }
-            } else {
-              console.log("undefined");
-              addstatus = false;
-              addmessage = "Content Not Found"
-            }
-          }).finally(() => {
-
-            if (addstatus) {
-              addmessage = "Successfully Saved";
-              this.form.reset();
-              // this.clearImage();
-              Object.values(this.form.controls).forEach(control => {
-                control.markAsTouched();
-              });
-              this.loadTable("");
-            }
-
-            const stsmsg = this.dg.open(MessageComponent, {
-              width: '500px',
-              data: {heading: "Status - Clinic Add", message: addmessage}
-            });
-
-            stsmsg.afterClosed().subscribe(async result => {
-              if (!result) {
-                return;
-              }
-            });
-          });
-        }
-      });
-    }
-  }
 
   getErrors(): string {
 
@@ -389,142 +284,14 @@ export class ClinicViewComponent {
     return errors;
   }
 
-  clear():void{
-    const confirm = this.dg.open(ConfirmComponent, {
-      width: '500px',
-      data: {
-        heading: "Confirmation - Clinic Clear",
-        message: "Are you sure to Clear following Details ? <br> <br>"
-      }
-    });
 
-    confirm.afterClosed().subscribe(async result => {
-      if (result) {
-        this.form.reset();
-        this.createForm();
-      }
-    });
-  }
-  enableButtons(add:boolean, upd:boolean, del:boolean){
-    this.enaadd=add;
-    this.enaupd=upd;
-    this.enadel=del;
-  }
-
-  fillForm(clinic:Clinic){
-    this.selectedrow = clinic;
-    this.newclinic = JSON.parse(JSON.stringify(clinic));
-    this.oldClinic = JSON.parse(JSON.stringify(clinic));
-
-    this.filvaluesubscribe.unsubscribe();
-
-    // @ts-ignore
-    this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype:Clinictype)=>{
-      let query = "?clinictypeid="+ clinictype.id;
-      this.ds.getAllList(query).then((docto:Doctor[]) =>{
-        this.doctorByClinictype  = docto;
-        // @ts-ignore
-        this.newclinic.doctor = this.doctorByClinictype.find(d=> d.id === this.newclinic.doctor.id );
-        // @ts-ignore
-        this.newclinic.nurse1 = this.nurses.find(n=> this.newclinic.nurse1.id === n.id );
-        // @ts-ignore
-        this.newclinic.clinicstatus = this.clinicstatuses.find(cs=> cs.id === this.newclinic.clinicstatus.id );
-
-        this.form.patchValue(this.newclinic);
-        this.form.markAsPristine();
-
-        this.enableButtons(false,true,true);
-      })
-    });
-
-    // @ts-ignore
-    this.newclinic.clinictype = this.clinictypes.find(cs=> cs.id === this.newclinic.clinictype.id );
-    this.form.controls['clinictype'].setValue(this.newclinic.clinictype);
-    this.filformsub.unsubscribe();
-  }
-
-  update() {
-
-    let errors = this.getErrors();
-
-    if (errors != "") {
-
-      const errmsg = this.dg.open(MessageComponent, {
-        width: '500px',
-        data: {heading: "Errors - Clinic Update ", message: "You have following Errors <br> " + errors}
-      });
-      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-
-    } else {
-
-      let updates: string = this.getUpdates();
-
-      if (updates != "") {
-
-        let updstatus: boolean = false;
-        let updmessage: string = "Server Not Found";
-
-        const confirm = this.dg.open(ConfirmComponent, {
-          width: '500px',
-          data: {
-            heading: "Confirmation - Clinic Update",
-            message: "Are you sure to Save folowing Updates? <br> <br>" + updates
-          }
-        });
-        confirm.afterClosed().subscribe(async result => {
-          if (result) {
-            this.newclinic = this.form.getRawValue();
-            this.newclinic.id = this.oldClinic.id;
-
-            this.cs.update(this.newclinic).then((responce: [] | undefined) => {
-              if (responce != undefined) {
-                // @ts-ignore
-                updstatus = responce['errors'] == "";
-                if (!updstatus) { // @ts-ignore
-                  updmessage = responce['errors'];
-                }
-              } else {
-                updstatus = false;
-                updmessage = "Content Not Found"
-              }
-            } ).finally(() => {
-              if (updstatus) {
-                updmessage = "Successfully Updated";
-                this.form.reset();
-                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
-                this.loadTable("");
-              }
-
-              const stsmsg = this.dg.open(MessageComponent, {
-                width: '500px',
-                data: {heading: "Status - Clinic Add", message: updmessage}
-              });
-              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-
-            });
-          }
-        });
-      }
-      else {
-
-        const updmsg = this.dg.open(MessageComponent, {
-          width: '500px',
-          data: {heading: "Confirmation - Clinic Update", message: "Nothing Changed"}
-        });
-        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-
-      }
-    }
-
-  }
-
-  delete() {
-
+  delete(clinic:Clinic) {
+    console.log(clinic)
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
         heading: "Confirmation - Clinic Delete",
-        message: "Are you sure to Delete following Clinic ? <br> <br>" + this.newclinic.clinictype.name
+        message: "Are you sure to Delete following Clinic ? <br> <br>" + clinic.clinictype.name
       }
     });
 
@@ -533,7 +300,7 @@ export class ClinicViewComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.cs.delete(this.newclinic.id).then((responce: [] | undefined) => {
+        this.cs.delete(clinic.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -547,7 +314,6 @@ export class ClinicViewComponent {
         } ).finally(() => {
           if (delstatus) {
             delmessage = "Successfully Deleted";
-            this.form.reset();
             Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
             this.loadTable("");
           }
@@ -563,16 +329,11 @@ export class ClinicViewComponent {
     });
   }
 
-  getUpdates() {
-    let updates = '';
-    for (const controlName in this.form.controls){
-      const control = this.form.controls[controlName];
-
-      if(control.dirty){
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
-      }
-    }
-    return updates;
+  updateclinic(clinic:Clinic) {
+    this.router.navigateByUrl('main/clinic/update/'+clinic.id);
+  }
+  viewDetails(clinic:Clinic) {
+    this.router.navigateByUrl('main/clinic/details/'+clinic.id);
   }
 
 }

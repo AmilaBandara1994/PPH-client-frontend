@@ -17,13 +17,15 @@ import {MatTableModule} from "@angular/material/table";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ClinicComponent} from "./clinic.component";
+import { ClinicDetailsComponent } from './clinic-details/clinic-details.component';
 
 
 @NgModule({
   declarations: [
     ClinicComponent,
     ClinicViewComponent,
-    ClinicFormComponent
+    ClinicFormComponent,
+    ClinicDetailsComponent
   ],
   imports: [
     CommonModule,

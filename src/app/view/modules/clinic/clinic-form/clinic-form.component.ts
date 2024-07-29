@@ -1,18 +1,15 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {ClinicService} from "../../../../service/clinic.service";
 import {RegexService} from "../../../../service/regexservice";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
-import {DatePipe} from "@angular/common";
+import {DatePipe, Location} from "@angular/common";
 import {ClinicstatusService} from "../../../../service/clinicstatus.service";
 import {ClinictypeService} from "../../../../service/clinictype.service";
 import {EmployeeService} from "../../../../service/employeeservice";
 import {DoctorService} from "../../../../service/doctor.service";
 import {AuthorizationManager} from "../../../../service/authorizationmanager";
-import {UiAssist} from "../../../../util/ui/ui.assist";
-import {MatTableDataSource} from "@angular/material/table";
 import {Clinic} from "../../../../entity/clinic";
-import {MatPaginator} from "@angular/material/paginator";
 import {Clinictype} from "../../../../entity/clinictype";
 import {Doctor} from "../../../../entity/doctor";
 import {Clinicstatus} from "../../../../entity/clinicstatus";
@@ -20,6 +17,7 @@ import {Employee} from "../../../../entity/employee";
 import {Subscription} from "rxjs";
 import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.component";
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-clinic-form',
@@ -28,23 +26,13 @@ import {MessageComponent} from "../../../../util/dialog/message/message.componen
 })
 export class ClinicFormComponent {
 
-  columns: string[] = ['clinictype', 'clinicstatus' ,'doctor', 'date', 'starttime', 'endtime', 'patientcount', 'modi'];
-  headers: string[] = ['Clinic Type', 'Clinic Status', 'Doctor Name', 'Date', 'Start time','End Time', 'Patient Count' , 'Modification'];
-  binders: string[] = ['clinictype.name', 'clinicstatus.name', 'doctor.employee.fullname', 'date' ,'starttime', 'endtime','patientcount' , 'getModi()'];
+  updatForm:boolean = false;
+  id!: number ;
 
-  cscolumns: string[] = ['csclinictype', 'csclinicstatus', 'csdoctor', 'csdate', 'csstarttime', 'csendtime','cspatientcount' , 'csmodi'];
-  csprompts: string[] = ['Search by Clinic Type', 'Search by Clinic Status', 'Search by Doctor',
-    'Search by Date', 'Search by start time', 'Search by end time','Search by Patient Count' ,'Search by Modi'];
+  enaadd:boolean = false;
+  enaupd:boolean = false;
 
-  public csearch!: FormGroup;
-  public ssearch!: FormGroup;
   public form!: FormGroup;
-
-  data!: MatTableDataSource<Clinic>;
-  imageurl: string = '';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  uiassist: UiAssist;
 
   newclinic!:Clinic;
   oldClinic!:Clinic;
@@ -52,23 +40,19 @@ export class ClinicFormComponent {
   regexes: any;
   selectedrow: any;
 
-  clinics: Array<Clinic> = [];
   clinictypes: Array<Clinictype> = [];
   doctors: Array<Doctor> = [];
   doctorByClinictype: Array<Doctor> = [];
   clinicstatuses: Array<Clinicstatus> = [];
   nurses:Array<Employee> = [];
   employees:Array<Employee> = [];
-  filvaluesubscribe!:Subscription;
-  filformsub!:Subscription;
-
-  enaadd:boolean = false;
-  enaupd:boolean = false;
-  enadel:boolean = false;
-
+  // filvaluesubscribe!:Subscription;
+  // filformsub!:Subscription;
 
   constructor(    private cs: ClinicService,
                   private rs: RegexService,
+                  private _location: Location,
+                  private arouter:ActivatedRoute,
                   private fb: FormBuilder,
                   private dg: MatDialog,
                   private dp: DatePipe,
@@ -78,24 +62,6 @@ export class ClinicFormComponent {
                   private ds: DoctorService,
                   public authService:AuthorizationManager) {
 
-    this.uiassist  = new UiAssist(this);
-
-    this.csearch = this.fb.group({
-      'csclinictype': new FormControl(),
-      'csclinicstatus': new FormControl(),
-      'csdoctor': new FormControl(),
-      'csdate': new FormControl(),
-      'csstarttime': new FormControl(),
-      'csendtime': new FormControl(),
-      'cspatientcount': new FormControl(),
-      'csmodi': new FormControl(),
-    })
-
-    this.ssearch = this.fb.group({
-      "ssclinicstatus": new FormControl(),
-      "ssdname": new FormControl(),
-      "ssclinictype": new FormControl(),
-    })
 
     this.form = this.fb.group({
       "date": new FormControl("", Validators.required),
@@ -111,16 +77,27 @@ export class ClinicFormComponent {
       "employee": new FormControl(),
       "clinicstatus": new FormControl("", Validators.required),
       "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
-    })
+    },{updateOn: 'change'})
   }
 
   ngOnInit() {
+    this.id = this.arouter.snapshot.params['id'];
+    if(this.arouter.snapshot.params['id']){
+    // @ts-ignore
+      this.cs.get(this.id).then((clinic: Clinic) => {
+        this.oldClinic = clinic;
+        this.newclinic = clinic;
+        this.updatForm  = true;
+        console.log(this.newclinic);
+        this.fillForm();
+       });
+
+    }
     this.initialize();
   }
 
   initialize() {
 
-    this.createView();
 
     this.ds.getAllList('').then((docts:Doctor[]) =>{
       this.doctors = docts;
@@ -139,132 +116,14 @@ export class ClinicFormComponent {
 
     this.rs.get('clinic').then((regs: []) => {
       this.regexes = regs;
-      this.createForm();
     });
-  }
-
-  createView() {
-    this.imageurl = 'assets/pending.gif';
-    this.loadTable("");
-  }
-
-  createForm() {
-
-    this.form.controls['date'].setValidators([Validators.required]);
-    this.form.controls['starttime'].setValidators([Validators.required]);
-    this.form.controls['endtime'].setValidators([Validators.required]);
-    this.form.controls['patientcount'];
-    this.form.controls['totalincome'];
-    this.form.controls['doctorpayment'].setValidators([Validators.required]);
-    this.form.controls['clinictype'].setValidators([Validators.required]);
-    this.form.controls['doctor'].setValidators([Validators.required]);
-    this.form.controls['nurse1'].setValidators([Validators.required]);
-    this.form.controls['nurse2'];
-    this.form.controls['employee'];
-    this.form.controls['clinicstatus'].setValidators([Validators.required]);
-    this.form.controls['dopublish'];
-
-
-    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
-
-    for (const controlName in this.form.controls) {
-      const control = this.form.controls[controlName];
-      control.valueChanges.subscribe(value => {
-          // @ts-ignore
-          if (controlName == "dopublish" || controlName == "date")
-            value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
-        }
-      );
-
-    }
     this.filterDoctorByclinictype();
     this.getNurseFromEmployees();
-    this.enableButtons(true,false,false);
-
-  }
-
-
-
-  loadTable(query: string) {
-
-    this.cs.getAll(query)
-      .then((clinic: Clinic[]) => {
-        this.clinics = clinic;
-        this.imageurl = 'assets/fullfilled.png';
-      })
-      .catch((error) => {
-        console.log(error);
-        this.imageurl = 'assets/rejected.png';
-      })
-      .finally(() => {
-        this.data = new MatTableDataSource(this.clinics);
-        this.data.paginator = this.paginator;
-      });
-
-
-
-  }
-
-  getModi(element: Clinic ) {
-  }
-
-  filterTable():void{
-    const csearchdata = this.csearch.getRawValue();
-
-    this.data.filterPredicate = (clinic : Clinic, filter:string) =>{
-      return (csearchdata.csclinictype == null ) || clinic.clinictype.name.includes(csearchdata.csclinictype) &&
-        (csearchdata.csclinicstatus == null ) || clinic.clinicstatus.name.includes(csearchdata.csclinicstatus) &&
-        (csearchdata.csdoctor == null ) || clinic.doctor.employee.fullname.includes(csearchdata.csdoctor) &&
-        (csearchdata.csdate == null ) || clinic.date.includes(csearchdata.csdate) &&
-        (csearchdata.csstarttime == null ) || clinic.starttime.includes(csearchdata.csstarttime) &&
-        (csearchdata.csendtime == null ) || clinic.endtime.includes(csearchdata.csendtime) ;
-      // (csearchdata.cspatientcount == null ) || clinic.patientcount.(csearchdata.cspatientcount) &&
-      // (csearchdata.csmodi == null ) || this.getModi(clinic).toLowerCase().includes(csearchdata.csmodi) ;
-    }
-    this.data.filter="xx"
-  }
-
-  btnSearchSS(){
-    const ssearchdata = this.ssearch.getRawValue();
-    let dname = ssearchdata.ssdname;
-    let clinictype = ssearchdata.ssclinictype;
-    let clinicstatus = ssearchdata.ssclinicstatus;
-
-    let query :string = "";
-
-    console.log(dname);
-    console.log(clinicstatus);
-    console.log(clinictype);
-
-    if(dname != null &&  dname.trim() != "") query =  query + "&doctorname=" + dname;
-    if(clinictype != null ) query = query + "&clinictype=" + clinictype;
-    if(clinicstatus != null ) query = query + "&clinicstatus=" + clinicstatus;
-
-    console.log('before'+ query);
-    if(query != "") query = query.replace(/^./, "?");
-    this.loadTable(query);
-    console.log('after'+ query);
-  }
-
-  btnSSearchClear(){
-    const confirm = this.dg.open(ConfirmComponent,{
-      width: '500px',
-      data:{
-        heading: "Search Clear",
-        message: "Are you sure you want to clear the search",
-      }
-    })
-    confirm.afterClosed().subscribe(async result =>{
-      if(result){
-        this.ssearch.reset();
-        this.loadTable('');
-      }
-    })
   }
 
   filterDoctorByclinictype(){
     // @ts-ignore
-    this.filvaluesubscribe = this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) =>{
+    this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) =>{
       console.log('this also executed ?');
       let query = "";
       query = "?clinictypeid="+ value.id;
@@ -304,17 +163,14 @@ export class ClinicFormComponent {
       this.newclinic.date = this.dp.transform( this.newclinic.date, 'yyyy-MM-dd');
       // @ts-ignore
       this.newclinic.dopublish = this.dp.transform( this.newclinic.dopublish, 'yyyy-MM-dd');
-      this.newclinic.starttime = "08:00:00";
-      this.newclinic.endtime = "12:00:00";
 
       let clinic: string = "";
 
       clinic = clinic + "<br>Type of Clinic is : " + this.newclinic.clinictype.name;
-      clinic = clinic + "<br>Doctor Name is : " + this.newclinic.doctor.employee.fullname;
+      // clinic = clinic + "<br>Doctor Name is : " + this.newclinic.doctor.employee.fullname;
       clinic = clinic + "<br>Stat time is : " + this.newclinic.starttime;
       clinic = clinic + "<br>End time is : " + this.newclinic.endtime;
       clinic = clinic + "<br>Clinic status is : " + this.newclinic.clinicstatus.name;
-
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',
         data: {
@@ -329,6 +185,7 @@ export class ClinicFormComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           this.cs.add(this.newclinic).then((responce: [] | undefined) => {
+
             if (responce != undefined) { // @ts-ignore
               console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
               // @ts-ignore
@@ -347,11 +204,9 @@ export class ClinicFormComponent {
             if (addstatus) {
               addmessage = "Successfully Saved";
               this.form.reset();
-              // this.clearImage();
               Object.values(this.form.controls).forEach(control => {
                 control.markAsTouched();
               });
-              this.loadTable("");
             }
 
             const stsmsg = this.dg.open(MessageComponent, {
@@ -401,22 +256,13 @@ export class ClinicFormComponent {
     confirm.afterClosed().subscribe(async result => {
       if (result) {
         this.form.reset();
-        this.createForm();
       }
     });
   }
-  enableButtons(add:boolean, upd:boolean, del:boolean){
-    this.enaadd=add;
-    this.enaupd=upd;
-    this.enadel=del;
-  }
 
-  fillForm(clinic:Clinic){
-    this.selectedrow = clinic;
-    this.newclinic = JSON.parse(JSON.stringify(clinic));
-    this.oldClinic = JSON.parse(JSON.stringify(clinic));
+  fillForm(){
 
-    this.filvaluesubscribe.unsubscribe();
+    // this.filvaluesubscribe.unsubscribe();
 
     // @ts-ignore
     this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype:Clinictype)=>{
@@ -429,18 +275,21 @@ export class ClinicFormComponent {
         this.newclinic.nurse1 = this.nurses.find(n=> this.newclinic.nurse1.id === n.id );
         // @ts-ignore
         this.newclinic.clinicstatus = this.clinicstatuses.find(cs=> cs.id === this.newclinic.clinicstatus.id );
+        // @ts-ignore
+        this.newclinic.employee = this.employees.find(cs=> cs.id === this.newclinic.employee.id );
 
+        console.log(this.newclinic)
         this.form.patchValue(this.newclinic);
         this.form.markAsPristine();
 
-        this.enableButtons(false,true,true);
+        // this.enableButtons(false,true,true);
       })
     });
 
     // @ts-ignore
     this.newclinic.clinictype = this.clinictypes.find(cs=> cs.id === this.newclinic.clinictype.id );
     this.form.controls['clinictype'].setValue(this.newclinic.clinictype);
-    this.filformsub.unsubscribe();
+    // this.filformsub.unsubscribe();
   }
 
   update() {
@@ -491,8 +340,8 @@ export class ClinicFormComponent {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
+                this.updatForm = false
                 Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
-                this.loadTable("");
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
@@ -518,51 +367,6 @@ export class ClinicFormComponent {
 
   }
 
-  delete() {
-
-    const confirm = this.dg.open(ConfirmComponent, {
-      width: '500px',
-      data: {
-        heading: "Confirmation - Clinic Delete",
-        message: "Are you sure to Delete following Clinic ? <br> <br>" + this.newclinic.clinictype.name
-      }
-    });
-
-    confirm.afterClosed().subscribe(async result => {
-      if (result) {
-        let delstatus: boolean = false;
-        let delmessage: string = "Server Not Found";
-
-        this.cs.delete(this.newclinic.id).then((responce: [] | undefined) => {
-
-          if (responce != undefined) { // @ts-ignore
-            delstatus = responce['errors'] == "";
-            if (!delstatus) { // @ts-ignore
-              delmessage = responce['errors'];
-            }
-          } else {
-            delstatus = false;
-            delmessage = "Content Not Found"
-          }
-        } ).finally(() => {
-          if (delstatus) {
-            delmessage = "Successfully Deleted";
-            this.form.reset();
-            Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
-            this.loadTable("");
-          }
-
-          const stsmsg = this.dg.open(MessageComponent, {
-            width: '500px',
-            data: {heading: "Status - Clinic Delete ", message: delmessage}
-          });
-          stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
-
-        });
-      }
-    });
-  }
-
   getUpdates() {
     let updates = '';
     for (const controlName in this.form.controls){
@@ -573,5 +377,9 @@ export class ClinicFormComponent {
       }
     }
     return updates;
+  }
+
+  backtoview() {
+    this._location.back();
   }
 }

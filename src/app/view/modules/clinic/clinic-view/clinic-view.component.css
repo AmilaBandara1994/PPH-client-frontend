@@ -13,9 +13,9 @@
   margin: 0 1rem !important;
 }
 
-mat-card {  height:100%;  margin: 10px 10px -10px 10px ; }
+/*mat-card {  height:100%;  margin: 10px 10px -10px 10px ; }*/
 
-mat-card-content { overflow: auto; height: 100%; }
+/*mat-card-content { overflow: auto; height: 100%; }*/
 
 /*mat-card-header { background: #c0d9c3; }*/
 
@@ -109,4 +109,28 @@ button:disabled {
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+
+.table-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+.table-right{
+
+}
+
+.ss-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.header-row{
+  background-color: var(--theme-secondary) !important;
+}
+
+.btn-table{
+  z-index: 100;
 }

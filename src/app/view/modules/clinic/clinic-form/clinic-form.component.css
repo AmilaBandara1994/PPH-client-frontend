@@ -107,4 +107,8 @@ button:disabled {
   padding: 1rem;
   color:var(--theme-primary)
 }
-
+.backtoview{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

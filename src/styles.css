@@ -18,7 +18,7 @@
 /*  cutom colors*/
 
   --light-blue:#D2E0FB;
-  --theme-primary:#0C407A;
+  --theme-primary: #0C407A;
   --theme-secondary:#DFE3EF;
 
   --font-primary:#FFFFFF;
@@ -81,8 +81,26 @@ mat-form-field input {
   filter: invert(100%) hue-rotate(180deg);
 }
 
+.btn-g{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 1rem;
+}
 
 .btn-p{
   background-color: var(--primary-color) !important;
   color: white !important;
+}
+
+
+.title{
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--theme-primary);
+}
+.sub-title{
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--theme-primary);
 }

@@ -9,7 +9,7 @@ export class Patient {
 
   public id !: number;
   public name !: string;
-  public date !: string;
+  public dob !: string;
   public nic !: string;
   public email !: string;
   public photo !: string;
@@ -23,10 +23,10 @@ export class Patient {
   public  relationship!: Relationship;
 
 
-  constructor(id: number, name: string, date: string, nic: string, email: string, photo: string, contactnumber: string, description: string, patientstatus: Patientstatus, gender: Gender, bloodgroup: Bloodgroup, employee: Employee, family: Family, relationship: Relationship) {
+  constructor(id: number, name: string, dob: string, nic: string, email: string, photo: string, contactnumber: string, description: string, patientstatus: Patientstatus, gender: Gender, bloodgroup: Bloodgroup, employee: Employee, family: Family, relationship: Relationship) {
     this.id = id;
     this.name = name;
-    this.date = date;
+    this.dob = dob;
     this.nic = nic;
     this.email = email;
     this.photo = photo;
