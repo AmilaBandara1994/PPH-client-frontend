@@ -21,6 +21,14 @@ export class ClinicService {
     return clinic;
   }
 
+  async getAllScheduled(query:string): Promise<Array<Clinic>> {
+    const clinic = await this.http.get<Array<Clinic>>('http://localhost:8080/clinics/scheduled'+query).toPromise();
+    if(clinic == undefined){
+      return [];
+    }
+    return clinic;
+  }
+
 
   async add(clinic: Clinic): Promise<[]|undefined>{
     return this.http.post<[]>('http://localhost:8080/clinics', clinic).toPromise();

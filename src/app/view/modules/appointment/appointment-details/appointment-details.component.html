@@ -1,0 +1,86 @@
+<div class="outer">
+
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()"><mat-icon>arrow_back</mat-icon>Back to View</button>
+  </div>
+  <p> Appointment Details </p>
+  <div class="outer-inner">
+
+    <div class="img-section">
+      <!--            <img *ngIf="doctor.employee.photo" src="assets/my-img/appointment.jpg" alt="doctor photo">-->
+      <img  src="assets/my-img/banner/appointment-bg.png" alt="appointment">
+    </div>
+    <div class="main-section">
+      <div class="when-outer">
+        <div class="when">
+          <h2>{{ appointment.clinic.name }}</h2>
+          <h2>{{ appointment.clinic.date | date }}</h2>
+          <p>  Appointment status : <span>{{ appointment.appointmentstatus.name }}</span> </p>
+          <!--          <p>  Doctor Grade :<span> {{   doctor.doctorgrade.name }}</span></p>-->
+          <p> Appointment Number :<span> {{   appointment.number }}</span></p>
+          <!--          <span > Age {{   doctor.employee.dobirth }}</span>-->
+          <p>  Start Time :<span> {{ appointment.clinic.starttime }}</span></p>
+          <p> End Time :<span> {{ appointment.clinic.endtime }}</span></p>
+        </div>
+
+      </div>
+    </div>
+    <div class="left-details">
+<!--      <div class="details">-->
+<!--        <h3> Contact Informations</h3>-->
+<!--        <span> Email : {{ appointment.email }}</span>-->
+<!--        <span> Address : {{ appointment.family.address }}</span>-->
+<!--        <span> mobile : {{ appointment.family.address }}</span>-->
+<!--        <span> Address : {{ appointment.family.address }}</span>-->
+<!--        <span> Address : {{ appointment.family.address }}</span>-->
+<!--      </div>-->
+    </div>
+    <div class="main-details">
+      <div class="when-outer">
+<!--        <div class="when">-->
+<!--          <h2>Guardian's Informations</h2>-->
+<!--          <p>  Name : <span>{{ appointment.family.name }}</span> </p>-->
+<!--          &lt;!&ndash;          <p>  Doctor Grade :<span> {{   doctor.doctorgrade.name }}</span></p>&ndash;&gt;-->
+<!--          <p> Relationship :<span> {{   appointment.relationship.name }}</span></p>-->
+<!--          &lt;!&ndash;          <span > Age {{   doctor.employee.dobirth }}</span>&ndash;&gt;-->
+<!--          <p> Province :<span> {{ appointment.family.district.province.name }}</span></p>-->
+<!--          <p> District :<span> {{ appointment.family.district.name }}</span></p>-->
+<!--          <p> Addresss :<span> {{ appointment.family.address }}</span></p>-->
+<!--          <p> Mobile :<span> {{ appointment.family.mobile }}</span></p>-->
+<!--          <p> Land :<span> {{ appointment.family.land }}</span></p>-->
+<!--          &lt;!&ndash;          <p> Map Location :<span> {{ appointment.gender.name }}</span></p>&ndash;&gt;-->
+<!--        </div>-->
+
+      </div>
+
+    </div>
+    <div class="additional-details">
+
+<!--      <div class="aditional-card">-->
+<!--        <div class="ad-name">Diabetic</div>-->
+<!--        <div class="level"></div>-->
+<!--        <div class="da-degree"> </div>-->
+<!--      </div>-->
+<!--      <div class="aditional-card">-->
+<!--        <div class="ad-name">Alchohol</div>-->
+<!--        <div class="level"></div>-->
+<!--        <div class="da-degree"> </div>-->
+<!--      </div>-->
+<!--      <div class="aditional-card">-->
+<!--        <div class="ad-name">Overweight</div>-->
+<!--        <div class="level"></div>-->
+<!--        <div class="da-degree"> </div>-->
+<!--      </div>-->
+<!--      <div class="aditional-card">-->
+<!--        <div class="ad-name">Diabetic</div>-->
+<!--        <div class="level"></div>-->
+<!--        <div class="da-degree"> </div>-->
+<!--      </div>-->
+    </div>
+
+    <div class="btn-section">
+      <button mat-raised-button  (click)="updateform()">Update</button>
+    </div>
+  </div>
+
+</div>

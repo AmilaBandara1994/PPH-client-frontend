@@ -24,10 +24,12 @@ const routes: Routes = [
     path: "main",
     component: MainwindowComponent,
     children: [
+
       {path: "", component: DashboardComponent},
       {path: 'patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
       {path: 'doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
       {path: 'clinic', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
+      {path: 'appointment', loadChildren: () => import('./view/modules/appointment/appointment.module').then(m => m.AppointmentModule)},
       //
       // {path: 'home/patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
       // {path: 'home/doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},

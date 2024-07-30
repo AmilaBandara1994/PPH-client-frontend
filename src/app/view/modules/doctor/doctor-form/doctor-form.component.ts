@@ -334,6 +334,7 @@ export class DoctorFormComponent {
             if (addstatus) {
               addmessage = "Successfully Saved";
               this.form.reset();
+              this.eduform.reset();
               Object.values(this.form.controls).forEach(control => {
                 control.markAsTouched();
               });

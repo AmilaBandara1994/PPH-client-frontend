@@ -45,6 +45,7 @@ import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbycli
 import { DoctorComponent } from './view/modules/doctor/doctor.component';
 import { PatientComponent } from './view/modules/patient/patient.component';
 import { DashboardComponent } from './view/modules/dashboard/dashboard.component';
+import { AppointmentComponent } from './view/modules/appointment/appointment.component';
 
 
 
@@ -67,7 +68,8 @@ import { DashboardComponent } from './view/modules/dashboard/dashboard.component
     CliniccountbyclinictypeComponent,
     DoctorComponent,
     PatientComponent,
-    DashboardComponent
+    DashboardComponent,
+    // AppointmentComponent
 
   ],
   imports: [
