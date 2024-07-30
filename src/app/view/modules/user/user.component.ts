@@ -245,6 +245,7 @@ export class UserComponent implements OnInit{
       const userRole = new Userrole(option.value);
       this.roles = this.roles.filter(role => role !== option.value); //Remove Selected
       this.userroles.push(userRole); // Add selected to Right Side
+      console.log(this.userroles)
       return userRole;
     });
 

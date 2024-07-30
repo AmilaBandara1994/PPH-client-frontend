@@ -1,0 +1,121 @@
+<div class="outer">
+
+  <div >
+    <div class="search">
+      <form [formGroup]="ssearch" >
+        <div class="ss-container">
+          <div class="upper">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Search by Mobile</mat-label>
+            <input matInput formControlName="sscontactnumber">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Search by NIC</mat-label>
+            <input matInput formControlName="ssnic">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="ssgender">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let gender of genders" [value]="gender.id">{{gender.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          </div>
+          <div class="down">
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Patient Status</mat-label>
+            <mat-select formControlName="sspatientstatus">
+              <mat-option [value]="null" selected >Not Selected</mat-option>
+              <mat-option *ngFor="let pstatus of patientstatus" [value]="pstatus.id">{{pstatus.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Blood Group</mat-label>
+            <mat-select formControlName="ssbloodgroup">
+              <mat-option [value]="null" selected >Not Selected</mat-option>
+              <mat-option *ngFor="let bgroup of bloodgroup" [value]="bgroup.id">{{bgroup.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="btn-g">
+          <button mat-raised-button class="btn-p" (click)="btnSearchMc()"><mat-icon>search</mat-icon>Serch</button>
+          <button mat-raised-button class="btn-p" (click)="btnSearchClearMc()"><mat-icon>reorder</mat-icon>Clease Search</button>
+        </div>
+
+
+      </form>
+
+    </div>
+    <div>
+
+      <div class="table-header">
+        <div class="table-left">
+          <span class="title"> Patient Details</span>
+
+        </div>
+        <div class="table-right">
+          <button mat-raised-button class="btn-p" [routerLink]="['form']"><mat-icon>add</mat-icon>Add Clinic</button>
+        </div>
+
+      </div>
+
+      <mat-table [dataSource]="data">
+        <ng-container  *ngFor="let column of columns;let i = index;" [matColumnDef]="column">
+          <div *ngIf="column != 'modi' ">
+            <mat-header-cell class="header-row" *matHeaderCellDef> {{headers[i]}} </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }} </mat-cell>
+          </div>
+          <div *ngIf="column == 'modi' ">
+            <mat-header-cell class="header-row" *matHeaderCellDef> {{headers[i]}} </mat-header-cell>
+            <td  mat-cell *matCellDef="let row">
+              <button  mat-icon-button color="primary" (click)="viewDetails(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button  mat-icon-button color="warn" (click)="delete(row)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button  mat-icon-button color="warn" (click)="updateclinic(row)">
+                <mat-icon>update</mat-icon>
+              </button>
+            </td>
+          </div>
+        </ng-container>
+
+
+
+        <ng-container  *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">
+          <mat-header-cell *matHeaderCellDef>
+            <form [formGroup]="csearch" class="csearch">
+              <mat-form-field style="width: 100px" appearance="outline">
+                <mat-label>{{csprompts[i]}}</mat-label>
+                <input matInput [formControlName]="cscolumn"   (keyup)="filterTable()">
+              </mat-form-field>
+            </form>
+          </mat-header-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns;"  [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>
+        <!--            <mat-row *matRowDef="let row; columns: columns;" [routerLink]="['details/',]" [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>-->
+
+      </mat-table>
+
+      <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
+
+
+    </div>
+  </div>
+
+</div>
+

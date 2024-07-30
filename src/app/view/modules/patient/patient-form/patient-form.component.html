@@ -1,0 +1,129 @@
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
+  <!--    </mat-card-header>-->
+  <div id="clinicform">
+    <form [formGroup]="form">
+
+      <div class="flile-selector">
+        <div id="imgpanel">
+          <div class="img-outer">
+            <img [src]="imageempurl">
+            <label for="userImage" id="selectbutton">Select</label>
+            <label id="clearbutton" (click)="clearImage()">Clear</label>
+          </div>
+             <input id="userImage" hidden="hidden" (change)="selectImage($event)" Select type="file"
+                 formControlName="photo">
+
+        </div>
+      </div>
+      <mat-grid-list cols="2" rowHeight="80px">
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="contactnumber">
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let gender of genders" [value]="gender">{{ gender.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>NIC</mat-label>
+            <input matInput formControlName="nic">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Birth of Date</mat-label>
+            <input matInput [matDatepicker]="dob" formControlName="dobirth">
+            <mat-datepicker-toggle matIconSuffix [for]="dob"></mat-datepicker-toggle>
+            <mat-datepicker #dob></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>patient Status</mat-label>
+            <mat-select formControlName="patientstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let pstatus of patientstatus" [value]="pstatus">{{ pstatus.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Blood Group</mat-label>
+            <mat-select formControlName="bloodgroup">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let bgroup of bloodgroup" [value]="bgroup">{{ bgroup.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Relationship</mat-label>
+            <mat-select formControlName="relationship">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let rel of relationship" [value]="rel">{{ rel.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

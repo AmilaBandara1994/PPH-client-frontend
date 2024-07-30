@@ -36,6 +36,7 @@ mat-card #headImg{
   height: 80%;
   padding-left: 18px;
   padding-top: 15px;
+  filter: drop-shadow(0 0 4rem #ffff);
 }
 
 #quicklinks mat-card{
@@ -43,19 +44,42 @@ mat-card #headImg{
   padding-top: 4px;
   width: 150px;
   margin: 0 20px 0 20px;
-  border: solid gold;
+  border: solid var(--secondary-color);
 }
 
 mat-card-footer{
   font-size: 18px;
   margin-top: 55px;
   text-align: center;
-  background-color: gold;
+  background-color: var(--primary-color);
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 mat-card-footer a{
   text-decoration: none;
-  color: black;
+  color: #ffffff;
+}
+
+.logo-back{
+  height: 65px;
+  padding: 1rem 2rem;
+  background-color: rgb(0 0 0 / 36%);
+  border-radius: 8px;
+  color: #fff;
+}
+
+.logo-left-section{
+  border-left: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-left: 1rem;
+  justify-content: center;
+}
+
+.logo-left-section p{
+  font-size: 1.3rem;
+  -webkit-box-reflect: below 1px -webkit-linear-gradient(transparent ,#3648af );
+
 }

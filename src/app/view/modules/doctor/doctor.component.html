@@ -1,0 +1,207 @@
+<div class="outer">
+  <router-outlet></router-outlet>
+</div>
+
+
+<!--<mat-grid-list [cols]="12" rowHeight="4rem">-->
+
+<!--  <mat-grid-tile [colspan]="4" [rowspan]="10">-->
+<!--    <mat-card>-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Doctor Detail</mat-card-title>-->
+<!--      </mat-card-header>-->
+
+<!--      <mat-card-content id="employeeform">-->
+
+<!--                <mat-form  [formGroup]="form" >-->
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Employee</mat-label>-->
+<!--                    <mat-select formControlName="employee">-->
+<!--                      <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                      <mat-option *ngFor="let employee of doctoremployees" [value]="employee">{{employee.fullname}}</mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Description</mat-label>-->
+<!--                    <input matInput formControlName="description">-->
+<!--                  </mat-form-field>-->
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>SLMC Registration No</mat-label>-->
+<!--                    <input matInput formControlName="slmcregno">-->
+<!--                  </mat-form-field>-->
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Foreign Training</mat-label>-->
+<!--                    <textarea matInput formControlName="slmcregno"></textarea>-->
+<!--                  </mat-form-field>-->
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>SLMC Registration No</mat-label>-->
+<!--                    <input matInput formControlName="slmcregno">-->
+<!--                  </mat-form-field>-->
+
+
+<!--                  <div id="listtrnasfer">-->
+
+<!--                    <div class="list">-->
+<!--                      <mat-selection-list  #availablelist>-->
+<!--                        <mat-list-option  multiple  *ngFor="let degree of degrees" [value]="degree" >{{degree.name}}</mat-list-option>-->
+<!--                      </mat-selection-list>-->
+<!--                    </div>-->
+
+<!--                    <div id="pnlmiddle">-->
+<!--                      <button mat-raised-button (click)="rightSelected()">&gt;</button>-->
+<!--                      <button mat-raised-button (click)="leftSelected()">&lt;</button>-->
+<!--                      <button mat-raised-button (click)="rightAll()">&gt;&gt;</button>-->
+<!--                      <button mat-raised-button (click)="leftAll()">&lt;&lt;</button>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                      <mat-selection-list  formControlName="doctordegrees" #selectedlist>-->
+<!--                        <mat-list-option  *ngFor="let doctordegree of doctordegrees" [value]="doctordegree">{{doctordegree.degree.name}}</mat-list-option>-->
+<!--                      </mat-selection-list>-->
+<!--                    </div>-->
+
+<!--                  </div>-->
+
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Doctor Grade</mat-label>-->
+<!--                    <mat-select formControlName="doctorgrade">-->
+<!--                      <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                      <mat-option *ngFor="let grade of doctorgrades" [value]="grade">{{grade.name}}</mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
+
+
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Foreign Trained Country</mat-label>-->
+<!--                    <mat-select formControlName="country">-->
+<!--                      <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                      <mat-option *ngFor="let country of countries" [value]="country">{{country.name}}</mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
+
+
+
+
+
+<!--                  <div id="butpanel">-->
+<!--                    <button mat-raised-button (click)="add()" [disabled]="!authService.getEnaAdd()">Add</button>-->
+<!--                    <button mat-raised-button (click)="clear()">Clear</button>-->
+<!--                    <button mat-raised-button (click)="update()" [disabled]="!authService.getEnaUpd()">Update</button>-->
+<!--                    <button mat-raised-button (click)="delete()" [disabled]="!authService.getEnaDel()">Delete</button>-->
+<!--                  </div>-->
+
+<!--                </mat-form>-->
+<!--      </mat-card-content>-->
+
+
+<!--    </mat-card>-->
+<!--  </mat-grid-tile>-->
+
+
+<!--  <mat-grid-tile [colspan]="8" [rowspan]="4">-->
+<!--    <mat-card id="ssearch">-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Doctor Search</mat-card-title>-->
+<!--      </mat-card-header>-->
+
+<!--      <mat-card-content>-->
+
+<!--        <mat-form [formGroup]="serversearch">-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Search By Degree</mat-label>-->
+<!--            <mat-select formControlName="ssdegree">-->
+<!--              <mat-option [value]="null">Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let degree of degrees" [value]="degree.id">{{ degree.name }}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Search By Clinic Type</mat-label>-->
+<!--            <mat-select formControlName="ssclinictype">-->
+<!--              <mat-option [value]="null">Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype.id">{{ clinictype.name }}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Search By Grade</mat-label>-->
+<!--            <mat-select formControlName="ssdoctorgrade">-->
+<!--              <mat-option [value]="null">Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let grade of doctorgrades" [value]="grade.id">{{ grade.name }}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+
+<!--          <div>-->
+<!--            <button mat-raised-button class="btn-p" (click)="btnSearchMc()">-->
+<!--              <mat-icon>search</mat-icon>-->
+<!--              Search-->
+<!--            </button>-->
+<!--            <button mat-raised-button class="btn-p"  (click)="btnSearchClearMc()">-->
+<!--              <mat-icon>reorder</mat-icon>-->
+<!--              Clear Search-->
+<!--            </button>-->
+<!--          </div>-->
+
+<!--        </mat-form>-->
+
+<!--      </mat-card-content>-->
+
+<!--    </mat-card>-->
+<!--  </mat-grid-tile>-->
+
+
+<!--  <mat-grid-tile [colspan]="8" [rowspan]="6">-->
+<!--    <mat-card>-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Doctor Table</mat-card-title>-->
+<!--        <div id="loading">-->
+<!--          &lt;!&ndash;          <img [src]="imageurl">&ndash;&gt;-->
+<!--        </div>-->
+<!--      </mat-card-header>-->
+
+<!--      <mat-card-content>-->
+
+<!--        <mat-table [dataSource]="data">-->
+
+<!--          <ng-container *ngFor="let column of columns;let i = index;" [matColumnDef]="column">-->
+<!--            <mat-header-cell *matHeaderCellDef> {{ headers[i] }}</mat-header-cell>-->
+<!--            <mat-cell *matCellDef="let element">{{ uiassist.getProperty(element, binders[i]) }}</mat-cell>-->
+<!--          </ng-container>-->
+
+<!--          <ng-container *ngFor="let cscolumn of cscolumns;let i = index;" [matColumnDef]="cscolumn">-->
+<!--            <mat-header-cell *matHeaderCellDef>-->
+<!--              <mat-form [formGroup]="clinetsearch" class="csearch">-->
+<!--                <mat-form-field appearance="outline">-->
+<!--                  <mat-label>{{ csprompts[i] }}</mat-label>-->
+<!--                  <input matInput [formControlName]="cscolumn"-->
+<!--                         (keyup)="filterTable()">-->
+<!--                </mat-form-field>-->
+<!--              </mat-form>-->
+<!--            </mat-header-cell>-->
+<!--          </ng-container>-->
+
+<!--          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>-->
+<!--          <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>-->
+<!--          <mat-row *matRowDef="let row; columns: columns;" [ngClass]="{'selected-row': row === selectedrow}"></mat-row>-->
+
+<!--        </mat-table>-->
+
+<!--        <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>-->
+
+<!--      </mat-card-content>-->
+
+<!--    </mat-card>-->
+<!--  </mat-grid-tile>-->
+
+<!--</mat-grid-list>-->
+
+
+
+

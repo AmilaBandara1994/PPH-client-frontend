@@ -6,6 +6,7 @@ import {Clinicstatus} from "./clinicstatus";
 export class Clinic {
 
   public id !: number;
+  public name !: string;
   public clinictype !: Clinictype;
   public doctor !: Doctor;
   public date !: string ;
@@ -21,8 +22,9 @@ export class Clinic {
   public employee !: Employee;
 
 
-  constructor(id: number, clinictype: Clinictype, doctor: Doctor, date: string, starttime: string, endtime: string, nurse1: Employee, nurse2: Employee, patientcount: number, totalincome: number, doctorpayment: number, clinicstatus: Clinicstatus, dopublish: string, employee: Employee) {
+  constructor(id: number, name: string, clinictype: Clinictype, doctor: Doctor, date: string, starttime: string, endtime: string, nurse1: Employee, nurse2: Employee, patientcount: number, totalincome: number, doctorpayment: number, clinicstatus: Clinicstatus, dopublish: string, employee: Employee) {
     this.id = id;
+    this.name = name;
     this.clinictype = clinictype;
     this.doctor = doctor;
     this.date = date;
