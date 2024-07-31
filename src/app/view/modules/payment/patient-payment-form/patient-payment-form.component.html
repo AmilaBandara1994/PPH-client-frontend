@@ -1,0 +1,187 @@
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
+  <!--    </mat-card-header>-->
+  <div id="clinicform">
+    <form [formGroup]="form">
+      <mat-grid-list cols="2" rowHeight="80px">
+
+<!--        <mat-grid-tile>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Select Patient Name</mat-label>-->
+<!--            <mat-select formControlName="patient">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let patient of patients" [value]="patient">{{ patient.name }}-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </mat-grid-tile>-->
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select appointment</mat-label>
+            <mat-select formControlName="appointment">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let appointment of appointments" [value]="appointment">{{ appointment.patient.name }}  -  Appointment NO :{{ appointment.number }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select Payment Status</mat-label>
+            <mat-select formControlName="paymentstatus">
+              <mat-option [value]="null" selected> Not Selected</mat-option>
+              <mat-option *ngFor="let paymentstatus of paymentstatuses"
+                          [value]="paymentstatus">{{ paymentstatus.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input type="number" matInput formControlName="amount">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Employee</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let employee of employees" [value]="employee">{{ employee.fullname }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Payment Type</mat-label>
+            <mat-select formControlName="paytype">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let paytype of paytypes" [value]="paytype">{{ paytype.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+        <div *ngIf="cardpayment">
+
+          <div id="innertable">
+
+            <mat-form [formGroup]="innerform">
+
+              <mat-grid-list cols="3" rowHeight="80px">
+
+                <mat-grid-tile>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Select Bank</mat-label>
+                    <mat-select formControlName="bank">
+                      <mat-option [value]="null" selected>Not Selected</mat-option>
+                      <mat-option *ngFor="let bank of banks" [value]="bank">{{ bank.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Card Number</mat-label>
+                    <input type="number" matInput formControlName="number">
+                  </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Branch Name</mat-label>
+                    <input type="text" matInput formControlName="bankbranch">
+                  </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+
+              <button mat-raised-button id="btnAdd" (click)="btnaddMc()" >Add</button>
+            </mat-form>
+
+            <mat-table [dataSource]="indata">
+              <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
+                <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
+                  <div *ngIf="i>=inbinders.length-1">
+                    <button mat-raised-button (click)="deleteRaw(element)">Remove</button>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
+            </mat-table>
+
+          </div>
+<!--          <mat-grid-list cols="3" rowHeight="80px">-->
+
+<!--            <mat-grid-tile>-->
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Select Bank</mat-label>-->
+<!--                <mat-select formControlName="bank">-->
+<!--                  <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                  <mat-option *ngFor="let bank of banks" [value]="bank">{{ bank.name }}</mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+<!--            </mat-grid-tile>-->
+
+<!--            <mat-grid-tile>-->
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Card Number</mat-label>-->
+<!--                <input type="number" matInput formControlName="description">-->
+<!--              </mat-form-field>-->
+<!--            </mat-grid-tile>-->
+
+<!--            <mat-grid-tile>-->
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Branch Name</mat-label>-->
+<!--                <input type="text" matInput formControlName="description">-->
+<!--              </mat-form-field>-->
+<!--            </mat-grid-tile>-->
+<!--          </mat-grid-list>-->
+        </div>
+        <!--        <mat-grid-tile>-->
+        <!--          <mat-form-field appearance="outline">-->
+        <!--            <mat-label>Date of Appointmented </mat-label>-->
+        <!--            <input matInput [matDatepicker]="dateofpublished" formControlName="date">-->
+        <!--            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>-->
+        <!--            <mat-datepicker #dateofpublished></mat-datepicker>-->
+        <!--          </mat-form-field>-->
+        <!--        </mat-grid-tile>-->
+
+
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+                    <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
