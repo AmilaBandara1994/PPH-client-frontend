@@ -230,7 +230,9 @@ getscheduledclinic(){
     } else {
       this.newappointment = this.form.getRawValue()
       this.newappointment.appointmentstatus = this.appointmentstatuses[0];
+
       this.newappointment.number = this.number
+
       let formdata: string = "";
 
       formdata = formdata + "<br>  Appointment number is  : " + this.newappointment.number;
@@ -438,7 +440,7 @@ getscheduledclinic(){
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Patient Clear",
+        heading: "Confirmation - Appointmnet Clear",
         message: "Are you sure to Clear following Details ? <br> <br>"
       }
     });

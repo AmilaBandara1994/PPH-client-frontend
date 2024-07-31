@@ -39,7 +39,6 @@ import {JwtInterceptor} from "./service/JwtInterceptor";
 import {AuthorizationManager} from "./service/authorizationmanager";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { OperationComponent } from './view/modules/operation/operation.component';
-import { PaymentComponent } from './view/modules/payment/payment.component';
 import { AttendanceComponent } from './view/modules/attendance/attendance.component';
 import { CliniccountbyclinictypeComponent } from './report/view/cliniccountbyclinictype/cliniccountbyclinictype.component';
 import { DoctorComponent } from './view/modules/doctor/doctor.component';
@@ -63,7 +62,6 @@ import { AppointmentComponent } from './view/modules/appointment/appointment.com
     MessageComponent,
     PrivilageComponent,
     OperationComponent,
-    PaymentComponent,
     AttendanceComponent,
     CliniccountbyclinictypeComponent,
     DoctorComponent,

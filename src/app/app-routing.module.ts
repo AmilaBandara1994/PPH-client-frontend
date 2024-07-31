@@ -8,8 +8,6 @@ import {UserComponent} from "./view/modules/user/user.component";
 import {CountByDesignationComponent} from "./report/view/countbydesignation/countbydesignation.component";
 import {ArrearsByProgramComponent} from "./report/view/arrearsbyprogram/arrearsbyprogram.component";
 import {AttendanceComponent} from "./view/modules/attendance/attendance.component";
-import {PaymentComponent} from "./view/modules/payment/payment.component";
-import {ClinicComponent} from "./view/modules/clinic/clinic.component";
 import {
   CliniccountbyclinictypeComponent
 } from "./report/view/cliniccountbyclinictype/cliniccountbyclinictype.component";
@@ -30,6 +28,7 @@ const routes: Routes = [
       {path: 'doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
       {path: 'clinic', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
       {path: 'appointment', loadChildren: () => import('./view/modules/appointment/appointment.module').then(m => m.AppointmentModule)},
+      {path: 'payment', loadChildren: () => import('./view/modules/payment/payment.module').then(m => m.PaymentModule)},
       //
       // {path: 'home/patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
       // {path: 'home/doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
@@ -43,7 +42,7 @@ const routes: Routes = [
       {path:"reports", component: ArrearsByProgramComponent},
       {path:"reports/cliniccountbyclinictype", component: CliniccountbyclinictypeComponent},
       {path:"reports/countbydesignation", component: CountByDesignationComponent},
-      {path:"payments",component:PaymentComponent},
+      // {path:"payments",component:PaymentComponent},
       {path: "home/payments", redirectTo: 'payments', pathMatch: 'full'},
       {path: "home/batchregistration", redirectTo: 'batchregistration', pathMatch: 'full'},
       {path: "home/students", redirectTo: 'students', pathMatch: 'full'},

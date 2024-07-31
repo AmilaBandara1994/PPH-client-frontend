@@ -17,6 +17,15 @@ export class AppointmentService {
     return appointments;
   }
 
+  async getallBypatientId(id:number): Promise<Array<Appointment>> {
+    const appointments = await this.http.get<Array<Appointment>>('http://localhost:8080/appointments/patientid/'+id).toPromise();
+    if(appointments == undefined){
+      return [];
+    }
+    return appointments;
+  }
+
+
   async get(id:number): Promise<Appointment|undefined> {
     const appointment = await this.http.get<Appointment>('http://localhost:8080/appointments/details/'+ id).toPromise();
     if(appointment == undefined){
