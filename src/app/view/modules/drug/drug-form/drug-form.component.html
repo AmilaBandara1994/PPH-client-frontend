@@ -1,0 +1,242 @@
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Creat a ' + title }}</span>
+  <!--    </mat-card-header>-->
+  <div id="clinicform">
+    <form [formGroup]="form">
+
+
+      <div class="flile-selector">
+        <div id="imgpanel">
+          <div class="img-outer">
+            <img [src]="imagedrugpurl">
+            <label for="userImage" id="selectbutton">Select</label>
+            <label id="clearbutton" (click)="clearImage()">Clear</label>
+          </div>
+          <input id="userImage" hidden="hidden" (change)="selectImage($event)" Select type="file"
+                 formControlName="photo">
+
+        </div>
+      </div>
+
+      <mat-grid-list cols="2" rowHeight="80px">
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Generic</mat-label>
+            <mat-select formControlName="generic">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let generic of generics" [value]="generic">{{ generic.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Brand</mat-label>
+            <mat-select formControlName="brand">
+              <mat-option [value]="null" selected> Not Selected</mat-option>
+              <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Drug Form</mat-label>
+            <mat-select formControlName="drugform">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let drugform of drugforms" [value]="drugform">{{ drugform.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Drug Route</mat-label>
+            <mat-select formControlName="drugroute">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let drugroute of drugroutes" [value]="drugroute">{{ drugroute.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Strength</mat-label>
+            <input type="number" matInput formControlName="strength">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput formControlName="description">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity on Hand</mat-label>
+            <input type="number" matInput formControlName="qoh">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Reorder Point (ROP)</mat-label>
+            <input type="number" matInput formControlName="rop">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Sales Price</mat-label>
+            <input type="number" matInput formControlName="sprice">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Purchase Price</mat-label>
+            <input type="number" matInput formControlName="pprice">
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Drug Status</mat-label>
+            <mat-select formControlName="drugstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let drugstatus of drugstatuses" [value]="drugstatus">{{ drugstatus.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Employee name</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let emp of employees" [value]="emp">{{ emp.fullname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Adverse Effects for this Drug</p>
+        </div>
+        <div class="listransfer-body">
+          <div class="list">
+            <mat-selection-list #availablelist1>
+              <mat-list-option multiple *ngFor="let adverseeffect of adverseeffects"
+                               [value]="adverseeffect">{{ adverseeffect.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="adrightSelected()">&gt;</button>
+            <button mat-raised-button (click)="adleftSelected()">&lt;</button>
+            <button mat-raised-button (click)="adrightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="adleftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="adverseeffect" #selectedlist1>
+              <mat-list-option *ngFor="let drugad of drugadverseeffects"
+                               [value]="drugad">{{ drugad.adverseeffect.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Indications for this Drug</p>
+        </div>
+
+        <div class="listransfer-body">
+
+          <div class="list">
+            <mat-selection-list #availablelist2>
+              <mat-list-option multiple *ngFor="let indication of indications" [value]="indication">{{ indication.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="inrightSelected()">&gt;</button>
+            <button mat-raised-button (click)="inleftSelected()">&lt;</button>
+            <button mat-raised-button (click)="inrightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="inleftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="indication" #selectedlist2>
+              <mat-list-option *ngFor="let indication of drugindications" [value]="indication">{{ indication.indication.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+        </div>
+      </div>
+
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Contraindications for this Drug</p>
+        </div>
+        <div class="listransfer-body">
+          <div class="list">
+            <mat-selection-list #availablelist3>
+              <mat-list-option multiple *ngFor="let contra of contraindications" [value]="contra">{{ contra.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="conrightSelected()">&gt;</button>
+            <button mat-raised-button (click)="conleftSelected()">&lt;</button>
+            <button mat-raised-button (click)="conrightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="conleftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="contaraindication" #selectedlist3>
+              <mat-list-option *ngFor="let contra of drugcontraindications" [value]="contra">{{ contra.contraindication.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
