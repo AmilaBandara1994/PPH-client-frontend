@@ -147,6 +147,7 @@ mat-nav-list mat-expansion-panel mat-list-item {
 .outer-container{
   background-color: var(--light-blue);
   padding: 3rem;
+  margin: 2rem 0;
 
 }
 .main-container{
@@ -157,6 +158,8 @@ mat-nav-list mat-expansion-panel mat-list-item {
 
 .side-nav{
   flex: 2;
+  margin: 2rem 0;
+
 }
 .nav-logo{
   margin: 3rem 2rem 2rem;
