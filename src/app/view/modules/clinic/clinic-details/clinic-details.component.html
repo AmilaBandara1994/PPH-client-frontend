@@ -1,0 +1,46 @@
+<div class="outer">
+
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()"><mat-icon>arrow_back</mat-icon>Back to View</button>
+  </div>
+  <p> Clinic Details </p>
+  <div class="outer-inner">
+
+    <div class="img-section">
+
+    </div>
+    <div class="when">
+      <div class="when-outer">
+        <div class="when-left">
+          <p>{{ clinic.clinictype.name }}</p>
+          <span > Clinic Status : {{ clinic.clinicstatus.name }}</span>
+          <span> Expected Patient Count : {{ clinic.patientcount }}</span>
+        </div>
+        <div class="when-right">
+          <p>{{ clinic.date | date }}</p>
+          <span> Start time : {{ clinic.starttime }}</span>
+          <span>End time : {{ clinic.endtime }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="details">
+      details
+    </div>
+    <div class="doctors">
+      <div class="doctor-card">
+         <div class="d-name"></div>
+        <div class="d-image"></div>
+        <div class="d-degree">
+
+        </div>
+      </div>
+    </div>
+    <div class="staff">
+      starf
+    </div>
+    <div class="btn-section">
+      <button mat-raised-button  (click)="updateform()">Update</button>
+    </div>
+  </div>
+
+</div>

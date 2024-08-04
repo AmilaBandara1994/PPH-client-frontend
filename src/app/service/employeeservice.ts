@@ -15,6 +15,11 @@ export class EmployeeService {
     // @ts-ignore
     return this.http.delete('http://localhost:8080/employees/' + id).toPromise();
   }
+  async countbydesignation(id: number): Promise<number|undefined>{
+    // @ts-ignore
+    return this.http.get<number>('http://localhost:8080/employees/countbydesination/' + id).toPromise();
+  }
+
 
   async update(employee: Employee): Promise<[]|undefined>{
     //console.log("Employee Updating-"+employee.id);

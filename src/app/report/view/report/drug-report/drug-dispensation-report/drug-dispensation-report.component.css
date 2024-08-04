@@ -1,0 +1,76 @@
+mat-card {  width: 100%;  height:100%;  margin: 10px 10px -10px 10px ; }
+
+mat-card-content { overflow: auto; height: 100%; }
+
+mat-card-header { background: #c0d9c3; }
+
+mat-row.mat-mdc-row:nth-child(even) {
+  background-color: lightgray!important;
+}
+
+/* Chart navigation*/
+
+.charts{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+.charts img{
+  width: 50px;
+  /*background-color: #0C407A;*/
+}
+.chart-sub{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chart-sub:hover{
+  color: #2339c7;
+}
+
+/* time styling*/
+
+.time{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0.5rem;
+}
+
+.time a{
+  color: white;
+  padding: 0.5rem;
+  background-color: #acb4f1;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.time a:hover{
+  background-color: #2339c7 ;
+}
+
+
+/*charts styling*/
+.container{
+  /*width: 100%;*/
+  /*height: 100%;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 1rem;
+}
+.pie, .line, .tabl, .bar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*width: 100%;*/
+}
+.tabl{
+  width: 100%;
+}

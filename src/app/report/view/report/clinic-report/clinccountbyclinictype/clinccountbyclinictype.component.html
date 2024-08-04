@@ -1,0 +1,85 @@
+<div class="charts">
+
+  <span (click)="bar()">
+    <img src="assets/my-img/icons/barchart.svg" alt="Bar chart">
+    <div class="bar chart-sub">
+      <p>Bar </p>
+    </div>
+  </span>
+  <span (click)="pie()">
+    <img src="assets/my-img/icons/pie.svg" alt="Bar chart">
+    <div class="pie chart-sub">
+      <p>Pie </p>
+    </div>
+  </span>
+  <span (click)="line()">
+    <img src="assets/my-img/icons/linechart.svg" alt="Bar chart">
+    <div class="line chart-sub">
+      <p>Line </p>
+    </div>
+  </span>
+  <span (click)="table()">
+    <img src="assets/my-img/icons/table.svg" alt="Bar chart">
+    <div class="line chart-sub">
+      <p>Table </p>
+    </div>
+ </span>
+  <div [formGroup]="form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Select a Duration</mat-label>
+      <mat-select formControlName="time">
+        <mat-option value="weekly">Weekly</mat-option>
+        <mat-option value="monthly">Monthly</mat-option>
+        <mat-option value="yearly">Yearly</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+
+<div class="tablesection">
+
+</div>
+
+<div class="report-header">
+  <p class="title">Count By Clinic Type</p>
+</div>
+<div class="container">
+  <div class="tabl" [ngStyle]="{ display:displyby === 'table'?  'unset' : 'none' } ">
+    <mat-table [dataSource]="data">
+      <ng-container *ngFor="let column of columns; let i = index;" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef> {{ headers[i] }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element[binders[i]] }}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+    </mat-table>
+
+  </div>
+  <div class="pie" [ngStyle]="{ display:displyby === 'pie'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-content>
+        <div #piechart></div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="bar" [ngStyle]="{ display:displyby === 'bar'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-content>
+        <div #barchart></div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="line" [ngStyle]="{ display:displyby === 'line'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-content>
+        <div #linechart></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+

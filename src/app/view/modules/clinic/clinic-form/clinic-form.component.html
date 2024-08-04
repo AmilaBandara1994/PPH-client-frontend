@@ -1,13 +1,25 @@
 <div class="outer">
   <!--    <mat-card-header>-->
   <div class="backtoview">
-    <button mat-raised-button class="btn-p" (click)="backtoview()"><mat-icon>arrow_back</mat-icon>Back to View</button>
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
   </div>
-  <span class="form-title">  {{ updatForm ? 'Update Clinic': 'Creat a Clinic'}}</span>
+  <span class="form-title">  {{ updatForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
   <!--    </mat-card-header>-->
   <div id="clinicform">
     <form [formGroup]="form">
       <mat-grid-list cols="2" rowHeight="80px">
+
+<!--        <mat-grid-tile>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Patient Count</mat-label>-->
+<!--            <input type="number" matInput formControlName="patientcount">-->
+<!--          </mat-form-field>-->
+<!--        </mat-grid-tile>-->
+
+
         <mat-grid-tile>
           <mat-form-field appearance="outline">
             <mat-label>Select a Clinictype</mat-label>
@@ -61,7 +73,7 @@
         <mat-grid-tile>
           <mat-form-field appearance="outline">
             <mat-label>Selet a Date for Clinic</mat-label>
-            <input matInput [matDatepicker]="clinicdate" formControlName="date">
+            <input matInput [min]="mindate" [matDatepicker]="clinicdate" formControlName="date">
             <mat-datepicker-toggle matIconSuffix [for]="clinicdate"></mat-datepicker-toggle>
             <mat-datepicker #clinicdate></mat-datepicker>
           </mat-form-field>
@@ -93,14 +105,14 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
+        <mat-grid-tile *ngIf="!updatForm">
           <mat-form-field appearance="outline">
             <mat-label>Doctor Payment</mat-label>
             <input type="number" matInput formControlName="doctorpayment">
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
+        <mat-grid-tile *ngIf="!updatForm">
           <mat-form-field appearance="outline">
             <mat-label>Total Income</mat-label>
             <input type="number" matInput formControlName="totalincome">
@@ -118,29 +130,27 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Date of Published</mat-label>
-            <input matInput [matDatepicker]="dateofpublished" formControlName="dopublish">
-            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
-            <mat-datepicker #dateofpublished></mat-datepicker>
-          </mat-form-field>
-        </mat-grid-tile>
+        <!--        <mat-grid-tile>-->
+        <!--          <mat-form-field appearance="outline">-->
+        <!--            <mat-label>Date of Published</mat-label>-->
+        <!--            <input matInput [matDatepicker]="dateofpublished" formControlName="dopublish">-->
+        <!--            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>-->
+        <!--            <mat-datepicker #dateofpublished></mat-datepicker>-->
+        <!--          </mat-form-field>-->
+        <!--        </mat-grid-tile>-->
 
       </mat-grid-list>
 
 
-
-
-          <div id="butpanel">
-            <div *ngIf="!updatForm">
-              <button mat-raised-button  (click)="add()"  >Add</button>
-            </div>
-            <div *ngIf="updatForm">
-              <button  mat-raised-button (click)="update()" >Update</button>
-            </div>
-            <button mat-stroked-button (click)="clear()">Clear</button>
-          </div>
+      <div id="butpanel">
+        <div *ngIf="!updatForm">
+          <button mat-raised-button [disabled]="!form.valid" (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updatForm">
+          <button mat-raised-button [disabled]="!form.valid" (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
     </form>
   </div>
 </div>

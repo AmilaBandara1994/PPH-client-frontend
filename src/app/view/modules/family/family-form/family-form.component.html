@@ -1,0 +1,103 @@
+<div class="outer">
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Creat a ' + title }}</span>
+  <div id="clinicform">
+    <form [formGroup]="form">
+
+
+      <mat-grid-list cols="2" rowHeight="6rem">
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The District</mat-label>
+            <mat-select formControlName="district">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let district of districts" [value]="district">{{ district.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <textarea matInput formControlName="address" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile No</mat-label>
+            <input type="text" matInput formControlName="mobile">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Land No</mat-label>
+            <input type="text" matInput formControlName="land">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Map Location</mat-label>
+            <input type="text" matInput formControlName="maplocation">
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Family Status</mat-label>
+            <mat-select formControlName="familystatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let familystatus of familystatuses" [value]="familystatus">{{ familystatus.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Employee name</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let emp of employees" [value]="emp">{{ emp.fullname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button [disabled]="!form.valid" (click)="add()" (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button [disabled]="!form.valid" (click)="add()" (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

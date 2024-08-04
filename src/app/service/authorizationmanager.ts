@@ -10,6 +10,11 @@ export class AuthorizationManager {
   private readonly localStorageRegMenus = 'regMenuState';
   private readonly localStorageClinicMenus = 'clinicMenuState';
   private readonly localStorageDoctorMenus = 'doctorMenuState';
+  private readonly localStorageDrugMenus = 'drugMenuState';
+  private readonly localStorageDiagnosisMenus = 'diagnosisMenuState';
+  private readonly localStoragePatientMenus = 'patientMenuState';
+  private readonly localStoragePrescriptionMenus = 'prescriptionMenuState';
+  private readonly localStorageAppointmentMenus = 'appointmentMenuState';
 
   public enaadd = false;
   public enaupd = false;
@@ -22,7 +27,7 @@ export class AuthorizationManager {
     { name: 'Operations', accessFlag: true, routerLink: 'operation' }
   ];
   clinicMenuItems = [
-    { name: 'Clinic', accessFlag: true, routerLink: 'clinic' }
+    { name: 'Clinic', accessFlag: true, routerLink: 'clinics' }
   ];
 
   regMenuItems = [
@@ -32,8 +37,24 @@ export class AuthorizationManager {
     { name: 'Mat. Distribution', accessFlag: true, routerLink: 'matdistribution' }
   ];
  docMenuItems = [
-    { name: 'Doctor', accessFlag: true, routerLink: 'doctor' },
+    { name: 'Doctor', accessFlag: true, routerLink: 'doctors' },
   ];
+  drugMenuItems = [
+    { name: 'Drug', accessFlag: true, routerLink: 'drugs' },
+  ];
+  diagnosisMenuItems = [
+    { name: 'Diagnosis', accessFlag: true, routerLink: 'diagnoses' },
+  ];
+  patientMenuItems = [
+    { name: 'Patient', accessFlag: true, routerLink: 'patients' },
+  ];
+  prescriptionMenuItems = [
+    { name: 'Patient', accessFlag: true, routerLink: 'prescription' },
+  ];
+  appointmentMenuItems = [
+    { name: 'Appointment', accessFlag: true, routerLink: 'appointments' },
+  ];
+
 
 
 
@@ -64,6 +85,22 @@ export class AuthorizationManager {
     this.docMenuItems.forEach(menuItem => {
       menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
     });
+    this.drugMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+    this.diagnosisMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+    this.patientMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+
+    this.prescriptionMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
+    this.appointmentMenuItems.forEach(menuItem => {
+      menuItem.accessFlag = modules.some(module => module.module.toLowerCase() === menuItem.name.toLowerCase());
+    });
 
 
     // Save menu state in localStorage
@@ -71,6 +108,11 @@ export class AuthorizationManager {
     localStorage.setItem(this.localStorageRegMenus, JSON.stringify(this.regMenuItems));
     localStorage.setItem(this.localStorageClinicMenus, JSON.stringify(this.clinicMenuItems));
     localStorage.setItem(this.localStorageDoctorMenus, JSON.stringify(this.docMenuItems));
+    localStorage.setItem(this.localStorageDrugMenus, JSON.stringify(this.drugMenuItems));
+    localStorage.setItem(this.localStorageDiagnosisMenus, JSON.stringify(this.diagnosisMenuItems));
+    localStorage.setItem(this.localStoragePatientMenus, JSON.stringify(this.patientMenuItems));
+    localStorage.setItem(this.localStoragePrescriptionMenus, JSON.stringify(this.prescriptionMenuItems));
+    localStorage.setItem(this.localStorageAppointmentMenus, JSON.stringify(this.appointmentMenuItems));
 
   }
 
@@ -146,6 +188,28 @@ export class AuthorizationManager {
     if (docMenuState) {
       this.docMenuItems = JSON.parse(docMenuState);
     }
+    const drugMenuState = localStorage.getItem(this.localStorageDrugMenus);
+    if (drugMenuState) {
+      this.drugMenuItems = JSON.parse(drugMenuState);
+    }
+    const diagnosisMenuState = localStorage.getItem(this.localStorageDiagnosisMenus);
+    if (diagnosisMenuState) {
+      this.diagnosisMenuItems = JSON.parse(diagnosisMenuState);
+    }
+    const patientMenuState = localStorage.getItem(this.localStoragePatientMenus);
+    if (patientMenuState) {
+      this.patientMenuItems = JSON.parse(patientMenuState);
+    }
+    const prescriptionMenuState = localStorage.getItem(this.localStoragePrescriptionMenus);
+    if (prescriptionMenuState) {
+      this.prescriptionMenuItems = JSON.parse(prescriptionMenuState);
+    }
+
+    const appointmentMenuState = localStorage.getItem(this.localStorageAppointmentMenus);
+    if (appointmentMenuState) {
+      this.appointmentMenuItems = JSON.parse(appointmentMenuState);
+    }
+
 
 
   }
@@ -163,6 +227,11 @@ export class AuthorizationManager {
     localStorage.removeItem(this.localStorageRegMenus);
     localStorage.removeItem(this.localStorageClinicMenus);
     localStorage.removeItem(this.localStorageDoctorMenus);
+    localStorage.removeItem(this.localStorageDrugMenus);
+    localStorage.removeItem(this.localStorageDiagnosisMenus);
+    localStorage.removeItem(this.localStoragePatientMenus);
+    localStorage.removeItem(this.localStoragePrescriptionMenus);
+    localStorage.removeItem(this.localStorageAppointmentMenus);
   }
 
   isMenuItemDisabled(menuItem: { accessFlag: boolean }): boolean {
