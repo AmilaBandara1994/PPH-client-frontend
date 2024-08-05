@@ -5,41 +5,30 @@
       <form [formGroup]="serversearch" >
         <div class="ss-container">
 
-<!--          <mat-form-field appearance="outline" style="flex: 1">-->
-<!--            <mat-label>Search By Drug Form</mat-label>-->
-<!--            <mat-select formControlName="ssdrugform">-->
-<!--              <mat-option [value]="null">Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let drugform of drugforms" [value]="drugform.id">{{ drugform.name }}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
-
-<!--          <mat-form-field appearance="outline">-->
-<!--            <mat-label>Search By Brand</mat-label>-->
-<!--            <mat-select formControlName="ssbrand">-->
-<!--              <mat-option [value]="null">Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
-
-<!--          <mat-form-field appearance="outline">-->
-<!--            <mat-label>Search By Generic</mat-label>-->
-<!--            <mat-select formControlName="ssgeneric">-->
-<!--              <mat-option [value]="null">Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let generic of generics" [value]="generic.id">{{ generic.name }}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
+          <mat-form-field appearance="outline" style="flex: 1">
+            <mat-label>Search By Severity</mat-label>
+            <mat-select formControlName="ssseverity">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let severity of severities" [value]="severity.id">{{ severity.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Name</mat-label>
+            <mat-label>Search By Treatment Plans</mat-label>
+            <mat-select formControlName="sstreatmentplan">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let tp of treatmentplans" [value]="tp.id">{{ tp.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Patient Name</mat-label>
             <input type="text" matInput formControlName="ssname">
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Code</mat-label>
-            <input type="text" matInput formControlName="sscode">
-          </mat-form-field>
-        </div>
 
+        </div>
 
         <div class="btn-g">
           <button mat-raised-button class="btn-p" (click)="btnSearchMc()"><mat-icon>search</mat-icon>Serch</button>

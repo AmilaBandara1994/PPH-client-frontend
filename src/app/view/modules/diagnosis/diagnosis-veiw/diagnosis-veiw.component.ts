@@ -15,11 +15,7 @@ import {Diagnosisstatus} from "../../../../entity/diagnosisstatus";
 import {Severity} from "../../../../entity/severity";
 import {Treatmentplan} from "../../../../entity/treatmentplan";
 import {Diagnosis} from "../../../../entity/diagnosis";
-import {Diseaseservice} from "../../../../service/diseaseservice";
-import {Symptomsservice} from "../../../../service/symptomsservice";
-import {Allergyservice} from "../../../../service/allergyservice";
 import {Diagnosisservice} from "../../../../service/diagnosisservice";
-import {Diagnosisstatusservice} from "../../../../service/diagnosisstatusservice";
 import {Severityservice} from "../../../../service/severityservice";
 import {Treatmentplanservice} from "../../../../service/treatmentplanservice";
 import {AppointmentService} from "../../../../service/appointment.service";
@@ -33,7 +29,7 @@ import {Employee} from "../../../../entity/employee";
 export class DiagnosisVeiwComponent {
   columns: string[] = ['patinetname', 'bpl','heartrate', 'temperature', 'date' , 'time','severity','modi'];
   headers: string[] = ['Patient Name', 'Blood Pressure', 'Heart Rate',  'Temperature', 'Date','Time','Severity','Modification'];
-  binders: string[] = ['appointment.patient.name', 'bloodpresure',  'heartrate','temperature' , 'date','time','severity.name'];
+  binders: string[] = ['appointment.patient.name', 'bloodpresure',  'heartrate','temperature' , 'date()','time()','severity.name'];
 
   cscolumns: string[] = ['csname', 'csfname'];
   csprompts: string[] = ['Search by Patient', 'Search by Family name' ];
@@ -84,11 +80,9 @@ export class DiagnosisVeiwComponent {
     });
 
     this.serversearch = this.formb.group({
-      "ssdrugform": new FormControl(),
-      "sscode": new FormControl(),
-      "ssgeneric": new FormControl(),
+      "ssseverity": new FormControl(),
+      "sstreatmentplan": new FormControl(),
       "ssname": new FormControl(),
-      "ssbrand": new FormControl()
     });
 
   }
@@ -135,6 +129,13 @@ export class DiagnosisVeiwComponent {
       });
 
   }
+  date(ele:Diagnosis){
+    return   this.datepipe.transform(new Date(ele.time), 'yyyy MM dd');
+  }
+  time(ele:Diagnosis){
+    return   this.datepipe.transform(new Date(ele.time), 'hh:mm a');
+  }
+
 
   filterTable(): void {
 
@@ -156,19 +157,15 @@ export class DiagnosisVeiwComponent {
 
     const sserchdata = this.serversearch.getRawValue();
 
-    let genericid = sserchdata.ssgeneric;
-    let drugformid = sserchdata.ssdrugform;
-    let code = sserchdata.sscode;
+    let ssseverity = sserchdata.ssseverity;
+    let sstreatmentplan = sserchdata.sstreatmentplan;
     let name = sserchdata.ssname;
-    let brandid = sserchdata.ssbrand;
 
     let query = "";
 
-    if (genericid != null) query = query + "&genericid=" + genericid;
-    if (drugformid != null) query = query + "&drugformid=" + drugformid;
-    if (code != null) query = query + "&code=" + code;
-    if (name != null) query = query + "&name=" + name;
-    if (brandid != null) query = query + "&brandid=" + brandid;
+    if (ssseverity != null) query = query + "&severityid=" + ssseverity;
+    if (sstreatmentplan != null) query = query + "&treatmentplanid=" + ssseverity;
+    if (name != null) query = query + "&patientname=" + name;
 
     if (query != "") query = query.replace(/^./, "?")
 

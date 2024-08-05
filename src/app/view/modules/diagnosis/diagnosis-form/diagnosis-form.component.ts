@@ -88,10 +88,9 @@ export class DiagnosisFormComponent {
     private allergyservice: Allergyservice,
     private diagnosisservice: Diagnosisservice,
     private diagnosisstatusservice: Diagnosisstatusservice,
-    private severityservice:Severityservice ,
+    private severityservice: Severityservice,
     private treatmentplanservice: Treatmentplanservice,
     private appointmentService: AppointmentService,
-
     private empS: EmployeeService,
     private _location: Location,
     private arouter: ActivatedRoute,
@@ -100,8 +99,6 @@ export class DiagnosisFormComponent {
     private dg: MatDialog,
     private dp: DatePipe,
     public authService: AuthorizationManager) {
-
-
 
 
     this.form = this.fb.group({
@@ -140,13 +137,15 @@ export class DiagnosisFormComponent {
   ngOnInit() {
 
     this.id = this.arouter.snapshot.params['id'];
-    if(this.arouter.snapshot.params['id']){
-      // @ts-ignore
-      this.diagnosisservice.get(this.id).then((diagnosis: Diagnosis) => {
-        this.oldDiagnosis = diagnosis;
-        this.newDiagnosis = diagnosis;
-        this.updateForm  = true;
-        console.log(this.newDiagnosis);
+    if (this.arouter.snapshot.params['id']) {
+
+      this.diagnosisservice.get(this.id).then((diagnosis: Diagnosis | undefined) => {
+        if (diagnosis != undefined) {
+          this.oldDiagnosis = diagnosis;
+          this.newDiagnosis = diagnosis;
+        }
+        this.updateForm = true;
+        console.log('diakdjfdf ', diagnosis);
         this.fillForm();
       });
 
@@ -176,7 +175,6 @@ export class DiagnosisFormComponent {
     })
 
 
-
     this.diseaseservice.getAll().then((diseases: Disease[]) => {
       this.diseases = diseases;
     })
@@ -188,24 +186,36 @@ export class DiagnosisFormComponent {
       this.allergies = allergies;
     });
 
-    // this.doctorss.getAllList('')then((docs: Doctor[]) => {
-    //   this.regexes = regs;
-    //   this.createForm();
-    // });
-    // this.getscheduledclinic();
-    // this.getcountbyclinic();
+    this.rs.get("diagnoses").then((regs: []) => {
+      this.regexes = regs;
+      this.createForm();
+    });
+
   }
 
   createForm() {
 
-    this.form.controls['clinic'].setValidators([Validators.required]);
-    this.form.controls['number'].setValidators([Validators.required]);
-    this.form.controls['patient'].setValidators([Validators.required]);
-    this.form.controls['drugstatus'].setValidators([Validators.required]);
-    this.form.controls['drugtype'].setValidators([Validators.required]);
-    this.form.controls['date'].setValidators([Validators.required]);
-    this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['appointment'].setValidators([Validators.required]);
+    this.form.controls['onsetduration'].setValidators([Validators.required]);
+    this.form.controls['disease'].setValidators([Validators.required]);
+    this.form.controls['bloodpresure'].setValidators([Validators.required, Validators.pattern(this.regexes['bloodpresure']['regex'])]);
+    this.form.controls['severity'].setValidators([Validators.required]);
+    this.form.controls['heartrate'].setValidators([Validators.required, Validators.pattern(this.regexes['heartrate']['regex'])]);
+    this.form.controls['temperature'].setValidators([Validators.required, Validators.pattern(this.regexes['temperature']['regex'])]);
+    this.form.controls['respiratoryrate'].setValidators([Validators.required, Validators.pattern(this.regexes['respiratoryreate']['regex'])]);
+
+    this.form.controls['height'].setValidators([Validators.required, Validators.pattern(this.regexes['height']['regex'])]);
+    this.form.controls['weight'].setValidators([Validators.required, Validators.pattern(this.regexes['weight']['regex'])]);
+    this.form.controls['treatmentplan'].setValidators([Validators.required]);
+    this.form.controls['examination'].setValidators([Validators.required]);
+    this.form.controls['allergy'].setValidators([Validators.required]);
+    this.form.controls['medicalhistory'].setValidators([Validators.required]);
+    this.form.controls['surgicalhistory'].setValidators([Validators.required]);
+    this.form.controls['doctornote'].setValidators([Validators.required]);
+
+    this.form.controls['diagnosisstatus'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required]);
+    this.form.controls['employee'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach(control => {
       control.markAsTouched();
@@ -214,9 +224,6 @@ export class DiagnosisFormComponent {
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       control.valueChanges.subscribe(value => {
-          // @ts-ignore
-          if (controlName == "dobirth" || controlName == "doassignment")
-            value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
 
           if (this.newDiagnosis != undefined && control.valid) {
             // @ts-ignore
@@ -255,10 +262,6 @@ export class DiagnosisFormComponent {
     } else {
       this.newDiagnosis = this.form.getRawValue();
 
-      console.log(this.symptomsdiagnoses)
-      console.log(this.diseasediagnoses)
-      console.log(this.allergydiagnoses)
-
       this.newDiagnosis.diseasediagnoses = this.diseasediagnoses;
       this.newDiagnosis.symptomsdiagnoses = this.symptomsdiagnoses;
       this.newDiagnosis.allergydiagnoses = this.allergydiagnoses;
@@ -280,7 +283,7 @@ export class DiagnosisFormComponent {
 
       let addstatus: boolean = false;
       let addmessage: string = "Server Not Found";
-      console.log('thsi is from add before service call ' , this.newDiagnosis);
+      console.log('thsi is from add before service call ', this.newDiagnosis);
       confirm.afterClosed().subscribe(async result => {
         if (result) {
 
@@ -345,42 +348,25 @@ export class DiagnosisFormComponent {
   }
 
   fillForm() {
-    //
-    // if (this.newDrug != undefined) {
-    //
-    //
-    //   if (this.newDrug.photo != null) {
-    //     this.imagedrugpurl = atob(this.newDrug.photo);
-    //     this.form.controls['photo'].clearValidators();
-    //   } else {
-    //     this.clearImage();
-    //   }
-    //   this.newDrug.photo = "";
-    //
-    //
-    //   this.drugadverseeffects = this.newDrug.drugadverseeffects;
-    //   // this.adverseeffects = this.adverseeffects.filter(ad => !this.drugadverseeffects.includes(ad));
-    //   // this.adverseeffects = this.drugadverseeffects.filter(ad => !this.adverseeffects.includes(ad));
-    //
-    //   this.drugindications = this.newDrug.drugindications;
-    //   // this.indications = this.indications.filter(ad => !this.indications.includes(ad));
-    //
-    //   this.drugcontraindications = this.newDrug.drugcontraindications
-    //   // this.contraindications = this.contraindications.filter(ad => !this.drugcontraindications.includes(ad));
-    //
-    //   //@ts-ignore
-    //   this.newDrug.drugroute = this.drugroutes.find(a => a.id === this.newDrug.drugroute.id);
-    //   //@ts-ignore
-    //   this.newDrug.drugform = this.drugforms.find(p => p.id === this.newDrug.drugform.id);
-    //   //@ts-ignore
-    //   this.newDrug.employee = this.employees.find(e => e.id === this.newDrug.employee.id);
-    //
-    //   //@ts-ignore
-    //   this.newDrug.drugstatus = this.drugstatuses.find(a => a.id === this.newDrug.drugstatus.id);
-    //
-    //   this.form.patchValue(this.newDrug);
-    //   this.form.markAsPristine();
-    // }
+
+    if (this.newDiagnosis != undefined) {
+
+
+      //@ts-ignore
+      this.newDiagnosis.appointment = this.appointments.find(a => a.id === this.newDiagnosis.appointment.id);
+      //@ts-ignore
+      this.newDiagnosis.severity = this.severities.find(p => p.id === this.newDiagnosis.severity.id);
+      //@ts-ignore
+      this.newDiagnosis.treatmentplan = this.treatmentplans.find(e => e.id === this.newDiagnosis.treatmentplan.id);
+
+      //@ts-ignore
+      this.newDiagnosis.diagnosisstatus = this.diseasediagnoses.find(a => a.id === this.newDiagnosis.diagnosisstatus.id);
+      //@ts-ignore
+      this.newDiagnosis.employee = this.employees.find(a => a.id === this.newDiagnosis.employee.id);
+
+      this.form.patchValue(this.newDiagnosis);
+      this.form.markAsPristine();
+    }
 
   }
 
@@ -400,126 +386,97 @@ export class DiagnosisFormComponent {
 
   update() {
 
-    // let errors = this.getErrors();
-    //
-    // if (errors != "") {
-    //
-    //   const errmsg = this.dg.open(MessageComponent, {
-    //     width: '500px',
-    //     data: {heading: "Errors - " + this.title + " Update ", message: "You have following Errors <br> " + errors}
-    //   });
-    //   errmsg.afterClosed().subscribe(async result => {
-    //     if (!result) {
-    //       return;
-    //     }
-    //   });
-    //
-    // } else {
-    //
-    //   let updates: string = this.getUpdates();
-    //
-    //   if (updates != "") {
-    //
-    //     let updstatus: boolean = false;
-    //     let updmessage: string = "Server Not Found";
-    //
-    //     const confirm = this.dg.open(ConfirmComponent, {
-    //       width: '500px',
-    //       data: {
-    //         heading: "Confirmation - " + this.title + " Update",
-    //         message: "Are you sure to Save following Updates? <br> <br>" + updates
-    //       }
-    //     });
-    //     confirm.afterClosed().subscribe(async result => {
-    //       if (result) {
-    //         //console.log("EmployeeService.update()");
-    //         this.newDrug = this.form.getRawValue();
-    //         if (this.form.controls['photo'].dirty) this.newDrug.photo = btoa(this.imagedrugpurl);
-    //         this.newDrug.photo = this.oldDrug.photo;
-    //         this.newDrug.id = this.oldDrug.id;
-    //
-    //
-    //         //set name and code
-    //         this.newDrug.name = this.generateName(this.newDrug.brand.name, this.newDrug.generic.name, this.newDrug.strength.toString());
-    //         this.newDrug.code = this.generateCode(this.newDrug.brand, this.newDrug.generic.name);
-    //
-    //         this.newDrug.drugadverseeffects = this.drugadverseeffects;
-    //         this.newDrug.drugindications = this.drugindications;
-    //         this.newDrug.drugcontraindications = this.drugcontraindications;
-    //
-    //
-    //         console.log(this.newDrug)
-    //         this.drugS.update(this.newDrug).then((responce: [] | undefined) => {
-    //           if (responce != undefined) { // @ts-ignore
-    //             //console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
-    //             // @ts-ignore
-    //             updstatus = responce['errors'] == "";
-    //             //console.log("Upd Sta-" + updstatus);
-    //             if (!updstatus) { // @ts-ignore
-    //               updmessage = responce['errors'];
-    //             }
-    //           } else {
-    //             //console.log("undefined");
-    //             updstatus = false;
-    //             updmessage = "Content Not Found"
-    //           }
-    //         }).finally(() => {
-    //           if (updstatus) {
-    //             updmessage = "Successfully Updated";
-    //             this.form.reset();
-    //             // this.clearImage();
-    //             Object.values(this.form.controls).forEach(control => {
-    //               control.markAsTouched();
-    //             });
-    //             // this.loadTable("");
-    //           }
-    //
-    //           const stsmsg = this.dg.open(MessageComponent, {
-    //             width: '500px',
-    //             data: {heading: "Status " + this.title + " Add", message: updmessage}
-    //           });
-    //           stsmsg.afterClosed().subscribe(async result => {
-    //             if (!result) {
-    //               return;
-    //             }
-    //           });
-    //
-    //         });
-    //       }
-    //     });
-    //   } else {
-    //
-    //     const updmsg = this.dg.open(MessageComponent, {
-    //       width: '500px',
-    //       data: {heading: "Confirmation - " + this.title + " Update", message: "Nothing Changed"}
-    //     });
-    //     updmsg.afterClosed().subscribe(async result => {
-    //       if (!result) {
-    //         return;
-    //       }
-    //     });
-    //
-    //   }
-    // }
+    let errors = this.getErrors();
+
+    if (errors != "") {
+
+      const errmsg = this.dg.open(MessageComponent, {
+        width: '500px',
+        data: {heading: "Errors - " + this.title + " Update ", message: "You have following Errors <br> " + errors}
+      });
+      errmsg.afterClosed().subscribe(async result => {
+        if (!result) {
+          return;
+        }
+      });
+
+    } else {
+
+      let updates: string = this.getUpdates();
+
+      if (updates != "") {
+
+        let updstatus: boolean = false;
+        let updmessage: string = "Server Not Found";
+
+        const confirm = this.dg.open(ConfirmComponent, {
+          width: '500px',
+          data: {
+            heading: "Confirmation - " + this.title + " Update",
+            message: "Are you sure to Save following Updates? <br> <br>" + updates
+          }
+        });
+        confirm.afterClosed().subscribe(async result => {
+          if (result) {
 
 
-  }
+            //set name and code
 
+            console.log(this.newDiagnosis)
+            this.diagnosisservice.update(this.newDiagnosis).then((responce: [] | undefined) => {
+              if (responce != undefined) { // @ts-ignore
+                //console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
+                // @ts-ignore
+                updstatus = responce['errors'] == "";
+                //console.log("Upd Sta-" + updstatus);
+                if (!updstatus) { // @ts-ignore
+                  updmessage = responce['errors'];
+                }
+              } else {
+                //console.log("undefined");
+                updstatus = false;
+                updmessage = "Content Not Found"
+              }
+            }).finally(() => {
+              if (updstatus) {
+                updmessage = "Successfully Updated";
+                this.form.reset();
+                // this.clearImage();
+                Object.values(this.form.controls).forEach(control => {
+                  control.markAsTouched();
+                });
+                // this.loadTable("");
+              }
 
-  selectImage(e: any): void {
-    if (e.target.files) {
-      let reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = (event: any) => {
-        this.imagedrugpurl = event.target.result;
-        this.form.controls['photo'].clearValidators();
+              const stsmsg = this.dg.open(MessageComponent, {
+                width: '500px',
+                data: {heading: "Status " + this.title + " Add", message: updmessage}
+              });
+              stsmsg.afterClosed().subscribe(async result => {
+                if (!result) {
+                  return;
+                }
+              });
+
+            });
+          }
+        });
+      } else {
+
+        const updmsg = this.dg.open(MessageComponent, {
+          width: '500px',
+          data: {heading: "Confirmation - " + this.title + " Update", message: "Nothing Changed"}
+        });
+        updmsg.afterClosed().subscribe(async result => {
+          if (!result) {
+            return;
+          }
+        });
+
       }
     }
-  }
 
-  clearImage(): void {
-    this.imagedrugpurl = 'assets/default.png';
-    this.form.controls['photo'].setErrors({'required': true});
+
   }
 
   alrightSelected(): void {
@@ -528,7 +485,7 @@ export class DiagnosisFormComponent {
       const allergydiagnosis = new Allergydiagnosis(option.value);
       this.allergies = this.allergies.filter(ad => ad !== option.value); //Remove Selected
       this.allergydiagnoses.push(allergydiagnosis); // Add selected to Right Side
-        console.log(this.allergydiagnoses)
+      console.log(this.allergydiagnoses)
     });
 
     this.form.controls["allergydiagnoses"].clearValidators();
@@ -538,7 +495,7 @@ export class DiagnosisFormComponent {
   alrightAll(): void {
     this.availablelist3.selectAll().map(option => {
       console.log(option.value)
-      const allergydiagnosis = new Allergydiagnosis( option.value);
+      const allergydiagnosis = new Allergydiagnosis(option.value);
       this.allergies = this.allergies.filter(ad => ad !== option.value);
       this.allergydiagnoses.push(allergydiagnosis);
       console.log(this.allergydiagnoses)
@@ -608,7 +565,7 @@ export class DiagnosisFormComponent {
   dirightSelected(): void {
     this.availablelist1.selectedOptions.selected.map(option => {
       const diseasediagnosis = new Diseasediagnosis(option.value);
-      this. diseases = this.diseases.filter(ad => ad !== option.value); //Remove Selected
+      this.diseases = this.diseases.filter(ad => ad !== option.value); //Remove Selected
       this.diseasediagnoses.push(diseasediagnosis); // Add selected to Right Side
     });
 
@@ -629,7 +586,7 @@ export class DiagnosisFormComponent {
   dileftSelected(): void {
     const selectedOptions = this.selectedlist1.selectedOptions.selected; // Right Side
     for (const option of selectedOptions) {
-      const extDisease= option.value;
+      const extDisease = option.value;
       this.diseasediagnoses = this.diseasediagnoses.filter(ad => {
         ad !== extDisease
       }); // Remove the Selected one From Right Side

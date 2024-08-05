@@ -5,6 +5,7 @@ import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ReportService} from "../../../../reportservice";
 import {Countbytreatmentplan} from "../../../../entity/countbytreatmentplan";
+import {MatPaginator} from "@angular/material/paginator";
 
 declare var google: any;
 @Component({
@@ -20,6 +21,7 @@ export class CountByTreatmentplanComponent {
 
   countbytreatmentplan!: Countbytreatmentplan[];
   data!: MatTableDataSource<Countbytreatmentplan>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columns: string[] = ['treatmentplan', 'count', 'percentage'];
   headers: string[] = ['Treatment Plan', 'Count', 'Percentage'];
@@ -66,6 +68,7 @@ export class CountByTreatmentplanComponent {
 
   loadTable() : void{
     this.data = new MatTableDataSource(this.countbytreatmentplan);
+    this.data.paginator = this.paginator;
   }
 
   loadCharts() : void{

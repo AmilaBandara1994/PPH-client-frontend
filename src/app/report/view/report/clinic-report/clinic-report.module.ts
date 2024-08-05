@@ -12,6 +12,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatIconModule} from "@angular/material/icon";
         ReactiveFormsModule,
         MatCardModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatPaginatorModule
     ]
 })
 export class ClinicReportModule { }

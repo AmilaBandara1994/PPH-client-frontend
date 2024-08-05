@@ -5,6 +5,7 @@ import {ReportService} from "../../../../reportservice";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
 
 declare var google:any
 
@@ -20,6 +21,7 @@ export class ClinccountbyclinictypeComponent {
 
   clinicbyclinictype!: ClinicCountByClinictype[];
   data!: MatTableDataSource<ClinicCountByClinictype>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columns: string[] = ['clinicType', 'clinicCount', 'patientcount'];
   headers: string[] = ['Clinic-Type', 'Clinic-Count', 'Patient-Count'];
@@ -61,6 +63,7 @@ export class ClinccountbyclinictypeComponent {
 
   loadTable() : void{
     this.data = new MatTableDataSource(this.clinicbyclinictype);
+    this.data.paginator = this.paginator;
   }
 
   loadCharts() : void{

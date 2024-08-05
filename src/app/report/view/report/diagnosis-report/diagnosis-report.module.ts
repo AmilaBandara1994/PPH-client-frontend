@@ -13,6 +13,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -20,19 +21,20 @@ import {MatGridListModule} from "@angular/material/grid-list";
     DiagnosisReportComponent,
     CountByTreatmentplanComponent
   ],
-  imports: [
-    CommonModule,
-    DiagnosisReportRoutingModule,
-    MatButtonModule,
-    MatIconModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatTableModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatGridListModule
-  ]
+    imports: [
+        CommonModule,
+        DiagnosisReportRoutingModule,
+        MatButtonModule,
+        MatIconModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatGridListModule,
+        MatPaginatorModule
+    ]
 })
 export class DiagnosisReportModule { }

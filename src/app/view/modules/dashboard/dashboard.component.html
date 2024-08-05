@@ -40,7 +40,9 @@
 
 
     <div class="chart">
-      <img src="assets/my-img/banner/cliniccountpie.png" alt="clinic count chart">
+      <a routerLink="../report">
+        <img src="assets/my-img/banner/cliniccountpie.png" alt="clinic count chart">
+      </a>
     </div>
 
 
@@ -79,7 +81,7 @@
           <img src="assets/my-img/icons/patient.svg" alt="Patient">
         </div>
         <div class="dashcard-body">
-          <span>{{ patientcount}}</span>
+          <span>{{ patientcount }}</span>
           <p>Total Patients</p>
         </div>
       </div>
@@ -88,7 +90,7 @@
           <img src="assets/my-img/icons/nurse.svg" alt="Nurse">
         </div>
         <div class="dashcard-body">
-          <span>{{patientcount}}</span>
+          <span>{{ patientcount }}</span>
           <p>Available Staff</p>
         </div>
       </div>
@@ -104,8 +106,8 @@
     </div>
 
 
-    <div class="emergency" >
-      <a  routerLink="../appointment">
+    <div class="emergency">
+      <a routerLink="../appointment">
         <div class="emer-banner">
           <div class="emer-body">
             <span>Emergency? The Worlds wait for find Doctor easy way</span>

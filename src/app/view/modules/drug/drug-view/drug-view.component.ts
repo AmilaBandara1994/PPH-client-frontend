@@ -231,8 +231,8 @@ export class DrugViewComponent {
     const confirm = this.dialog.open(ConfirmComponent, {
       width: '500px',
       data: {
-        heading: "Confirmation - Appointment Delete",
-        message: "Are you sure to Delete the Appointment ? <br> <br>" + drug.name
+        heading: "Confirmation - Drug Delete",
+        message: "Are you sure to Delete the Drug ? <br> <br>" + drug.name
       }
     });
 
@@ -261,7 +261,7 @@ export class DrugViewComponent {
 
           const stsmsg = this.dialog.open(MessageComponent, {
             width: '500px',
-            data: {heading: "Status - Appointment Deleted ", message: delmessage}
+            data: {heading: "Status - Drug Deleted ", message: delmessage}
           });
           stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
 

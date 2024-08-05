@@ -202,9 +202,9 @@ export class DrugFormComponent {
   }
 
   generateCode(brand: Brand, generic: string) {
-    let str = generic.slice(0, 3).toUpperCase();
-    let str2 = brand.name.slice(0, 3).toUpperCase();
-    return str + '-' + str2 + brand.id;
+    let str = generic.slice(0, 2).toUpperCase();
+    let str2 = brand.name.slice(0, 2).toUpperCase();
+    return str + '-' + str2+ '-'+ this.dp.transform( new Date, 'yyMMddhhmm');
   }
 
   // getscheduledclinic(){

@@ -6,7 +6,7 @@
       Back to View
     </button>
   </div>
-  <span class="form-title">  {{ updateForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
+  <span class="form-title">  {{ updateForm ? 'Update Appointment' : 'Creat a Appointment' }}</span>
   <!--    </mat-card-header>-->
   <div id="clinicform">
     <form [formGroup]="form">
@@ -83,14 +83,14 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Date of Appointmented </mat-label>
-            <input matInput [matDatepicker]="dateofpublished" formControlName="date">
-            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
-            <mat-datepicker #dateofpublished></mat-datepicker>
-          </mat-form-field>
-        </mat-grid-tile>
+<!--        <mat-grid-tile>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Date of Appointmented </mat-label>-->
+<!--            <input matInput [matDatepicker]="dateofpublished" formControlName="date">-->
+<!--            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #dateofpublished></mat-datepicker>-->
+<!--          </mat-form-field>-->
+<!--        </mat-grid-tile>-->
     </mat-grid-list>
 
 
