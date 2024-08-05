@@ -56,7 +56,6 @@ export class DiagnosisVeiwComponent {
   treatmentplans: Array<Treatmentplan> = [];
 
   regexes: any;
-
   uiassist: UiAssist;
 
   constructor(

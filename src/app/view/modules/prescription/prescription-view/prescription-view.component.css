@@ -1,33 +1,38 @@
-
 .outer{
-  background-color: #FFFFFF;
-  border-radius: 20px;
-  position: relative;
-  padding: 1rem ;
-  margin: 2rem 0.5rem ;
+  margin: 2rem;
+}
+.search{
+  padding: 1rem;
+
 }
 
+.mat-table{
+  width: fit-content !important;
+}
+.mat-form-field{
+  margin: 0 1rem !important;
+}
 
-mat-card {  width: 100%;  height:100%;  margin: 10px 10px -10px 10px ; }
+/*mat-card {  height:100%;  margin: 10px 10px -10px 10px ; }*/
 
-mat-card-content { overflow: auto; height: 100%; }
+/*mat-card-content { overflow: auto; height: 100%; }*/
 
 /*mat-card-header { background: #c0d9c3; }*/
 
 #loading img{ width: 30px; height: 25px; margin-left: 200px;}
 
-.csearch{   height: 40px;   width: 100%;  margin-top: 5px;    }
+.csearch{   height: 40px;     margin-top: 5px;    }
 
 #ssearch mat-card-content{   padding-top: 30px; }
 
-#ssearch mat-form-field { padding-left: 15px; width: 200px; }
+/*#ssearch mat-form-field { padding-left: 15px; width: 200px; }*/
 
 #ssearch button{ width: 195px; margin-left:10px; margin-top: 5px; background-color: #435f3b;   }
 
 
 
 /* Employee Form */
-#employeeform {
+#clinicform {
   padding-top: 20px;
 }
 
@@ -48,7 +53,7 @@ mat-card-content { overflow: auto; height: 100%; }
   display: block;
   margin-left: 150px;
   margin-bottom: 5px;
-  background-color: var(--primary-color);
+  background-color: darkolivegreen;
   color: white;
   padding: 8px;
   border-radius: 5px;
@@ -68,7 +73,7 @@ mat-card-content { overflow: auto; height: 100%; }
 #butpanel button{
   width: 82px;
   margin:3px;
-  background-color:var(--primary-color);
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -97,3 +102,40 @@ button:disabled {
 
 
 
+.example-card {
+  /*max-width: 400px;*/
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.table-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+.table-right{
+
+}
+
+.ss-container{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex: 4;
+  gap: 1rem;
+}
+.ss-container mat-form-field{
+  flex: 1;
+}
+.header-row{
+  background-color: var(--theme-secondary) !important;
+}
+
+.btn-table{
+  z-index: 100;
+}
