@@ -193,15 +193,17 @@ export class PrescriptionFormComponent {
 
 
   fillForm() {
+    setTimeout(() => {
+      //@ts-ignore
+      this.newpresciption.appointment = this.appointments.find(s => s.id === this.newpresciption.appointment.id);
+      //@ts-ignore
+      this.newpresciption.prescriptionstatus = this.prescriptionstatuses.find(e => e.id === this.newpresciption.prescriptionstatus.id);
 
-    //@ts-ignore
-    this.newpresciption.appointment = this.appointments.find(s => s.id === this.newpresciption.appointment.id);
-    //@ts-ignore
-    this.newpresciption.prescriptionstatus = this.prescriptionstatuses.find(e => e.id === this.newpresciption.prescriptionstatus.id);
+      this.indata = new MatTableDataSource(this.newpresciption.prescriptiondrugs);
+      this.form.patchValue(this.newpresciption);
+      this.form.markAsPristine();
+    }, 500);
 
-    this.indata = new MatTableDataSource(this.newpresciption.prescriptiondrugs);
-    this.form.patchValue(this.newpresciption);
-    this.form.markAsPristine();
 
   }
 
@@ -325,6 +327,8 @@ export class PrescriptionFormComponent {
     } else {
 
       let updates: string = this.getUpdates();
+      this.newpresciption.prescriptiondrugs = this.prescriptiondrugs
+
 
       if (updates != "") {
 
@@ -345,12 +349,6 @@ export class PrescriptionFormComponent {
 
             this.newpresciption.id = this.oldpresciption.id;
 
-            // @ts-ignore
-            this.poitems.forEach((i)=> delete  i.id);
-
-
-            // @ts-ignore
-            this.purorder.date = this.dp.transform(this.purorder.date,"yyyy-MM-dd");
 
             this.prescriptionService.update(this.newpresciption).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
@@ -405,11 +403,18 @@ export class PrescriptionFormComponent {
   getUpdates(): string {
 
     let updates: string = "";
+
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.dirty) {
         updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
+    }
+    let newarr = this.newpresciption.prescriptiondrugs.length
+    let oldarr = this.prescriptiondrugs.length
+    console.log(newarr , oldarr)
+    if(newarr != oldarr){
+      updates +=" <br> Drug table has been Changed "
     }
     return updates;
   }

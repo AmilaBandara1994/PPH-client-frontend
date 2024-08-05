@@ -2,7 +2,11 @@
 .outer{
   background-color: #FFFFFF;
   border-radius: 20px;
+  position: relative;
+  padding: 1rem ;
+  margin: 2rem 0.5rem ;
 }
+
 
 mat-card {  width: 100%;  height:100%;  margin: 10px 10px -10px 10px ; }
 

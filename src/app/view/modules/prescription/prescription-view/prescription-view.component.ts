@@ -15,6 +15,13 @@ import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.componen
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
 import {Prescription} from "../../../../entity/prescription";
 import {PrescriptionService} from "../../../../service/prescriptionservice";
+import {Meal} from "../../../../entity/meal";
+import {Drugschedule} from "../../../../entity/drugschedule";
+import {Dosage} from "../../../../entity/dosage";
+import {Prescriptionstatus} from "../../../../entity/prescriptionstatus";
+import {Clinictype} from "../../../../entity/clinictype";
+import {ClinictypeService} from "../../../../service/clinictype.service";
+import {Prescriptionstatusservice} from "../../../../service/prescriptionstatusservice";
 
 @Component({
   selector: 'app-prescription-view',
@@ -22,12 +29,12 @@ import {PrescriptionService} from "../../../../service/prescriptionservice";
   styleUrls: ['./prescription-view.component.css']
 })
 export class PrescriptionViewComponent {
-  columns: string[] = ['appointment', 'presstate','date','drug'];
-  headers: string[] = ['Appointment', 'Prescription Status', 'Date','Drug'];
-  binders: string[] = ['appointment.number', 'prescriptionstatus.name',  'date()', 'drug()'];
+  columns: string[] = ['appointment', 'presstate', 'clinictype', 'date','drug', 'modi'];
+  headers: string[] = ['Appointment', 'Prescription Status','Clinic Type', 'Date','Drug',''];
+  binders: string[] = ['appointment.number', 'prescriptionstatus.name', 'appointment.clinic.clinictype.name', 'date()', 'drug()'];
 
-  cscolumns: string[] = ['csname', 'csfname'];
-  csprompts: string[] = ['Search by Patient', 'Search by Family name' ];
+  cscolumns: string[] = ['appointnumber'];
+  csprompts: string[] = ['Search by Appointment number'];
 
 
   title:string = "Prescription";
@@ -44,6 +51,9 @@ export class PrescriptionViewComponent {
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  prescriptionstatuses: Array<Prescriptionstatus> = [];
+  appointments: Array<Appointment> = [];
+  clinictypes: Array<Clinictype> = [];
 
 
   regexes: any;
@@ -51,7 +61,8 @@ export class PrescriptionViewComponent {
 
   constructor(
     private prescriptionService:PrescriptionService ,
-    private treatmentplanservice: Treatmentplanservice,
+    private prescriptionstatusservice:Prescriptionstatusservice ,
+    private clinictypeService: ClinictypeService,
 
     private router: Router,
     private rs: RegexService,
@@ -63,14 +74,15 @@ export class PrescriptionViewComponent {
     this.uiassist = new UiAssist(this);
 
     this.clinetsearch = this.formb.group({
-      "csname": new FormControl(),
-      "csfname": new FormControl(),
+      "appointnumber": new FormControl(),
     });
 
     this.serversearch = this.formb.group({
-      "ssseverity": new FormControl(),
-      "sstreatmentplan": new FormControl(),
-      "ssname": new FormControl(),
+      "ssprescripstate": new FormControl(),
+      // "ssdate": new FormControl(),
+      "ssappoitno": new FormControl(),
+      "sspatientname": new FormControl(),
+      "ssclinictype": new FormControl(),
     });
 
   }
@@ -83,9 +95,18 @@ export class PrescriptionViewComponent {
 
     this.createView();
 
-    // this.prescriptionService.getAll('').then((prescriptions: Prescription[]) => {
-    //   this.prescriptions = prescriptions;
-    // })
+    this.prescriptionService.getAll('').then((prescriptions: Prescription[]) => {
+      this.prescriptions = prescriptions;
+    })
+
+    this.clinictypeService.getAllList().then((clinictypes: Clinictype[]) => {
+      this.clinictypes = clinictypes;
+    })
+
+    this.prescriptionstatusservice.getAll().then((prescriptionstatuses: Prescriptionstatus[]) => {
+      this.prescriptionstatuses = prescriptionstatuses;
+    })
+
 
   }
 
@@ -132,11 +153,9 @@ export class PrescriptionViewComponent {
 
 
     // @ts-ignore
-    this.data.filterPredicate = (app: Appointment, filter: string) => {
+    this.data.filterPredicate = (app: Prescription, filter: string) => {
       return
-      (cserchdata.csname == null || app.patient.name.toLowerCase().includes(cserchdata.csname)) &&
-      (cserchdata.csfname == null || app.patient.family.name.toLowerCase().includes(cserchdata.csfname)) ;
-    };
+      (cserchdata.appointnumber == null || app.appointment.number.toLowerCase().includes(cserchdata.appointnumber))};
 
     this.data.filter = 'xx';
 
@@ -146,14 +165,17 @@ export class PrescriptionViewComponent {
 
     const sserchdata = this.serversearch.getRawValue();
 
-    let ssseverity = sserchdata.ssseverity;
-    let sstreatmentplan = sserchdata.sstreatmentplan;
-    let name = sserchdata.ssname;
+    let ssprescripstate = sserchdata.ssprescripstate;
+    let ssappoitno = sserchdata.ssappoitno;
+    let sspatientname = sserchdata.sspatientname;
+    let ssclinictype = sserchdata.ssclinictype;
 
     let query = "";
 
-    if (ssseverity != null) query = query + "&severityid=" + ssseverity;
-    if (sstreatmentplan != null) query = query + "&treatmentplanid=" + ssseverity;
+    if (ssprescripstate != null) query = query + "&prescriptionstatusid=" + ssprescripstate;
+    if (ssclinictype != null) query = query + "&clinictypeid=" + ssclinictype;
+    if (ssappoitno != null) query = query + "&appointmentnumber=" + ssappoitno;
+    if (sspatientname != null) query = query + "&sspatientname=" + sspatientname;
     if (name != null) query = query + "&patientname=" + name;
 
     if (query != "") query = query.replace(/^./, "?")

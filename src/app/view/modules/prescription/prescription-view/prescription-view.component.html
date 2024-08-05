@@ -5,26 +5,31 @@
       <form [formGroup]="serversearch" >
         <div class="ss-container">
 
-<!--          <mat-form-field appearance="outline" style="flex: 1">-->
-<!--            <mat-label>Search By Severity</mat-label>-->
-<!--            <mat-select formControlName="ssseverity">-->
-<!--              <mat-option [value]="null">Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let severity of severities" [value]="severity.id">{{ severity.name }}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
+          <mat-form-field appearance="outline" style="flex: 1">
+            <mat-label>Search By Clinic type</mat-label>
+            <mat-select formControlName="ssclinictype">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype.id">{{ clinictype.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-<!--          <mat-form-field appearance="outline">-->
-<!--            <mat-label>Search By Treatment Plans</mat-label>-->
-<!--            <mat-select formControlName="sstreatmentplan">-->
-<!--              <mat-option [value]="null">Not Selected</mat-option>-->
-<!--              <mat-option *ngFor="let tp of treatmentplans" [value]="tp.id">{{ tp.name }}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
+          <mat-form-field appearance="outline">
+            <mat-label>Search By Prescription Status</mat-label>
+            <mat-select formControlName="ssprescripstate">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let ps of prescriptionstatuses" [value]="ps.id">{{ ps.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
 
           <mat-form-field appearance="outline">
             <mat-label>Patient Name</mat-label>
-            <input type="text" matInput formControlName="ssname">
+            <input type="text" matInput formControlName="sspatientname">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Appointment Number</mat-label>
+            <input type="text" matInput formControlName="ssappoitno">
           </mat-form-field>
 
 
