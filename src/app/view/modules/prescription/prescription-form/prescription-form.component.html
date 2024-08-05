@@ -1,0 +1,126 @@
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Add ' + title }}</span>
+  <div id="clinicform">
+    <form [formGroup]="form">
+      <mat-grid-list cols="2" rowHeight="80px">
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Appointment</mat-label>
+            <mat-select formControlName="appointment">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let obj of appointments"
+                          [value]="obj">{{ obj.number }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Prescription Status</mat-label>
+            <mat-select formControlName="prescriptionstatus">
+              <mat-option *ngFor="let obj of prescriptionstatuses" [value]="obj">{{ obj.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <div class="edu">
+
+        <div id="innertable">
+          <p>Add Drugs </p>
+
+          <mat-form [formGroup]="innerform">
+            <div class="edu-group">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Drug Name</mat-label>
+                <mat-select formControlName="drug">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let obj of drugs" [value]="obj">{{ obj.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Drug Schedule</mat-label>
+                <mat-select formControlName="drugschedule">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let obj of drugschedules" [value]="obj">{{ obj.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>When to Take</mat-label>
+                <mat-select formControlName="meal">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let obj of meals" [value]="obj">{{ obj.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>How much</mat-label>
+                <mat-select formControlName="dosage">
+                  <mat-option [value]="null" selected>Not Selected</mat-option>
+                  <mat-option *ngFor="let obj of dosages" [value]="obj">{{ obj.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Dosage Description</mat-label>
+                <input type="text" matInput formControlName="dose">
+              </mat-form-field>
+
+
+              <mat-form-field appearance="outline">
+                <mat-label>How Often description</mat-label>
+                <input type="text" matInput formControlName="days">
+              </mat-form-field>
+
+
+            </div>
+            <button mat-raised-button id="btnAdd" [disabled]="!innerform.valid" (click)="btnaddMc()">Add Drug</button>
+          </mat-form>
+
+
+          <mat-table [dataSource]="indata">
+            <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">
+              <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>
+              <mat-cell *matCellDef="let element" >
+                <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>
+                <div *ngIf="i>=inbinders.length-1">
+                  <button mat-raised-button (click)="deleteRaw(element)">Remove</button>
+                </div>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>
+          </mat-table>
+
+        </div>
+      </div>
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
+

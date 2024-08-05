@@ -1,41 +1,36 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Diagnosis} from "../../../../entity/diagnosis";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {Appointment} from "../../../../entity/appointment";
 import {UiAssist} from "../../../../util/ui/ui.assist";
+import {Treatmentplanservice} from "../../../../service/treatmentplanservice";
 import {Router} from "@angular/router";
 import {RegexService} from "../../../../service/regexservice";
 import {MatDialog} from "@angular/material/dialog";
 import {DatePipe} from "@angular/common";
 import {AuthorizationManager} from "../../../../service/authorizationmanager";
-import {Appointment} from "../../../../entity/appointment";
 import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.component";
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
-import {Diagnosisstatus} from "../../../../entity/diagnosisstatus";
-import {Severity} from "../../../../entity/severity";
-import {Treatmentplan} from "../../../../entity/treatmentplan";
-import {Diagnosis} from "../../../../entity/diagnosis";
-import {Diagnosisservice} from "../../../../service/diagnosisservice";
-import {Severityservice} from "../../../../service/severityservice";
-import {Treatmentplanservice} from "../../../../service/treatmentplanservice";
-import {AppointmentService} from "../../../../service/appointment.service";
-import {Employee} from "../../../../entity/employee";
+import {Prescription} from "../../../../entity/prescription";
+import {PrescriptionService} from "../../../../service/prescriptionservice";
 
 @Component({
-  selector: 'app-diagnosis-veiw',
-  templateUrl: './diagnosis-veiw.component.html',
-  styleUrls: ['./diagnosis-veiw.component.css']
+  selector: 'app-prescription-view',
+  templateUrl: './prescription-view.component.html',
+  styleUrls: ['./prescription-view.component.css']
 })
-export class DiagnosisVeiwComponent {
-  columns: string[] = ['patinetname', 'bpl','heartrate', 'temperature', 'date' , 'time','severity','modi'];
-  headers: string[] = ['Patient Name', 'Blood Pressure', 'Heart Rate',  'Temperature', 'Date','Time','Severity','Modification'];
-  binders: string[] = ['appointment.patient.name', 'bloodpresure',  'heartrate','temperature' , 'date()','time()','severity.name'];
+export class PrescriptionViewComponent {
+  columns: string[] = ['appointment', 'presstate','date','drug'];
+  headers: string[] = ['Appointment', 'Prescription Status', 'Date','Drug'];
+  binders: string[] = ['appointment.number', 'prescriptionstatus.name',  'date()', 'drug()'];
 
   cscolumns: string[] = ['csname', 'csfname'];
   csprompts: string[] = ['Search by Patient', 'Search by Family name' ];
 
 
-  title:string = "Diagnosis ";
+  title:string = "Prescription";
 
 
   public clinetsearch!: FormGroup;
@@ -43,26 +38,20 @@ export class DiagnosisVeiwComponent {
 
   selectedrow: any;
 
-  diagnoses:Array<Diagnosis> =[];
+  prescriptions:Array<Prescription> =[];
 
-  data!: MatTableDataSource<Diagnosis>;
+  data!: MatTableDataSource<Prescription>;
   imageurl: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  employees: Array<Employee> = [];
-  appointments: Array<Appointment> = [];
-  diagnosisstatuses: Array<Diagnosisstatus> = [];
-  severities: Array<Severity> = [];
-  treatmentplans: Array<Treatmentplan> = [];
+
 
   regexes: any;
   uiassist: UiAssist;
 
   constructor(
-    private severityservice:Severityservice ,
+    private prescriptionService:PrescriptionService ,
     private treatmentplanservice: Treatmentplanservice,
-    private appointmentService: AppointmentService,
-    private diagnosisservice: Diagnosisservice,
 
     private router: Router,
     private rs: RegexService,
@@ -94,15 +83,9 @@ export class DiagnosisVeiwComponent {
 
     this.createView();
 
-    this.appointmentService.getAll('').then((appointments: Appointment[]) => {
-      this.appointments = appointments;
-    });
-    this.severityservice.getAll().then((severities: Severity[]) => {
-      this.severities = severities;
-    });
-    this.treatmentplanservice.getAll().then((treatmentplans: Treatmentplan[]) => {
-      this.treatmentplans = treatmentplans;
-    })
+    // this.prescriptionService.getAll('').then((prescriptions: Prescription[]) => {
+    //   this.prescriptions = prescriptions;
+    // })
 
   }
 
@@ -113,9 +96,9 @@ export class DiagnosisVeiwComponent {
 
   loadTable(query: string) {
 
-    this.diagnosisservice.getAll(query)
-      .then((diagnoses: Diagnosis[]) => {
-        this.diagnoses = diagnoses;
+    this.prescriptionService.getAll(query)
+      .then((prescriptions: Prescription[]) => {
+        this.prescriptions = prescriptions;
         this.imageurl = 'assets/fullfilled.png';
       })
       .catch((error) => {
@@ -123,17 +106,24 @@ export class DiagnosisVeiwComponent {
         this.imageurl = 'assets/rejected.png';
       })
       .finally(() => {
-        this.data = new MatTableDataSource(this.diagnoses);
+        this.data = new MatTableDataSource(this.prescriptions);
         this.data.paginator = this.paginator;
       });
 
   }
-  date(ele:Diagnosis){
-    return   this.datepipe.transform(new Date(ele.time), 'yyyy MM dd');
+  date(ele:Prescription){
+    return   this.datepipe.transform(new Date(ele.date), 'yyyy MM dd');
   }
-  time(ele:Diagnosis){
-    return   this.datepipe.transform(new Date(ele.time), 'hh:mm a');
+  drug(ele:Prescription){
+    let out = '';
+    ele.prescriptiondrugs.map(el=>{
+      out += el.drug.name +" "
+    })
+    return out;
   }
+  // time(ele:Diagnosis){
+  //   return   this.datepipe.transform(new Date(ele.time), 'hh:mm a');
+  // }
 
 
   filterTable(): void {
@@ -187,13 +177,13 @@ export class DiagnosisVeiwComponent {
     });
   }
 
-  delete(diagnosis:Diagnosis) {
-    console.log(diagnosis)
+  delete(prescription:Prescription) {
+    console.log(prescription)
     const confirm = this.dialog.open(ConfirmComponent, {
       width: '500px',
       data: {
         heading: "Confirmation - " + this.title + " Delete",
-        message: "Are you sure to Delete the Diagnosis Data ? <br> <br>" + diagnosis.appointment.number
+        message: "Are you sure to Delete the Presciption  Data related to appointment number ? <br> <br>" + prescription.appointment.number
       }
     });
 
@@ -202,7 +192,7 @@ export class DiagnosisVeiwComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.diagnosisservice.delete(diagnosis.id).then((responce: [] | undefined) => {
+        this.prescriptionService.delete(prescription.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -234,11 +224,11 @@ export class DiagnosisVeiwComponent {
 
 
 
-  viewDetails(diagnosis:Diagnosis) {
-    this.router.navigateByUrl('main/diagnosis/details/'+diagnosis.id);
+  viewDetails(prescription:Prescription) {
+    this.router.navigateByUrl('main/prescription/details/'+prescription.id);
   }
 
-  updateclinic(diagnosis:Diagnosis) {
-    this.router.navigateByUrl('main/diagnosis/update/'+diagnosis.id);
+  updateclinic(prescription:Prescription) {
+    this.router.navigateByUrl('main/prescription/update/'+prescription.id);
   }
 }
