@@ -122,9 +122,10 @@ export class DrugFormComponent {
       "drugroute": new FormControl('', [Validators.required]),
       "drugstatus": new FormControl('', [Validators.required]),
       "brand": new FormControl('', [Validators.required]),
-      "indication": new FormControl(),
+
+      "drugindication": new FormControl(),
       "drugadverseeffect": new FormControl(),
-      "contaraindication": new FormControl(),
+      "drugcontaraindication": new FormControl(),
 
       "photo": new FormControl(),
       "description": new FormControl('', [Validators.required]),
@@ -201,9 +202,9 @@ export class DrugFormComponent {
   }
 
   generateCode(brand: Brand, generic: string) {
-    let str = generic.slice(0, 3).toUpperCase();
-    let str2 = brand.name.slice(0, 3).toUpperCase();
-    return str + '-' + str2 + brand.id;
+    let str = generic.slice(0, 2).toUpperCase();
+    let str2 = brand.name.slice(0, 2).toUpperCase();
+    return str + '-' + str2+ '-'+ this.dp.transform( new Date, 'yyMMddhhmm');
   }
 
   // getscheduledclinic(){
@@ -296,6 +297,8 @@ export class DrugFormComponent {
       this.newDrug.name = this.generateName(this.newDrug.brand.name, this.newDrug.generic.name, this.newDrug.strength.toString());
       this.newDrug.code = this.generateCode(this.newDrug.brand, this.newDrug.generic.name);
 
+      this.newDrug.photo = btoa(this.imagedrugpurl);
+
 
       this.newDrug.drugadverseeffects = this.drugadverseeffects;
       this.newDrug.drugindications = this.drugindications;
@@ -321,6 +324,7 @@ export class DrugFormComponent {
       confirm.afterClosed().subscribe(async result => {
         if (result) {
 
+          console.log('this  is drug ', this.newDrug)
           this.drugS.add(this.newDrug).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
@@ -560,11 +564,12 @@ export class DrugFormComponent {
   }
 
   adrightSelected(): void {
-    this.availablelist1.selectedOptions.selected.map(option => {
+    this.newDrug.drugadverseeffects = this.availablelist1.selectedOptions.selected.map(option => {
       const drugadverseeffect = new Drugadverseeffect(option.value);
       this.adverseeffects = this.adverseeffects.filter(ad => ad !== option.value); //Remove Selected
       this.drugadverseeffects.push(drugadverseeffect); // Add selected to Right Side
       // this.a drugadverseeffect;
+      return drugadverseeffect;
     });
 
     this.form.controls["drugadverseeffect"].clearValidators();
@@ -572,10 +577,12 @@ export class DrugFormComponent {
   }
 
   adrightAll(): void {
-    this.availablelist1.selectAll().map(option => {
+    this.newDrug.drugadverseeffects = this.availablelist1.selectAll().map(option => {
+      console.log(option.value)
       const drugadverseeffect = new Drugadverseeffect( option.value);
       this.adverseeffects = this.adverseeffects.filter(ad => ad !== option.value);
-      this.drugadverseeffects.push(drugadverseeffect);
+      this.drugadverseeffects.push(drugadverseeffect)
+      return drugadverseeffect;
     });
 
     this.form.controls["drugadverseeffect"].clearValidators();
@@ -607,8 +614,8 @@ export class DrugFormComponent {
       // this.a drugadverseeffect;
     });
 
-    this.form.controls["drugadverseeffect"].clearValidators();
-    this.form.controls["drugadverseeffect"].updateValueAndValidity(); // Update status
+    this.form.controls["drugindication"].clearValidators();
+    this.form.controls["drugindication"].updateValueAndValidity(); // Update status
   }
 
   inrightAll(): void {
@@ -617,8 +624,8 @@ export class DrugFormComponent {
       this.indications = this.indications.filter(ad => ad !== option.value);
       this.drugindications.push(drugindication);
     });
-    this.form.controls["drugadverseeffect"].clearValidators();
-    this.form.controls["drugadverseeffect"].updateValueAndValidity();
+    this.form.controls["drugindication"].clearValidators();
+    this.form.controls["drugindication"].updateValueAndValidity();
   }
 
   inleftSelected(): void {
@@ -646,8 +653,8 @@ export class DrugFormComponent {
       this.drugcontraindications.push(drugcontraindication); // Add selected to Right Side
     });
 
-    this.form.controls["drugadverseeffect"].clearValidators();
-    this.form.controls["drugadverseeffect"].updateValueAndValidity(); // Update status
+    this.form.controls["drugcontaraindication"].clearValidators();
+    this.form.controls["drugcontaraindication"].updateValueAndValidity(); // Update status
   }
 
   conrightAll(): void {
@@ -656,8 +663,8 @@ export class DrugFormComponent {
       this.contraindications = this.contraindications.filter(ad => ad !== option.value);
       this.drugcontraindications.push(drugcontraindication);
     });
-    this.form.controls["drugadverseeffect"].clearValidators();
-    this.form.controls["drugadverseeffect"].updateValueAndValidity();
+    this.form.controls["drugcontaraindication"].clearValidators();
+    this.form.controls["drugcontaraindication"].updateValueAndValidity();
   }
 
   conleftSelected(): void {
@@ -699,5 +706,4 @@ export class DrugFormComponent {
     this._location.back();
   }
 
-  protected readonly Drugindication = Drugindication;
 }

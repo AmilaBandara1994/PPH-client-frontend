@@ -156,7 +156,7 @@
           </div>
 
           <div class="list">
-            <mat-selection-list formControlName="adverseeffect" #selectedlist1>
+            <mat-selection-list formControlName="drugadverseeffect" #selectedlist1>
               <mat-list-option *ngFor="let drugad of drugadverseeffects"
                                [value]="drugad">{{ drugad.adverseeffect.name }}
               </mat-list-option>
@@ -189,7 +189,7 @@
           </div>
 
           <div class="list">
-            <mat-selection-list formControlName="indication" #selectedlist2>
+            <mat-selection-list formControlName="drugindication" #selectedlist2>
               <mat-list-option *ngFor="let indication of drugindications" [value]="indication">{{ indication.indication.name }}
               </mat-list-option>
             </mat-selection-list>
@@ -218,7 +218,7 @@
           </div>
 
           <div class="list">
-            <mat-selection-list formControlName="contaraindication" #selectedlist3>
+            <mat-selection-list formControlName="drugcontaraindication" #selectedlist3>
               <mat-list-option *ngFor="let contra of drugcontraindications" [value]="contra">{{ contra.contraindication.name }}
               </mat-list-option>
             </mat-selection-list>

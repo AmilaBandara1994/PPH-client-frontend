@@ -2,6 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ReportService} from "../../reportservice";
 import {MatTableDataSource} from "@angular/material/table";
 import {ClinicCountByClinictype} from "../../entity/cliniccountbyclinictype";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Location} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
 
 declare var google:any
 
@@ -11,6 +14,9 @@ declare var google:any
   styleUrls: ['./cliniccountbyclinictype.component.css']
 })
 export class CliniccountbyclinictypeComponent implements OnInit{
+  selected = 'monthly';
+  displyby:string= "table";
+  public form!: FormGroup;
 
   clinicbyclinictype!: ClinicCountByClinictype[];
   data!: MatTableDataSource<ClinicCountByClinictype>;
@@ -23,8 +29,19 @@ export class CliniccountbyclinictypeComponent implements OnInit{
   @ViewChild('piechart', { static: false }) piechart: any;
   @ViewChild('linechart', { static: false }) linechart: any;
 
-  constructor(private rs: ReportService) {
+  constructor(
+    private rs: ReportService,
+  private _location: Location,
+  private arouter: ActivatedRoute,
+  private fb: FormBuilder,
+  ) {
     //Define Interactive Panel with Needed Form Elements
+
+
+    this.form = this.fb.group({
+      "time": new FormControl(),
+    }, {updateOn: 'change'});
+
   }
 
   ngOnInit(): void {
@@ -36,6 +53,8 @@ export class CliniccountbyclinictypeComponent implements OnInit{
       console.log(this.clinicbyclinictype)
       this.loadTable();
       this.loadCharts();
+      this.getvalue()
+
     });
 
   }
@@ -101,6 +120,31 @@ export class CliniccountbyclinictypeComponent implements OnInit{
 
     const lineChart = new google.visualization.LineChart(this.linechart.nativeElement);
     lineChart.draw(lineData, lineOptions);
+  }
+
+  getvalue(){
+    this.form.get('time')?.valueChanges.subscribe((value:string) =>{
+      if(value == null )return;
+      console.log(value);
+    });
+  }
+
+
+  table() {
+    this.displyby="table"
+  }
+
+  line() {
+    this.displyby="line"
+  }
+
+  bar(){
+    this.displyby="bar"
+
+  }
+  pie(){
+    this.displyby="pie"
+
   }
 
 

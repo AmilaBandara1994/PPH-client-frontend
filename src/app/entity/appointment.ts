@@ -7,7 +7,7 @@ import {Employee} from "./employee";
 export class Appointment {
 
   public id !: number;
-  public number !: number;
+  public number !: string;
   public clinic !: Clinic;
   public patient !: Patient;
   public appointmentstatus !: Appointmentstatus;
@@ -17,7 +17,7 @@ export class Appointment {
   public description !: string;
 
 
-  constructor(id: number, number: number, clinic: Clinic, patient: Patient, appointmentstatus: Appointmentstatus, appointmenttype: Appointmenttype, employee: Employee, date: string, description: string) {
+  constructor(id: number, number: string, clinic: Clinic, patient: Patient, appointmentstatus: Appointmentstatus, appointmenttype: Appointmenttype, employee: Employee, date: string, description: string) {
     this.id = id;
     this.number = number;
     this.clinic = clinic;

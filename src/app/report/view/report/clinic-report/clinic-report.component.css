@@ -1,0 +1,31 @@
+.outer{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+.router-out{
+  width: 100%;
+}
+
+.nav{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+}
+.nav a{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.backtoview{
+  width: 100%;
+  margin-left: 4rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}

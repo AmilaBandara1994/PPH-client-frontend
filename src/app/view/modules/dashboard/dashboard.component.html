@@ -1,0 +1,138 @@
+<div class="outer-wrapper">
+  <div class="inner-wrapper">
+
+
+    <div class="banner">
+      <div class="banner-content">
+        <div class="banner-image">
+          <img src="assets/my-img/banner/doctor-bg.png" alt="">
+        </div>
+        <div class="desc">
+          <p>Hi, {{ name }}</p>
+          <p>
+            <span>Find a Doctor and make an</span> <br>
+            appointment Online!
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="profile">
+      <div class="profile-content">
+        <div class="prof-left">
+          <img src="assets/my-img/user.png" alt="Profile picture">
+          <div class="prof-name">
+            <p>{{ name }}</p>
+            <span>Visitor</span>
+          </div>
+        </div>
+        <div class="prof-right">
+          <mat-icon>notifications</mat-icon>
+        </div>
+
+      </div>
+      <div class="search">
+        <mat-icon>search</mat-icon>
+        <span>Search a Doctor</span>
+      </div>
+    </div>
+
+
+    <div class="chart">
+      <a routerLink="../report">
+        <img src="assets/my-img/banner/cliniccountpie.png" alt="clinic count chart">
+      </a>
+    </div>
+
+
+    <div class="specialist-card">
+      <div class="special-header">
+        <span>
+            All Specialists
+        </span>
+      </div>
+      <div class="special-body">
+        <div class="special-card">
+          <div class="special-icon">
+            <img src="../../../../assets/my-img/icons/cardiology.svg" alt="">
+          </div>
+          <p class="speciality">Cardiology</p>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">
+            <img src="../../../../assets/my-img/icons/neurology.svg" alt="neurology">
+          </div>
+          <p class="speciality">Neurology</p>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">
+            <img src="../../../../assets/my-img/icons/opthalmology.svg" alt="Opthalmology">
+          </div>
+          <p class="speciality">Opthalmology</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="dash-card">
+      <div class="dashcard-card">
+        <div class="dashcard-icon">
+          <img src="assets/my-img/icons/patient.svg" alt="Patient">
+        </div>
+        <div class="dashcard-body">
+          <span>{{ patientcount }}</span>
+          <p>Total Patients</p>
+        </div>
+      </div>
+      <div class="dashcard-card">
+        <div class="dashcard-icon">
+          <img src="assets/my-img/icons/nurse.svg" alt="Nurse">
+        </div>
+        <div class="dashcard-body">
+          <span>{{ patientcount }}</span>
+          <p>Available Staff</p>
+        </div>
+      </div>
+      <div class="dashcard-card">
+        <div class="dashcard-icon">
+          <img src="assets/my-img/icons/doctor.svg" alt="Doctor">
+        </div>
+        <div class="dashcard-body">
+          <span>{{ patientcount }}</span>
+          <p>Total Patients</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="emergency">
+      <a routerLink="../appointment">
+        <div class="emer-banner">
+          <div class="emer-body">
+            <span>Emergency? The Worlds wait for find Doctor easy way</span>
+          </div>
+          <div class="emer-img">
+            <img src="assets/my-img/banner/doctor-cartoon-bg.png" alt="doctor">
+          </div>
+        </div>
+      </a>
+    </div>
+
+
+    <div class="schedule">
+      <div class="schedule-header">
+        <span>Schedule</span>
+      </div>
+      <div class="schedule-body">
+        <div class="schedule-clinic">
+          <div class="col title-sub">Cardiology</div>
+          <div class="col">OPD1</div>
+          <div class="col">Wed</div>
+          <div class="col">09.00 AM</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

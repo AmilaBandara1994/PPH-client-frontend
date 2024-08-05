@@ -2,6 +2,7 @@ import {CountByDesignation} from "./entity/countbydesignation";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {ClinicCountByClinictype} from "./entity/cliniccountbyclinictype";
+import {Countbytreatmentplan} from "./entity/countbytreatmentplan";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,15 @@ export class ReportService {
       return [];
     }
     return cliniccountby;
+  }
+
+  async countbytreatmentplan(): Promise<Array<Countbytreatmentplan>> {
+
+    const countbytreatmentplan = await this.http.get<Array<Countbytreatmentplan>>('http://localhost:8080/reports/diagnosiscountbytreatmentplan').toPromise();
+    if(countbytreatmentplan == undefined){
+      return [];
+    }
+    return countbytreatmentplan;
   }
 
 }

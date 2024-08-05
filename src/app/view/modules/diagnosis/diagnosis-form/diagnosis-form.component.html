@@ -1,0 +1,272 @@
+<script src="../../drug/drug-form/drug-form.component.ts"></script>
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Creat a ' + title }}</span>
+  <!--    </mat-card-header>-->
+  <div id="clinicform">
+    <form [formGroup]="form">
+
+      <mat-grid-list cols="2" rowHeight="6rem" >
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Appointment number</mat-label>
+            <mat-select formControlName="appointment">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let appointment of appointments" [value]="appointment">{{ appointment.number }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>How long have you been suffering ?</mat-label>
+            <textarea matInput formControlName="onsetduration" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Disease</mat-label>
+            <textarea matInput formControlName="disease" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Blood Presure Level (BP)</mat-label>
+            <input type="text" matInput formControlName="bloodpresure">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Severity</mat-label>
+            <mat-select formControlName="severity">
+              <mat-option [value]="null" selected> Not Selected</mat-option>
+              <mat-option *ngFor="let severity of severities" [value]="severity">{{ severity.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Heart Rate</mat-label>
+            <input type="text" matInput formControlName="heartrate">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Temperature</mat-label>
+            <input type="text" matInput formControlName="temperature">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+         <mat-form-field appearance="outline">
+          <mat-label>Repiratory Rate</mat-label>
+          <input type="text" matInput formControlName="respiratoryrate">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Weight (kg/bls)</mat-label>
+            <input type="text" matInput formControlName="weight">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Height (feet/cm)</mat-label>
+            <input type="text" matInput formControlName="height">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Treatment Plan</mat-label>
+            <mat-select formControlName="treatmentplan">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let treatmentplan of treatmentplans" [value]="treatmentplan">{{ treatmentplan.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Examination</mat-label>
+            <textarea matInput formControlName="examination" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Allergy Description (Only if have)</mat-label>
+            <textarea matInput formControlName="allergy" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Medical History </mat-label>
+            <textarea matInput formControlName="medicalhistory" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Surgical History</mat-label>
+            <textarea matInput formControlName="surgicalhistory" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Doctor Note</mat-label>
+            <textarea matInput formControlName="doctornote" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Diagnosis Status</mat-label>
+            <mat-select formControlName="diagnosisstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let diagnosisstatus of diagnosisstatuses" [value]="diagnosisstatus">{{ diagnosisstatus.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Employee name</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let emp of employees" [value]="emp">{{ emp.fullname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Disease </p>
+        </div>
+        <div class="listransfer-body">
+          <div class="list">
+            <mat-selection-list #availablelist1>
+              <mat-list-option multiple *ngFor="let disease of diseases"
+                               [value]="disease">{{ disease.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="dirightSelected()">&gt;</button>
+            <button mat-raised-button (click)="dileftSelected()">&lt;</button>
+            <button mat-raised-button (click)="dirightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="dileftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="diseasediagnoses" #selectedlist1>
+              <mat-list-option *ngFor="let diseasediagnosis of diseasediagnoses"
+                               [value]="diseasediagnosis">{{ diseasediagnosis.disease.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Symptoms </p>
+        </div>
+
+        <div class="listransfer-body">
+
+          <div class="list">
+            <mat-selection-list #availablelist2>
+              <mat-list-option multiple *ngFor="let symptoms of symptoms" [value]="symptoms">{{ symptoms.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="syrightSelected()">&gt;</button>
+            <button mat-raised-button (click)="syleftSelected()">&lt;</button>
+            <button mat-raised-button (click)="syrightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="syleftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="symptomsdiagnoses" #selectedlist2>
+              <mat-list-option *ngFor="let symptomsdiagnosis of symptomsdiagnoses" [value]="symptomsdiagnosis">{{ symptomsdiagnosis.symptoms.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+        </div>
+      </div>
+
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Allergies </p>
+        </div>
+        <div class="listransfer-body">
+          <div class="list">
+            <mat-selection-list #availablelist3>
+              <mat-list-option multiple *ngFor="let allergy of allergies" [value]="allergy">{{ allergy.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="alrightSelected()">&gt;</button>
+            <button mat-raised-button (click)="alleftSelected()">&lt;</button>
+            <button mat-raised-button (click)="alrightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="alleftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="allergydiagnoses" #selectedlist3>
+              <mat-list-option *ngFor="let allergydiagnosis of allergydiagnoses" [value]="allergydiagnosis">{{ allergydiagnosis.allergy.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

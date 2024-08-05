@@ -25,6 +25,7 @@ import {ClinictypeService} from "../../../../service/clinictype.service";
 import {Clinic} from "../../../../entity/clinic";
 import {ClinicService} from "../../../../service/clinic.service";
 import {Subscription} from "rxjs";
+import {Brand} from "../../../../entity/brand";
 
 @Component({
   selector: 'app-appointment-form',
@@ -91,9 +92,10 @@ export class AppointmentFormComponent {
       "clinictype": new FormControl('', [Validators.required]),
       "clinic": new FormControl('', [Validators.required]),
       "patient": new FormControl('', [Validators.required]),
+      // "number": new FormControl(),
       "appointmentstatus": new FormControl(),
       "appointmenttype": new FormControl('', [Validators.required]),
-      "date": new FormControl(),
+      // "date": new FormControl(),
       "employee": new FormControl('', [Validators.required]),
       "description": new FormControl('', [Validators.required])
     }, {updateOn: 'change'});
@@ -102,6 +104,7 @@ export class AppointmentFormComponent {
   }
 
   ngOnInit() {
+
     this.id = this.arouter.snapshot.params['id'];
     if(this.arouter.snapshot.params['id']){
       // @ts-ignore
@@ -110,6 +113,8 @@ export class AppointmentFormComponent {
         this.newappointment = appointment;
         this.updateForm  = true;
         console.log(this.newappointment);
+        // // console.log('dflsd   ',this.generateNumber( appointment));
+        // console.log('dflsd   ',);
         this.fillForm();
       });
 
@@ -136,10 +141,10 @@ export class AppointmentFormComponent {
       this.appointmentstatuses = appointmentstatuses;
     })
 
-    // this.doctorss.getAllList('')then((docs: Doctor[]) => {
-    //   this.regexes = regs;
-    //   this.createForm();
-    // });
+    this.rs.get('appointments').then((regs: Appointment[]) => {
+      this.regexes = regs;
+      this.createForm();
+    });
     this.getscheduledclinic();
     this.getcountbyclinic();
   }
@@ -162,6 +167,12 @@ getscheduledclinic(){
      });
   })
 }
+  // generateNumber(app) {
+  generateNumber(clinictype:string) {
+    let str = "AP";
+    let str2 = clinictype.slice(0, 2).toUpperCase();
+    return str + '-' + str2+ '-'+ this.dp.transform( new Date, 'yyMMddhhmm');
+  }
 
 
   getcountbyclinic(){
@@ -176,11 +187,11 @@ getscheduledclinic(){
   createForm() {
 
     this.form.controls['clinic'].setValidators([Validators.required]);
-    this.form.controls['number'].setValidators([Validators.required]);
+    // this.form.controls['number'].setValidators([Validators.required]);
     this.form.controls['patient'].setValidators([Validators.required]);
     this.form.controls['appointmentstatus'].setValidators([Validators.required]);
     this.form.controls['appointmenttype'].setValidators([Validators.required]);
-    this.form.controls['date'].setValidators([Validators.required]);
+    // this.form.controls['date'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required]);
 
@@ -231,7 +242,7 @@ getscheduledclinic(){
       this.newappointment = this.form.getRawValue()
       this.newappointment.appointmentstatus = this.appointmentstatuses[0];
 
-      this.newappointment.number = this.number
+      this.newappointment.number = '' +this.number
 
       let formdata: string = "";
 
@@ -252,7 +263,7 @@ getscheduledclinic(){
 
       confirm.afterClosed().subscribe(async result => {
         if (result) {
-
+          this.newappointment.number = this.generateNumber(this.newappointment.clinic.clinictype.name)
           this.appointmentservice.add(this.newappointment).then((responce: [] | undefined) => {
             if (responce != undefined) { // @ts-ignore
               console.log("Add-" + responce['id'] + "-" + responce['url'] + "-" + (responce['errors'] == ""));
@@ -385,7 +396,9 @@ getscheduledclinic(){
             // if (this.form.controls['photo'].dirty) this.patient.photo = btoa(this.imageempurl);
             // this.patient.photo = this.oldpatinet.photo;
             this.newappointment.id = this.oldappointment.id;
-            this.newappointment.number  = this.number;
+            this.newappointment.number  = ''+this.number;
+
+            this.newappointment.number = this.generateNumber(this.newappointment.clinic.clinictype.name)
             console.log(this.newappointment)
             this.appointmentservice.update(this.newappointment).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore

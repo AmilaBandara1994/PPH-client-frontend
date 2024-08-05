@@ -139,17 +139,25 @@
             <p> Account </p>
           </div>
         </a>
-        <a routerLink="home">
+        <a routerLink="chat">
           <div class="nav-item">
             <mat-icon>chat</mat-icon>
             <p> Chat </p>
           </div>
         </a>
-        <a routerLink="home">
+        <a routerLink="drug">
           <div class="nav-item">
             <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
             </mat-icon>
             <p> Drug </p>
+          </div>
+        </a>
+
+        <a routerLink="diagnosis">
+          <div class="nav-item">
+            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
+            </mat-icon>
+            <p> Diagnosis </p>
           </div>
         </a>
         <a routerLink="appointment">
@@ -158,7 +166,7 @@
             <p> Appointment </p>
           </div>
         </a>
-        <a routerLink="home">
+        <a routerLink="clinic">
           <div class="nav-item">
             <mat-icon>schedule</mat-icon>
             <p> Schedule </p>
@@ -188,16 +196,16 @@
 
     </div>
     <div class="inner-container">
-    <div
-      style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain; border-radius: 10px; margin: 2rem 8px; padding: 1rem 0;  display: flex; align-items: center; justify-content: center">
-      <div class="logo-back" style="display: flex; align-items: center; justify-content: center; ">
-        <img id="headImg" src="assets/my-img/logo-with.png">
-        <div class="logo-left-section">
-          <p>Pannipitiya Private Hospital</p>
-          <span>( Nursing Home )</span>
+      <div
+        style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain; border-radius: 10px; margin: 2rem 8px; padding: 1rem 0;  display: flex; align-items: center; justify-content: center">
+        <div class="logo-back" style="display: flex; align-items: center; justify-content: center; ">
+          <img id="headImg" src="assets/my-img/logo-with.png">
+          <div class="logo-left-section">
+            <p>Pannipitiya Private Hospital</p>
+            <span>( Nursing Home )</span>
+          </div>
         </div>
       </div>
-    </div>
       <router-outlet></router-outlet>
     </div>
   </div>

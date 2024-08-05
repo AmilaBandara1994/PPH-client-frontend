@@ -1,24 +1,50 @@
 <div class="outer">
 
   <div class="backtoview">
-    <button mat-raised-button class="btn-p" (click)="backtoview()"><mat-icon>arrow_back</mat-icon>Back to View</button>
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
   </div>
   <p> Drugs Details </p>
   <div class="outer-inner">
 
     <div class="img-section">
       <!--            <img *ngIf="doctor.employee.photo" src="assets/my-img/appointment.jpg" alt="doctor photo">-->
-      <img  [src]="imagedrugpurl" alt="appointment">
+      <img [src]="imagedrugpurl" alt="appointment">
     </div>
     <div class="main-section">
       <div class="when-outer">
         <div class="when">
-          <h2>{{ drug.name }}</h2>
-          <p>  Drug Code : <span>{{ drug.code}}</span> </p>
-          <p> Strength :<span> {{   drug.strength }}</span></p>
-          <p>  Quantity on Hand :<span> {{ drug.qoh }}</span></p>
-          <p> Reorder Point :<span> {{ drug.rop }}</span></p>
-          <p>  Date Of Introduced : <span>{{ drug.dointroduced | date }}</span> </p>
+            <h2>{{ drug.name }}</h2>
+
+
+            <table>
+              <tr>
+                <td> <p> Drug Code </p>:</td>
+                <td> <p>{{ drug.code }}</p></td>
+              </tr>
+              <tr>
+                <td> <p> Strength </p>:</td>
+                <td> <p> {{ drug.strength }}</p></td>
+              </tr>
+
+              <tr>
+                <td>  <p> Quantity on Hand </p>:</td>
+                <td> <p> {{ drug.qoh }}</p></td>
+              </tr>
+
+              <tr>
+                <td> <p> Reorder Point </p>:</td>
+                <td> <p> {{ drug.rop }}</p></td>
+              </tr>
+
+              <tr>
+                <td> <p> Date Of Introduced </p> :</td>
+                <td> <p>{{ drug.dointroduced | date }}</p></td>
+              </tr>
+            </table>
+
         </div>
 
       </div>
@@ -35,47 +61,51 @@
     </div>
     <div class="main-details">
       <div class="when-outer">
-                <div class="when">
+        <div class="when">
 
-                  <div class="effect-outer">
-                    <h2>Drug Adverse Effects</h2>
-                    <div class="effects">
-                      <div class="effect" *ngFor="let ad of drugadverseeffects;let i = index;" >
-                        <p><span>{{ i+1 }} ) </span> {{ ad.adverseeffect.name}}</p>
-                      </div>
-                    </div>
-                  </div>
+          <div class="effect-outer">
+            <h2>Drug Adverse Effects</h2>
+            <div class="effects">
+              <p>{{ drug.drugadverseeffects.length == 0  ? "There are no Adverse Effects to show": "" }}</p>
+              <div class="effect" *ngFor="let ad of drug.drugadverseeffects;let i = index;">
+                <p><span>{{ i + 1 }} ) </span> {{ ad.adverseeffect.name }}</p>
+              </div>
+            </div>
+          </div>
 
-                  <div class="effect-outer">
-                    <h2>Drug Indications</h2>
-                    <div class="effects">
-                      <div class="effect" *ngFor="let ad of drugindications;let i = index;" >
-                        <p><span>{{ i +1}} ) </span> {{ ad.indication.name}}</p>
-                      </div>
-                    </div>
-                  </div>
+          <div class="effect-outer">
+            <h2>Drug Indications</h2>
+            <div class="effects">
+              <p>{{ drug.drugindications.length == 0  ? "There are no Indications to show": "" }}</p>
+
+              <div class="effect" *ngFor="let ad of drug.drugindications;let i = index;">
+                <p><span>{{ i + 1 }} ) </span> {{ ad.indication.name }}</p>
+              </div>
+            </div>
+          </div>
 
 
-                  <div class="effect-outer">
-                    <h2>Drug Contraindications</h2>
-                    <div class="effects">
-                      <div class="effect" *ngFor="let ad of drugcontraindications;let i = index;" >
-                        <p><span>{{ i+1}} ) </span> {{ ad.contraindication.name }}</p>
-                      </div>
-                    </div>
-                  </div>
+          <div class="effect-outer">
+            <h2>Drug Contraindications</h2>
+            <div class="effects">
+              <p>{{ drug.drugcontraindications.length == 0  ? "There are no Contraindications to show": "" }}</p>
+              <div class="effect" *ngFor="let ad of drug.drugcontraindications;let i = index;">
+                <p><span>{{ i + 1 }} ) </span> {{ ad.contraindication.name }}</p>
+              </div>
+            </div>
+          </div>
 
-<!--                  <p>  Name : <span>{{ appointment.family.name }}</span> </p>-->
-<!--                  &lt;!&ndash;          <p>  Doctor Grade :<span> {{   doctor.doctorgrade.name }}</span></p>&ndash;&gt;-->
-<!--                  <p> Relationship :<span> {{   appointment.relationship.name }}</span></p>-->
-<!--                  &lt;!&ndash;          <span > Age {{   doctor.employee.dobirth }}</span>&ndash;&gt;-->
-<!--                  <p> Province :<span> {{ appointment.family.district.province.name }}</span></p>-->
-<!--                  <p> District :<span> {{ appointment.family.district.name }}</span></p>-->
-<!--                  <p> Addresss :<span> {{ appointment.family.address }}</span></p>-->
-<!--                  <p> Mobile :<span> {{ appointment.family.mobile }}</span></p>-->
-<!--                  <p> Land :<span> {{ appointment.family.land }}</span></p>-->
-                  <!--          <p> Map Location :<span> {{ appointment.gender.name }}</span></p>-->
-                </div>
+          <!--                  <p>  Name : <span>{{ appointment.family.name }}</span> </p>-->
+          <!--                  &lt;!&ndash;          <p>  Doctor Grade :<span> {{   doctor.doctorgrade.name }}</span></p>&ndash;&gt;-->
+          <!--                  <p> Relationship :<span> {{   appointment.relationship.name }}</span></p>-->
+          <!--                  &lt;!&ndash;          <span > Age {{   doctor.employee.dobirth }}</span>&ndash;&gt;-->
+          <!--                  <p> Province :<span> {{ appointment.family.district.province.name }}</span></p>-->
+          <!--                  <p> District :<span> {{ appointment.family.district.name }}</span></p>-->
+          <!--                  <p> Addresss :<span> {{ appointment.family.address }}</span></p>-->
+          <!--                  <p> Mobile :<span> {{ appointment.family.mobile }}</span></p>-->
+          <!--                  <p> Land :<span> {{ appointment.family.land }}</span></p>-->
+          <!--          <p> Map Location :<span> {{ appointment.gender.name }}</span></p>-->
+        </div>
 
       </div>
 
@@ -105,7 +135,7 @@
     </div>
 
     <div class="btn-section">
-      <button mat-raised-button  (click)="updateform()">Update</button>
+      <button mat-raised-button (click)="updateform()">Update</button>
     </div>
   </div>
 

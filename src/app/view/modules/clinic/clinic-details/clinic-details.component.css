@@ -1,0 +1,97 @@
+.outer p{
+  text-align: start;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+
+}
+
+.outer-inner{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 1rem;
+
+}
+.img-section:nth-of-type(1){
+  background-color: #0C407A;
+  grid-column: 1 / 3;
+  grid-row: 1/4;
+  border-radius: 10px;
+  color: white;
+}
+.when:nth-of-type(2){
+  background-color: #F1F4FB;
+  border-radius: 10px;
+  grid-column: 3/6 ;
+  grid-row: 1/4;
+}
+.details:nth-of-type(3){
+  background-color: #670ebb;
+  grid-column: 1/3 ;
+  grid-row: 4;
+}
+
+.doctors:nth-of-type(4){
+  background-color: #0db21a;
+  grid-column: 3 / 6;
+  grid-row: 4/7;
+}
+.staff:nth-of-type(5){
+  background-color: #0e2598;
+  grid-column: 3/6 ;
+  grid-row: 7/8;
+}
+.btn-section:nth-of-type(6){
+  /*background-color: #0e2598;*/
+  grid-column: 3/6 ;
+  grid-row: 8;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+/* when  style*/
+
+.when-outer{
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.when-right{
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.when-left p{
+  text-align: start;
+}
+
+.when-left{
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.when p{
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding-bottom: 1rem;
+  color: var(--theme-primary);
+}
+.when span{
+  font-size: 1rem;
+  font-weight: 500;
+}
+.backtoview{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 1rem;
+}

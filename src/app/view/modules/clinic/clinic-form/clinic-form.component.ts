@@ -28,7 +28,7 @@ export class ClinicFormComponent {
 
   updatForm:boolean = false;
   id!: number ;
-
+  mindate:any = '';
   enaadd:boolean = false;
   enaupd:boolean = false;
 
@@ -62,21 +62,23 @@ export class ClinicFormComponent {
                   private ds: DoctorService,
                   public authService:AuthorizationManager) {
 
-
+// let today = Date();
+    this.mindate = this.dp.transform( new Date(), 'YYYY-MM-dd');
     this.form = this.fb.group({
+      // "name": new FormControl("", Validators.required),
       "date": new FormControl("", Validators.required),
       "starttime": new FormControl("", Validators.required),
       "endtime": new FormControl("", Validators.required),
       "patientcount": new FormControl("", Validators.required),
-      "totalincome": new FormControl("", Validators.required),
-      "doctorpayment": new FormControl("", Validators.required),
+      "totalincome": new FormControl(),
+      "doctorpayment": new FormControl(),
       "clinictype": new FormControl("", Validators.required),
       "doctor": new FormControl("", Validators.required),
       "nurse1": new FormControl("", Validators.required),
       "nurse2": new FormControl(),
       "employee": new FormControl(),
       "clinicstatus": new FormControl("", Validators.required),
-      "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
+      // "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
     },{updateOn: 'change'})
   }
 
@@ -92,7 +94,10 @@ export class ClinicFormComponent {
         this.fillForm();
        });
 
+
     }
+    let today =
+    // this.mindate = {{Date() | date}};
     this.initialize();
   }
 
@@ -116,6 +121,7 @@ export class ClinicFormComponent {
 
     this.rs.get('clinic').then((regs: []) => {
       this.regexes = regs;
+      this.createForm();
     });
     this.filterDoctorByclinictype();
     this.getNurseFromEmployees();
@@ -142,6 +148,50 @@ export class ClinicFormComponent {
     });
   }
 
+  createForm() {
+
+    // this.form.controls['name'].setValidators([Validators.required, Validators.pattern(this.regexes['name']['regex'])]);
+    // this.form.controls['date'].setValidators([Validators.required, Validators.pattern(this.regexes['date']['regex'])]);
+    this.form.controls['starttime'].setValidators([Validators.required, Validators.pattern(this.regexes['starttime']['regex'])]);
+    this.form.controls['endtime'].setValidators([Validators.required, Validators.pattern(this.regexes['endtime']['regex'])]);
+    this.form.controls['patientcount'].setValidators([Validators.required, Validators.pattern(this.regexes['patientcount']['regex'])]);
+    // this.form.controls['totalincome'].setValidators([Validators.pattern(this.regexes['totalincome']['regex'])]);
+    // this.form.controls['doctorpayment'].setValidators([Validators.required,Validators.pattern(this.regexes['doctorpayment']['regex'])]);
+    this.form.controls['clinictype'].setValidators([Validators.required]);
+    this.form.controls['doctor'].setValidators([Validators.required]);
+    this.form.controls['nurse1'].setValidators([Validators.required]);
+    this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['clinicstatus'].setValidators([Validators.required]);
+
+    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
+
+    for (const controlName in this.form.controls) {
+      const control = this.form.controls[controlName];
+      control.valueChanges.subscribe(value => {
+          // @ts-ignore
+          // if (controlName == "dobirth" || controlName == "doassignment")
+          //   value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
+
+          if (this.newclinic != undefined && control.valid) {
+            // @ts-ignore
+            if (value === this.employee[controlName]) {
+              control.markAsPristine();
+            } else {
+              control.markAsDirty();
+            }
+          } else {
+            control.markAsPristine();
+          }
+        }
+      );
+
+    }
+
+    // this.enableButtons(true,false,false);
+
+  }
+
+
   add() {
 
     let errors = this.getErrors();
@@ -159,6 +209,9 @@ export class ClinicFormComponent {
     } else {
 
       this.newclinic = this.form.getRawValue();
+
+
+      // this.newclinic.dopublish = '';
       // @ts-ignore
       this.newclinic.date = this.dp.transform( this.newclinic.date, 'yyyy-MM-dd');
       // @ts-ignore
@@ -182,6 +235,7 @@ export class ClinicFormComponent {
       let addstatus: boolean = false;
       let addmessage: string = "Server Not Found";
 
+      console.log(this.newclinic)
       confirm.afterClosed().subscribe(async result => {
         if (result) {
           this.cs.add(this.newclinic).then((responce: [] | undefined) => {
@@ -224,6 +278,8 @@ export class ClinicFormComponent {
       });
     }
   }
+
+
 
   getErrors(): string {
 
