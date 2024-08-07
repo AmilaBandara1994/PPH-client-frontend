@@ -1,0 +1,106 @@
+<script src="../../drug/drug-form/drug-form.component.ts"></script>
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Creat a ' + title }}</span>
+  <!--    </mat-card-header>-->
+  <div id="clinicform">
+    <form [formGroup]="form">
+
+      <mat-grid-list cols="2" rowHeight="6rem" >
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Appointment number</mat-label>
+            <mat-select formControlName="appointment">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let appointment of appointments" [value]="appointment">{{ appointment.number }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select The Report Type</mat-label>
+            <mat-select formControlName="reporttype">
+              <mat-option [value]="null" selected> Not Selected</mat-option>
+              <mat-option *ngFor="let rt of reporttypes" [value]="rt">{{ rt.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Investigation Status</mat-label>
+            <mat-select formControlName="investigationstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let is of investigationstatuses" [value]="is">{{ is.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Investigation Result</mat-label>
+            <mat-select formControlName="investigationresult">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let ir of investigationresults" [value]="ir">{{ ir.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Date of Report Submit</mat-label>
+            <input matInput [matDatepicker]="dateofpublished" formControlName="reporteddate">
+            <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
+            <mat-datepicker #dateofpublished></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Conclution</mat-label>
+            <textarea matInput formControlName="conclution" ></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Employee name</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let emp of employees" [value]="emp">{{ emp.fullname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

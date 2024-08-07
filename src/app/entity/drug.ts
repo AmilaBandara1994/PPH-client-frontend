@@ -15,7 +15,7 @@ export class Drug {
   public brand !: Brand;
   public drugform !: Drugform;
   public drugroute !: Drugroute;
-  public strength !: number;
+  public strength !: string;
   public code !: string;
   public name !: string;
   public photo !: string;
@@ -32,7 +32,7 @@ export class Drug {
   public drugindications!:Array<Drugindication>;
 
 
-  constructor(id: number, generic: Generic, brand: Brand, drugform: Drugform, drugroute: Drugroute, strength: number, code: string, name: string, photo: string, description: string, qoh: number, rop: number, sprice: number, pprice: number, dointroduced: Date, drugstatus: Drugstatus, employee: Employee, drugadverseeffects: Array<Drugadverseeffect>, drugcontraindications: Array<Drugcontraindication>, drugindications: Array<Drugindication>) {
+  constructor(id: number, generic: Generic, brand: Brand, drugform: Drugform, drugroute: Drugroute, strength: string, code: string, name: string, photo: string, description: string, qoh: number, rop: number, sprice: number, pprice: number, dointroduced: Date, drugstatus: Drugstatus, employee: Employee, drugadverseeffects: Array<Drugadverseeffect>, drugcontraindications: Array<Drugcontraindication>, drugindications: Array<Drugindication>) {
     this.id = id;
     this.generic = generic;
     this.brand = brand;

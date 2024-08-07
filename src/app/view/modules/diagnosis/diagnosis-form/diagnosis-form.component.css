@@ -153,10 +153,36 @@ button:disabled {
   max-height: 160px;
   width:300px;
   margin-top: 10px;
-  overflow: auto}
+  overflow: auto
+}
 
-.list mat-list-option{ height: 27px;}
 
-.list .mat-mdc-list-item .mdc-list-item__primary-text{ font-size: 14px!important;}
 
-.selected-row{ background-color: #c9e6ff!important; }
+#innertable{
+  /*background-color: #acf1eb;*/
+
+}
+
+.edu-group{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*flex-direction: column;*/
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.edu{
+  background-color: #dff6f4;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.edu-group mat-form-field{
+  width: 300px;
+}
+#btnAdd{
+  width: 20%;
+  color: #FFFFFF;
+  background-color: var(--theme-primary);
+  margin-bottom: 1rem;
+}

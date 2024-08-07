@@ -26,16 +26,16 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ClinicFormComponent {
 
-  updatForm:boolean = false;
-  id!: number ;
-  mindate:any = '';
-  enaadd:boolean = false;
-  enaupd:boolean = false;
+  updateForm: boolean = false;
+  id!: number;
+  mindate: any = '';
+  enaadd: boolean = false;
+  enaupd: boolean = false;
 
   public form!: FormGroup;
 
-  newclinic!:Clinic;
-  oldClinic!:Clinic;
+  newclinic!: Clinic;
+  oldClinic!: Clinic;
 
   regexes: any;
   selectedrow: any;
@@ -44,26 +44,26 @@ export class ClinicFormComponent {
   doctors: Array<Doctor> = [];
   doctorByClinictype: Array<Doctor> = [];
   clinicstatuses: Array<Clinicstatus> = [];
-  nurses:Array<Employee> = [];
-  employees:Array<Employee> = [];
+  nurses: Array<Employee> = [];
+  employees: Array<Employee> = [];
   // filvaluesubscribe!:Subscription;
   // filformsub!:Subscription;
 
-  constructor(    private cs: ClinicService,
-                  private rs: RegexService,
-                  private _location: Location,
-                  private arouter:ActivatedRoute,
-                  private fb: FormBuilder,
-                  private dg: MatDialog,
-                  private dp: DatePipe,
-                  private css: ClinicstatusService,
-                  private cts: ClinictypeService,
-                  private es: EmployeeService,
-                  private ds: DoctorService,
-                  public authService:AuthorizationManager) {
+  constructor(private cs: ClinicService,
+              private rs: RegexService,
+              private _location: Location,
+              private arouter: ActivatedRoute,
+              private fb: FormBuilder,
+              private dg: MatDialog,
+              private dp: DatePipe,
+              private css: ClinicstatusService,
+              private cts: ClinictypeService,
+              private es: EmployeeService,
+              private ds: DoctorService,
+              public authService: AuthorizationManager) {
 
 // let today = Date();
-    this.mindate = this.dp.transform( new Date(), 'YYYY-MM-dd');
+    this.mindate = this.dp.transform(new Date(), 'YYYY-MM-dd');
     this.form = this.fb.group({
       // "name": new FormControl("", Validators.required),
       "date": new FormControl("", Validators.required),
@@ -79,43 +79,43 @@ export class ClinicFormComponent {
       "employee": new FormControl(),
       "clinicstatus": new FormControl("", Validators.required),
       // "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
-    },{updateOn: 'change'})
+    }, {updateOn: 'change'})
   }
 
   ngOnInit() {
     this.id = this.arouter.snapshot.params['id'];
-    if(this.arouter.snapshot.params['id']){
-    // @ts-ignore
+    if (this.arouter.snapshot.params['id']) {
+      // @ts-ignore
       this.cs.get(this.id).then((clinic: Clinic) => {
         this.oldClinic = clinic;
         this.newclinic = clinic;
-        this.updatForm  = true;
+        this.updateForm = true;
         console.log(this.newclinic);
         this.fillForm();
-       });
+      });
 
 
     }
     let today =
-    // this.mindate = {{Date() | date}};
-    this.initialize();
+      // this.mindate = {{Date() | date}};
+      this.initialize();
   }
 
   initialize() {
 
 
-    this.ds.getAllList('').then((docts:Doctor[]) =>{
+    this.ds.getAllList('').then((docts: Doctor[]) => {
       this.doctors = docts;
     });
 
-    this.css.getAllList().then((cstatuses: Clinicstatus[])=>{
+    this.css.getAllList().then((cstatuses: Clinicstatus[]) => {
       this.clinicstatuses = cstatuses;
     });
 
-    this.cts.getAllList().then((ctypes: Clinictype[])=>{
+    this.cts.getAllList().then((ctypes: Clinictype[]) => {
       this.clinictypes = ctypes;
     });
-    this.es.getAll('').then((emp: Employee[])=>{
+    this.es.getAll('').then((emp: Employee[]) => {
       this.employees = emp;
     });
 
@@ -127,25 +127,30 @@ export class ClinicFormComponent {
     this.getNurseFromEmployees();
   }
 
-  filterDoctorByclinictype(){
+  filterDoctorByclinictype() {
     // @ts-ignore
-    this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) =>{
+    this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) => {
       console.log('this also executed ?');
       let query = "";
-      query = "?clinictypeid="+ value.id;
-      this.ds.getAllList(query).then((doct:Doctor[]) =>{
-        this.doctorByClinictype  = doct;
+      query = "?clinictypeid=" + value.id;
+      this.ds.getAllList(query).then((doct: Doctor[]) => {
+        this.doctorByClinictype = doct;
       });
     });
   }
 
-  getNurseFromEmployees(){
+  getNurseFromEmployees() {
 
-    let query = "?designationid="+ 3;
+    let query = "?designationid=" + 3;
 
-    this.es.getAll(query).then((nurse: Employee[])=>{
+    this.es.getAll(query).then((nurse: Employee[]) => {
       this.nurses = nurse;
     });
+  }
+
+
+  generateName(clinictype: string, date: string, patientcount: number) {
+    return clinictype + "-(" + this.dp.transform(date, 'yy-MM-dd') + ")-" + patientcount;
   }
 
   createForm() {
@@ -163,7 +168,9 @@ export class ClinicFormComponent {
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['clinicstatus'].setValidators([Validators.required]);
 
-    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
 
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
@@ -191,6 +198,43 @@ export class ClinicFormComponent {
 
   }
 
+  fillForm() {
+
+    // this.filvaluesubscribe.unsubscribe();
+
+      // @ts-ignore
+      this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype: Clinictype) => {
+        let query = "?clinictypeid=" + clinictype.id;
+
+        this.ds.getAllList(query).then((docto: Doctor[]) => {
+          this.doctorByClinictype = docto;
+          // @ts-ignore
+          this.newclinic.doctor = this.doctors.find(d => this.newclinic.doctor.id === d.id);
+          // @ts-ignore
+          this.newclinic.nurse1 = this.nurses.find(n => this.newclinic.nurse1.id === n.id);
+          // @ts-ignore
+          this.newclinic.nurse2 = this.nurses.find(n => this.newclinic.nurse2.id === n.id);
+          // @ts-ignore
+          this.newclinic.clinicstatus = this.clinicstatuses.find(cs => cs.id === this.newclinic.clinicstatus.id);
+          // @ts-ignore
+          this.newclinic.employee = this.employees.find(cs => cs.id === this.newclinic.employee.id);
+
+    setTimeout(() => {
+          this.form.patchValue(this.newclinic);
+          this.form.markAsPristine();
+
+    }, 500);
+          // this.enableButtons(false,true,true);
+        })
+
+      });
+
+      // @ts-ignore
+      this.newclinic.clinictype = this.clinictypes.find(cs => cs.id === this.newclinic.clinictype.id);
+      this.form.controls['clinictype'].setValue(this.newclinic.clinictype);
+      // this.filformsub.unsubscribe();
+  }
+
 
   add() {
 
@@ -211,11 +255,12 @@ export class ClinicFormComponent {
       this.newclinic = this.form.getRawValue();
 
 
-      // this.newclinic.dopublish = '';
       // @ts-ignore
-      this.newclinic.date = this.dp.transform( this.newclinic.date, 'yyyy-MM-dd');
+      this.newclinic.date = this.dp.transform(this.newclinic.date, 'yyyy-MM-dd');
       // @ts-ignore
-      this.newclinic.dopublish = this.dp.transform( this.newclinic.dopublish, 'yyyy-MM-dd');
+      this.newclinic.dopublish = this.dp.transform(this.newclinic.dopublish, 'yyyy-MM-dd');
+
+      this.newclinic.name = this.generateName(this.newclinic.clinictype.name, this.newclinic.date, this.newclinic.patientcount)
 
       let clinic: string = "";
 
@@ -280,7 +325,6 @@ export class ClinicFormComponent {
   }
 
 
-
   getErrors(): string {
 
     let errors: string = "";
@@ -300,7 +344,7 @@ export class ClinicFormComponent {
     return errors;
   }
 
-  clear():void{
+  clear(): void {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
@@ -316,37 +360,6 @@ export class ClinicFormComponent {
     });
   }
 
-  fillForm(){
-
-    // this.filvaluesubscribe.unsubscribe();
-
-    // @ts-ignore
-    this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype:Clinictype)=>{
-      let query = "?clinictypeid="+ clinictype.id;
-      this.ds.getAllList(query).then((docto:Doctor[]) =>{
-        this.doctorByClinictype  = docto;
-        // @ts-ignore
-        this.newclinic.doctor = this.doctorByClinictype.find(d=> d.id === this.newclinic.doctor.id );
-        // @ts-ignore
-        this.newclinic.nurse1 = this.nurses.find(n=> this.newclinic.nurse1.id === n.id );
-        // @ts-ignore
-        this.newclinic.clinicstatus = this.clinicstatuses.find(cs=> cs.id === this.newclinic.clinicstatus.id );
-        // @ts-ignore
-        this.newclinic.employee = this.employees.find(cs=> cs.id === this.newclinic.employee.id );
-
-        console.log(this.newclinic)
-        this.form.patchValue(this.newclinic);
-        this.form.markAsPristine();
-
-        // this.enableButtons(false,true,true);
-      })
-    });
-
-    // @ts-ignore
-    this.newclinic.clinictype = this.clinictypes.find(cs=> cs.id === this.newclinic.clinictype.id );
-    this.form.controls['clinictype'].setValue(this.newclinic.clinictype);
-    // this.filformsub.unsubscribe();
-  }
 
   update() {
 
@@ -358,7 +371,11 @@ export class ClinicFormComponent {
         width: '500px',
         data: {heading: "Errors - Clinic Update ", message: "You have following Errors <br> " + errors}
       });
-      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+      errmsg.afterClosed().subscribe(async result => {
+        if (!result) {
+          return;
+        }
+      });
 
     } else {
 
@@ -392,31 +409,40 @@ export class ClinicFormComponent {
                 updstatus = false;
                 updmessage = "Content Not Found"
               }
-            } ).finally(() => {
+            }).finally(() => {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
-                this.updatForm = false
-                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+                this.updateForm = false
+                Object.values(this.form.controls).forEach(control => {
+                  control.markAsTouched();
+                });
               }
 
               const stsmsg = this.dg.open(MessageComponent, {
                 width: '500px',
                 data: {heading: "Status - Clinic Add", message: updmessage}
               });
-              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+              stsmsg.afterClosed().subscribe(async result => {
+                if (!result) {
+                  return;
+                }
+              });
 
             });
           }
         });
-      }
-      else {
+      } else {
 
         const updmsg = this.dg.open(MessageComponent, {
           width: '500px',
           data: {heading: "Confirmation - Clinic Update", message: "Nothing Changed"}
         });
-        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+        updmsg.afterClosed().subscribe(async result => {
+          if (!result) {
+            return;
+          }
+        });
 
       }
     }
@@ -425,11 +451,11 @@ export class ClinicFormComponent {
 
   getUpdates() {
     let updates = '';
-    for (const controlName in this.form.controls){
+    for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
 
-      if(control.dirty){
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
+      if (control.dirty) {
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
     }
     return updates;

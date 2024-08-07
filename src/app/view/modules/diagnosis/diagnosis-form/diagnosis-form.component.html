@@ -257,6 +257,53 @@
         </div>
       </div>
 
+<!--      <div class="edu">-->
+
+<!--        <div id="innertable">-->
+<!--          <p>Add Report </p>-->
+
+<!--          <mat-form [formGroup]="innerform">-->
+<!--            <div class="edu-group">-->
+
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Report Type</mat-label>-->
+<!--                <mat-select formControlName="reporttype">-->
+<!--                  <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                  <mat-option *ngFor="let obj of reporttypes" [value]="obj">{{ obj.name }}-->
+<!--                  </mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+
+
+
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>description</mat-label>-->
+<!--                <input type="text" matInput formControlName="description">-->
+<!--              </mat-form-field>-->
+
+
+<!--            </div>-->
+<!--            <button mat-raised-button id="btnAdd" [disabled]="!innerform.valid" (click)="btnaddMc()">Add Drug</button>-->
+<!--          </mat-form>-->
+
+
+<!--          <mat-table [dataSource]="indata">-->
+<!--            <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">-->
+<!--              <mat-header-cell *matHeaderCellDef> {{inheaders[i]}} </mat-header-cell>-->
+<!--              <mat-cell *matCellDef="let element" >-->
+<!--                <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>-->
+<!--                <div *ngIf="i>=inbinders.length-1">-->
+<!--                  <button mat-raised-button (click)="deleteRaw(element)">Remove</button>-->
+<!--                </div>-->
+<!--              </mat-cell>-->
+<!--            </ng-container>-->
+<!--            <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>-->
+<!--            <mat-row *matRowDef="let row; columns: incolumns" ></mat-row>-->
+<!--          </mat-table>-->
+
+<!--        </div>-->
+<!--      </div>-->
+
 
       <div id="butpanel">
         <div *ngIf="!updateForm">

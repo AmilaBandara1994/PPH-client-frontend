@@ -36,6 +36,7 @@ const routes: Routes = [
       {path: 'report', loadChildren: () => import('./report/view/report/report.module').then(m => m.ReportModule)},
       {path: 'family', loadChildren: () => import('./view/modules/family/family.module').then(m => m.FamilyModule)},
       {path: 'prescription', loadChildren: () => import('./view/modules/prescription/prescription.module').then(m => m.PrescriptionModule)},
+      {path: 'investigation', loadChildren: () => import('./view/modules/investigation/investigation.module').then(m => m.InvestigationModule)},
 
       {path:"reports", component: ArrearsByProgramComponent},
       {path:"reports/cliniccountbyclinictype", component: CliniccountbyclinictypeComponent},
