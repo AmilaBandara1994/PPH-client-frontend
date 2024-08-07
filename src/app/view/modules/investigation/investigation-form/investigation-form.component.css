@@ -33,19 +33,24 @@ mat-card-content { overflow: auto; height: 100%; }
 
 /* Employee Form > Photo Panel  */
 #imgpanel {
-  height: 100px;
+  /*display: flex;*/
+  height: 200px;
   margin-bottom: 30px;
 }
 
 #imgpanel img{
-  height: 100px;
-  width: 100px;
+  height: 200px;
+  width: 200px;
+}
+.img-outer{
+  display: flex;
+  flex-direction: column;;
 }
 
 #selectbutton, #clearbutton{
   width: 150px;
   display: block;
-  margin-left: 150px;
+  margin-left: 200px;
   margin-bottom: 5px;
   background-color: darkolivegreen;
   color: white;
@@ -113,40 +118,45 @@ button:disabled {
   justify-content: flex-start;
 }
 
-#innertable{
-  /*background-color: #acf1eb;*/
-
-}
-
-.edu-group{
+.flile-selector{
   display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+
+
+.listtrnasfer {
+  display: flex;
+  margin-bottom: 30px;
+  margin-left: 10px;
   align-items: center;
-  justify-content: flex-start;
-  /*flex-direction: column;*/
-  flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+}
+.listransfer-body{
+  display: inline-flex;
+}
+.listransfer-header p{
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.edu{
-  background-color: #dff6f4;
-  padding: 2rem;
-  border-radius: 10px;
-}
-.edu-group mat-form-field{
-  width: 300px;
-}
-#btnAdd{
-  width: 20%;
-  color: #FFFFFF;
-  background-color: var(--theme-primary);
-  margin-bottom: 1rem;
-}
 
-@media (max-width: 900px){
-  .edu-group{
-    flex-direction: column;
-    gap: 1rem;
-  }
+.pnlmiddle button{ margin: 8px; display: block!important;}
 
+.list{
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  border: solid gray;
+  border-radius: 5px;
+  max-height: 160px;
+  width:300px;
+  margin-top: 10px;
+  overflow: auto}
 
-}
+.list mat-list-option{ height: 27px;}
+
+.list .mat-mdc-list-item .mdc-list-item__primary-text{ font-size: 14px!important;}
+
+.selected-row{ background-color: #c9e6ff!important; }

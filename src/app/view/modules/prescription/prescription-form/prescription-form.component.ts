@@ -142,10 +142,10 @@ export class PrescriptionFormComponent {
       this.appointments = appos;
     });
 
-    // this.regexes.getAllList('prescriptions').then((regs) => {
-    //   this.regexes = regs;
-    //   this.createForm();
-    // });
+    this.regexes.getAllList('prescriptions').then((regs: any) => {
+      this.regexes = regs;
+      this.createForm();
+    });
 
   }
 
@@ -154,41 +154,38 @@ export class PrescriptionFormComponent {
     // this.loadTable("");
   }
 
-  // createForm() {
-  //
-  //   this.innerform.controls['year'].setValidators([Validators.required]);
-  //   this.innerform.controls['degree'].setValidators([Validators.required]);
-  //   this.innerform.controls['university'].setValidators([Validators.required]);
-  //
-  //
-  //   Object.values(this.form.controls).forEach(control => {
-  //     control.markAsTouched();
-  //   });
-  //
-  //   for (const controlName in this.form.controls) {
-  //     const control = this.form.controls[controlName];
-  //     control.valueChanges.subscribe(value => {
-  //         // @ts-ignore
-  //         if (controlName == "date" || controlName == "date")
-  //           value = this.dp.transform(new Date(value), 'yyyy-MM-dd');
-  //
-  //         if (this.oldpurorder != undefined && control.valid) {
-  //           // @ts-ignore
-  //           if (value === this.purorder[controlName]) {
-  //             control.markAsPristine();
-  //           } else {
-  //             control.markAsDirty();
-  //           }
-  //         } else {
-  //           control.markAsPristine();
-  //         }
-  //       }
-  //     );
-  //
-  //   }
-  //
-  //   // this.enableButtons(true, false, false);
-  // }
+  createForm() {
+
+    this.innerform.controls['year'].setValidators([Validators.required]);
+    this.innerform.controls['degree'].setValidators([Validators.required]);
+    this.innerform.controls['university'].setValidators([Validators.required]);
+
+
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+    for (const controlName in this.form.controls) {
+      const control = this.form.controls[controlName];
+      control.valueChanges.subscribe(value => {
+
+        if (this.newpresciption != undefined && control.valid) {
+            // @ts-ignore
+            if (value === this.purorder[controlName]) {
+              control.markAsPristine();
+            } else {
+              control.markAsDirty();
+            }
+          } else {
+            control.markAsPristine();
+          }
+        }
+      );
+
+    }
+
+    // this.enableButtons(true, false, false);
+  }
 
 
 

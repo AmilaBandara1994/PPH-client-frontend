@@ -29,6 +29,15 @@ import {Treatmentplanservice} from "../../../../service/treatmentplanservice";
 import {Diagnosisservice} from "../../../../service/diagnosisservice";
 import {Appointment} from "../../../../entity/appointment";
 import {AppointmentService} from "../../../../service/appointment.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {UiAssist} from "../../../../util/ui/ui.assist";
+import {Investigation} from "../../../../entity/investigation";
+import {Investigationstatus} from "../../../../entity/investigationstatus";
+import {Reporttype} from "../../../../entity/reporttype";
+import {Investigationresult} from "../../../../entity/investigationresult";
+import {Investigationstatusservice} from "../../../../service/investigationstatusservice";
+import {Reporttypeservice} from "../../../../service/reporttypeservice";
+import {Investigationresultservice} from "../../../../service/investigationresultservice";
 
 @Component({
   selector: 'app-diagnosis-form',
@@ -36,18 +45,37 @@ import {AppointmentService} from "../../../../service/appointment.service";
   styleUrls: ['./diagnosis-form.component.css']
 })
 export class DiagnosisFormComponent {
+  //
+  // incolumns: string[] = ['name','reporttype', 'description', 'investigationstatus', 'remove'];
+  // inheaders: string[] = ['Name','Report Type', 'Description', 'Investigation Status', 'Remove',];
+  // inbinders: string[] = ['name','reporttype.name', 'description','investigationstatus.name', 'getBtn()'];
+  //
 
   imagedrugpurl: string = 'assets/my-img/banner/drugs.jpg'
 
   title: string = "Diagnosis"
   public form!: FormGroup;
+  public innerform!: FormGroup;
+
   updateForm: boolean = false;
   id!: number;
 
   newDiagnosis!: Diagnosis;
   oldDiagnosis!: Diagnosis;
 
-  // selectedrow: any;
+  // innerdata: any;
+  // investigations: Array<Investigation> = [];
+  // indata!: MatTableDataSource<Investigation>
+  // uiassist: UiAssist;
+  //
+  // // investigation inner table
+  //
+  //
+  // investigationstatuses: Array<Investigationstatus> = [];
+  // reporttypes: Array<Reporttype> = [];
+  // investigationresults: Array<Investigationresult> = [];
+
+
 
   employees: Array<Employee> = [];
   appointments: Array<Appointment> = [];
@@ -92,6 +120,13 @@ export class DiagnosisFormComponent {
     private treatmentplanservice: Treatmentplanservice,
     private appointmentService: AppointmentService,
     private empS: EmployeeService,
+
+    // inner table
+    private investigationstatusservice: Investigationstatusservice,
+    private reporttypeservice: Reporttypeservice,
+    private investigationresultservice: Investigationresultservice,
+
+
     private _location: Location,
     private arouter: ActivatedRoute,
     private rs: RegexService,
@@ -100,6 +135,7 @@ export class DiagnosisFormComponent {
     private dp: DatePipe,
     public authService: AuthorizationManager) {
 
+    // this.uiassist = new UiAssist(this);
 
     this.form = this.fb.group({
       "appointment": new FormControl('', [Validators.required]),
@@ -130,6 +166,12 @@ export class DiagnosisFormComponent {
       "description": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
+
+    // this.innerform = this.fb.group({
+    //   "reporttype": new FormControl('', [Validators.required]),
+    //   "description": new FormControl(),
+    // }, {updateOn: 'change'});
+
 
 
   }
@@ -185,6 +227,18 @@ export class DiagnosisFormComponent {
     this.allergyservice.getAll().then((allergies: Allergy[]) => {
       this.allergies = allergies;
     });
+
+
+    // this.investigationstatusservice.getAll().then((investigationstatuses: Investigationstatus[]) => {
+    //   this.investigationstatuses = investigationstatuses;
+    // });
+    // this.reporttypeservice.getAll().then((reporttypes: Reporttype[]) => {
+    //   this.reporttypes = reporttypes;
+    // });
+    // this.investigationresultservice.getAll().then((investigationresults: Investigationresult[]) => {
+    //   this.investigationresults = investigationresults;
+    // })
+
 
     this.rs.get("diagnoses").then((regs: []) => {
       this.regexes = regs;
@@ -244,7 +298,9 @@ export class DiagnosisFormComponent {
 
   }
 
-
+  generateName(reporttype: string) {
+    return reporttype + "-" + this.dp.transform( new Date(), 'yyMMddhhmm');
+  }
   add() {
 
     let errors = this.getErrors();
@@ -265,6 +321,9 @@ export class DiagnosisFormComponent {
       this.newDiagnosis.diseasediagnoses = this.diseasediagnoses;
       this.newDiagnosis.symptomsdiagnoses = this.symptomsdiagnoses;
       this.newDiagnosis.allergydiagnoses = this.allergydiagnoses;
+
+      //inner table add
+      // this.newDiagnosis.investigations = this.investigations;
 
 
       let formdata: string = "";
@@ -327,6 +386,35 @@ export class DiagnosisFormComponent {
     }
   }
 
+  // btnaddMc() {
+  //   this.innerdata = this.innerform.getRawValue();
+  //   if (this.innerdata != null) {
+  //     let investstatus = this.investigationstatuses.filter(val => val.id = 1);
+  //     let investig = new Investigation(
+  //       this.innerdata.reporttype,
+  //       this.innerdata.description,
+  //     );
+  //
+  //     investig.name = this.generateName(this.innerdata.reporttype.name);
+  //     investig.date = new Date();
+  //     investig.investigationstatus = investstatus[0];
+  //     investig.employee = this.employees[3];
+  //
+  //     let tem: Investigation[] = [];
+  //     if (this.indata != null) this.indata.data.forEach((i) => tem.push(i));
+  //
+  //     this.investigations = [];
+  //     tem.forEach((t) => this.investigations.push(t));
+  //     this.investigations.push(investig);
+  //     console.log(this.investigations)
+  //     this.indata = new MatTableDataSource(this.investigations);
+  //     this.innerform.reset();
+  //   }
+  //
+  // }
+
+
+
 
   getErrors(): string {
 
@@ -371,18 +459,6 @@ export class DiagnosisFormComponent {
   }
 
 
-  getUpdates(): string {
-
-    let updates: string = "";
-    for (const controlName in this.form.controls) {
-      const control = this.form.controls[controlName];
-      if (control.dirty) {
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
-      }
-    }
-    return updates;
-  }
-
 
   update() {
 
@@ -419,6 +495,11 @@ export class DiagnosisFormComponent {
         confirm.afterClosed().subscribe(async result => {
           if (result) {
 
+            this.newDiagnosis = this.form.getRawValue();
+            // this.newDiagnosis.investigations = this.investigations;
+
+
+            this.newDiagnosis.id = this.oldDiagnosis.id;
 
             //set name and code
 
@@ -616,6 +697,32 @@ export class DiagnosisFormComponent {
       }
     });
   }
+
+  getUpdates(): string {
+
+    let updates: string = "";
+
+    for (const controlName in this.form.controls) {
+      const control = this.form.controls[controlName];
+      if (control.dirty) {
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
+      }
+    }
+    return updates;
+  }
+  // deleteRaw(x: any) {
+  //
+  //   let datasources = this.indata.data
+  //
+  //   const index = datasources.findIndex(m => m.id === x.id);
+  //   if (index > -1) {
+  //     datasources.splice(index, 1);
+  //   }
+  //   this.indata.data = datasources;
+  //   this.investigations = this.indata.data;
+  //
+  //
+  // }
 
 
   backtoview() {

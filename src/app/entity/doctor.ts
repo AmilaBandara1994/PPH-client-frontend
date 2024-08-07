@@ -1,7 +1,6 @@
 import {Employee} from "./employee";
 import {Doctorgrade} from "./doctorgrade";
 import {Country} from "./country";
-import {Userrole} from "./userrole";
 import {Doctordegree} from "./doctordegree";
 import {Doctorclinictype} from "./doctorclinictype";
 

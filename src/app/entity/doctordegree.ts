@@ -11,12 +11,10 @@ export class Doctordegree {
   public doctor !: Doctor;
 
 
-  constructor(id: number, year: string, degree: Degree, university: University, doctor: Doctor) {
-    this.id = id;
+  constructor(year: string, degree: Degree, university: University) {
     this.year = year;
     this.degree = degree;
     this.university = university;
-    this.doctor = doctor;
   }
 }
 

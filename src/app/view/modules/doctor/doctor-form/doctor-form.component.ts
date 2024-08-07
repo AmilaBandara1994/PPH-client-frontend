@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Doctor} from "../../../../entity/doctor";
 import {Employee} from "../../../../entity/employee";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
 import {Gender} from "../../../../entity/gender";
 import {Degree} from "../../../../entity/degree";
 import {Doctordegree} from "../../../../entity/doctordegree";
@@ -26,6 +25,8 @@ import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.componen
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
 import {University} from "../../../../entity/university";
 import {UiAssist} from "../../../../util/ui/ui.assist";
+import {Prescription} from "../../../../entity/prescription";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-doctor-form',
@@ -37,15 +38,19 @@ export class DoctorFormComponent {
   incolumns: string[] = ['degree', 'year', 'university', 'remove'];
   inheaders: string[] = ['Degree', 'Year', 'University', 'Remove',];
   inbinders: string[] = ['degree.name', 'year', 'university.name', 'getBtn()'];
+
+
+  title:string='Doctor'
+
   public form!: FormGroup;
-  public eduform!: FormGroup;
+  public innerform!: FormGroup;
   // public innerform!: FormGroup;
 
   newdoctor!: Doctor;
   olddoctor!: Doctor;
 
   regexes: any;
-  updatForm:boolean = false;
+  updateForm:boolean = false;
   id!: number ;
   ddid:number = 0;
   enaadd: boolean = false;
@@ -55,16 +60,15 @@ export class DoctorFormComponent {
   selectedrow: any;
 
   innerdata: any;
-  oldinnerdata:any;
   doctordegrees: Array<Doctordegree> = [];
   indata!: MatTableDataSource<Doctordegree>
-
   uiassist: UiAssist;
+
   doctors: Array<Doctor> = [];
   doctoremployees: Array<Employee> = [];
   data!: MatTableDataSource<Doctor>;
   imageurl: string = '';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
 
 
 
@@ -80,14 +84,17 @@ export class DoctorFormComponent {
   constructor(
     private doctorss: DoctorService,
     private empservice: EmployeeService,
-    private _location: Location,
+
     private countryservice: CountryService,
     private degreeservice: DegreeService,
     private dgrades: DoctorgradeService,
     private cliniservice: ClinictypeService,
     private universityservice: UniversityService,
     private genderservice: GenderService,
+
     private rs: RegexService,
+    private arouter: ActivatedRoute,
+    private _location: Location,
     private formb: FormBuilder,
     private dialog: MatDialog,
     private datep: DatePipe,
@@ -96,7 +103,7 @@ export class DoctorFormComponent {
     this.uiassist = new UiAssist(this);
 
 
-    this.eduform = this.formb.group({
+    this.innerform = this.formb.group({
       "year": new FormControl('', [Validators.required]),
       "degree": new FormControl('', [Validators.required]),
       // "educountry": new FormControl('', [Validators.required]),
@@ -118,7 +125,21 @@ export class DoctorFormComponent {
   }
 
   ngOnInit() {
-    this.initialize();
+
+    this.id = this.arouter.snapshot.params['id'];
+    if (this.arouter.snapshot.params['id']) {
+
+      this.doctorss.get(this.id).then((doctor: Doctor | undefined) => {
+        if (doctor != undefined) {
+          this.olddoctor = doctor;
+          this.newdoctor = doctor;
+        }
+        this.updateForm = true;
+        this.fillForm();
+      });
+    }
+
+      this.initialize();
   }
 
   initialize() {
@@ -129,19 +150,7 @@ export class DoctorFormComponent {
     });
     this.empservice.getAll("?designationid=2").then((emp: Employee[]) => {
       this.doctoremployees = emp;
-      // let employee = emp;
-      // this.doctoremployees = emp.filter(em => {
-      //    let doct = this.doctors.filter(doc => {
-      //      doc.employee.id != em.id;
-      //   });
-      //    if(doct.length > 0){
-      //      console.log('false');
-      //      return false;
-      //    }else{
-      //      console.log('true');
-      //      return true;
-      //    }
-      // });
+
     });
     this.countryservice.getAllList().then((country: Country[]) => {
       this.countries = country;
@@ -166,12 +175,6 @@ export class DoctorFormComponent {
     //   this.createForm();
     // });
 
-  }
-
-
-  createView() {
-    this.imageurl = 'assets/pending.gif';
-    // this.loadTable("");
   }
 
   // createForm() {
@@ -210,51 +213,45 @@ export class DoctorFormComponent {
   //   // this.enableButtons(true, false, false);
   // }
 
+  fillForm() {
+    setTimeout(() => {
+      //@ts-ignore
+      this.newdoctor.employee = this.doctoremployees.find(s => s.id === this.newdoctor.employee.id);
 
-  // loadTable(query: string) {
-  //
-  //   this.pos.getAll(query)
-  //     .then((emps: Purorder[]) => {
-  //       this.purorders = emps;
-  //       this.imageurl = 'assets/fullfilled.png';
-  //     })
-  //     .catch((error) => {
-  //       this.imageurl = 'assets/rejected.png';
-  //     })
-  //     .finally(() => {
-  //       this.data = new MatTableDataSource(this.doctordegrees);
-  //       this.data.paginator = this.paginator;
-  //     });
-  //
-  // }
+      //@ts-ignore
+      this.newdoctor.doctorgrade = this.doctorgrades.find(s => s.id === this.newdoctor.doctorgrade.id);
+      // //@ts-ignore
+      // this.newdoctor. = this.doctoremployees.find(s => s.id === this.newdoctor.employee.id);
+      // //@ts-ignore
+      // this.newdoctor.employee = this.doctoremployees.find(s => s.id === this.newdoctor.employee.id);
 
+
+
+      this.indata = new MatTableDataSource(this.newdoctor.doctordegrees);
+      this.form.patchValue(this.newdoctor);
+      this.form.markAsPristine();
+    }, 500);
+
+
+  }
   btnaddMc() {
-
-    this.innerdata = this.eduform.getRawValue();
-    // console.log(this.innerdata);
-    console.log(this.innerdata);
-
+    this.innerdata = this.innerform.getRawValue();
     if (this.innerdata != null) {
-
-      // let explinetotal =this.innerdata.qty * this.innerdata.explinetotal;
-      // @ts-ignore
-      let poitem = new Doctordegree();
-        poitem.year = this.innerdata.year;
-        poitem.university = this.innerdata.university;
-        poitem.degree = this.innerdata.degree;
-
+      let docdegree = new Doctordegree(
+        this.innerdata.year,
+        this.innerdata.degree,
+        this.innerdata.university,
+      );
       let tem: Doctordegree[] = [];
       if (this.indata != null) this.indata.data.forEach((i) => tem.push(i));
 
       this.doctordegrees = [];
       tem.forEach((t) => this.doctordegrees.push(t));
 
-      this.doctordegrees.push(poitem);
+      this.doctordegrees.push(docdegree);
       this.indata = new MatTableDataSource(this.doctordegrees);
 
-      // this.ddid++;
-      this.eduform.reset();
-
+      this.innerform.reset();
     }
 
   }
@@ -334,7 +331,7 @@ export class DoctorFormComponent {
             if (addstatus) {
               addmessage = "Successfully Saved";
               this.form.reset();
-              this.eduform.reset();
+              this.innerform.reset();
               Object.values(this.form.controls).forEach(control => {
                 control.markAsTouched();
               });
@@ -383,6 +380,26 @@ export class DoctorFormComponent {
     return errors;
   }
 
+  getUpdates(): string {
+
+    let updates: string = "";
+
+    for (const controlName in this.form.controls) {
+      const control = this.form.controls[controlName];
+      if (control.dirty) {
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
+      }
+    }
+    let newarr = this.newdoctor.doctordegrees.length
+    let oldarr = this.doctordegrees.length
+    console.log(newarr , oldarr)
+    if(newarr != oldarr){
+      updates +=" <br> Drug table has been Changed "
+    }
+    return updates;
+  }
+
+
   clear():void{
     const confirm = this.dialog.open(ConfirmComponent, {
       width: '500px',
@@ -403,17 +420,6 @@ export class DoctorFormComponent {
     this._location.back();
   }
 
-  eduadd() {
-    let uni:Doctordegree;
-    uni = this.form.getRawValue();
-    console.log(uni);
-    this.doctordegrees.push(uni);
-    this.eduform.reset()
-  }
-
-  educlear() {
-    this.eduform.reset();
-  }
 
   deleteRaw(x: any) {
 
