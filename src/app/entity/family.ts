@@ -1,4 +1,6 @@
 import {District} from "./district";
+import {Familystatus} from "./familystatus";
+import {Employee} from "./employee";
 
 export class Family {
 
@@ -10,10 +12,11 @@ export class Family {
   public mobile !: string;
   public land !: string;
   public description !: string;
-  public maplocation !: string;
+  public familystatus !: Familystatus;
+  public employee !: Employee;
 
 
-  constructor(id: number, district: District, doregister: string, name: string, address: string, mobile: string, land: string, description: string, maplocation: string) {
+  constructor(id: number, district: District, doregister: string, name: string, address: string, mobile: string, land: string, description: string, familystatus: Familystatus, employee: Employee) {
     this.id = id;
     this.district = district;
     this.doregister = doregister;
@@ -22,6 +25,7 @@ export class Family {
     this.mobile = mobile;
     this.land = land;
     this.description = description;
-    this.maplocation = maplocation;
+    this.familystatus = familystatus;
+    this.employee = employee;
   }
 }

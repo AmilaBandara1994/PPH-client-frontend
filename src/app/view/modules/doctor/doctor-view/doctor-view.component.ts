@@ -34,9 +34,9 @@ import {MessageComponent} from "../../../../util/dialog/message/message.componen
   styleUrls: ['./doctor-view.component.css']
 })
 export class DoctorViewComponent {
-  columns: string[] = ['name', 'doctorgrade', 'gender', 'degrees', 'university' , 'slmcregno', 'mobile','modi'];
-  headers: string[] = ['Name', 'Doctor Grade', 'Gender', 'Degrees', 'University', 'SMLC Reg:NO', 'Mobile','Modification'];
-  binders: string[] = ['employee.fullname', 'doctorgrade.name',  'employee.gender.name', 'getDegree()', 'getUniversity()','slmcregno', 'employee.mobile','getModi()'];
+  columns: string[] = ['name', 'doctorgrade', 'ppr', 'gender', 'degrees', 'university' , 'slmcregno', 'mobile','modi'];
+  headers: string[] = ['Name', 'Doctor Grade', 'Per Patient Rate', 'Gender', 'Degrees', 'University', 'SMLC Reg:NO', 'Mobile','Modification'];
+  binders: string[] = ['employee.fullname', 'doctorgrade.name', 'perpatientrate', 'employee.gender.name', 'getDegree()', 'getUniversity()','slmcregno', 'employee.mobile','getModi()'];
 
   cscolumns: string[] = ['csname', 'csgrade', 'csgender',];
   csprompts: string[] = ['Search by Name', 'Search by Grade', 'Search by Gender'];
@@ -64,8 +64,6 @@ export class DoctorViewComponent {
   genders: Array<Gender> = [];
   degrees: Array<Degree> = [];
   doctordegrees: Array<Doctordegree> = [];
-  // @ViewChild('selectedlist') availabledegrees: Array<Degree> = [];
-  // @ViewChild('selectedlist') selecteddegrees: Array<Degree> = [];
   countries: Array<Country> = [];
   clinictypes: Array<Degree> = [];
   doctorgrades: Array<Doctorgrade> = [];
@@ -120,6 +118,7 @@ export class DoctorViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -369,10 +368,10 @@ export class DoctorViewComponent {
   }
 
   viewDetails(doctor:Doctor) {
-    this.router.navigateByUrl('main/doctor/details/'+doctor.id);
+    this.router.navigateByUrl('main/doctors/details/'+doctor.id);
   }
 
   updateclinic(doctor:Doctor) {
-    this.router.navigateByUrl('main/doctor/update/'+doctor.id);
+    this.router.navigateByUrl('main/doctors/update/'+doctor.id);
   }
 }

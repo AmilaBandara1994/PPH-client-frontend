@@ -1,5 +1,4 @@
 <div class="outer">
-  <!--    <mat-card-header>-->
   <div class="backtoview">
     <button mat-raised-button class="btn-p" (click)="backtoview()">
       <mat-icon>arrow_back</mat-icon>
@@ -7,19 +6,14 @@
     </button>
   </div>
   <span class="form-title">  {{ updateForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
-  <!--    </mat-card-header>-->
   <div id="clinicform">
     <form [formGroup]="form">
       <mat-grid-list cols="2" rowHeight="80px">
-
-
-
-
         <mat-grid-tile>
           <mat-form-field appearance="outline">
             <mat-label>Select a Clinictype</mat-label>
             <mat-select formControlName="clinictype">
-              <!--            <mat-option [value]="null">Not Selected</mat-option>-->
+                          <mat-option [value]="null">Not Selected</mat-option>
               <mat-option *ngFor="let clinictype of clinictypes" [value]="clinictype">{{ clinictype.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -29,7 +23,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Select Doctor</mat-label>
             <mat-select formControlName="doctor">
-              <!--            <mat-option [value]="null">Not Selected</mat-option>-->
+                          <mat-option [value]="null">Not Selected</mat-option>
               <mat-option *ngFor="let doctor of doctorByClinictype" [value]="doctor.id">{{ doctor.employee.fullname }}
               </mat-option>
             </mat-select>
@@ -93,20 +87,20 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
+<!--        <mat-grid-tile>-->
 
-          <mat-form-field appearance="outline">
-            <mat-label>Patient Count</mat-label>
-            <input type="number" matInput formControlName="patientcount">
-          </mat-form-field>
-        </mat-grid-tile>
-
-<!--        <mat-grid-tile *ngIf="!updatForm">-->
 <!--          <mat-form-field appearance="outline">-->
-<!--            <mat-label>Doctor Payment</mat-label>-->
-<!--            <input type="number" matInput formControlName="doctorpayment">-->
+<!--            <mat-label>Patient Count</mat-label>-->
+<!--            <input type="number" matInput formControlName="patientcount">-->
 <!--          </mat-form-field>-->
 <!--        </mat-grid-tile>-->
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Doctor Payment</mat-label>
+            <input type="number" matInput formControlName="doctorpayment">
+          </mat-form-field>
+        </mat-grid-tile>
 
 <!--        <mat-grid-tile *ngIf="!updatForm">-->
 <!--          <mat-form-field appearance="outline">-->

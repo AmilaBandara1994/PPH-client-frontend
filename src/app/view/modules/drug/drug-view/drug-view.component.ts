@@ -118,6 +118,7 @@ export class DrugViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -274,10 +275,10 @@ export class DrugViewComponent {
 
 
   viewDetails(drug:Drug) {
-    this.router.navigateByUrl('main/drug/details/'+drug.id);
+    this.router.navigateByUrl('main/drugs/details/'+drug.id);
   }
 
   updateclinic(drug:Drug) {
-    this.router.navigateByUrl('main/drug/update/'+drug.id);
+    this.router.navigateByUrl('main/drugs/update/'+drug.id);
   }
 }

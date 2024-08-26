@@ -18,7 +18,6 @@
         <div class="when">
           <h2>{{ clinic.name }}</h2>
 
-
           <table>
             <tr>
               <td><p> Clinic Date </p>:</td>
@@ -27,6 +26,11 @@
             <tr>
               <td><p> Clinic Type </p>:</td>
               <td><p>{{ clinic.clinictype.name  }}</p></td>
+            </tr>
+
+            <tr>
+              <td><p> Doctor Name </p>:</td>
+              <td><p> Dr. {{ clinic.doctor.employee.fullname  }}</p></td>
             </tr>
             <tr>
               <td><p> Clinic Status </p>:</td>
@@ -44,21 +48,27 @@
               <td><p> Planed Patient Count </p>:</td>
               <td><p> {{ clinic.patientcount }}</p></td>
             </tr>
-
-
             <tr>
-              <td><p> End Time </p>:</td>
-              <td><p> {{ clinic.endtime }}</p></td>
+              <td><p> Nurse Name </p>:</td>
+              <td><p> {{ clinic.nurse1.fullname }}</p></td>
+            </tr>
+            <tr>
+              <td><p> Assistant Nurse Name </p>:</td>
+              <td><p> {{ clinic.nurse2.fullname }}</p></td>
+            </tr>
+            <tr>
+              <td><p> Total Income </p>:</td>
+              <td><p> {{ clinic.totalincome }}</p></td>
+            </tr>
+            <tr>
+              <td><p> Doctor Payment </p>:</td>
+              <td><p> {{ clinic.doctorpayment }}</p></td>
             </tr>
 
             <tr>
               <td><p>  Scheduled Date </p>:</td>
-              <td><p> {{ clinic.date | date }}</p></td>
+              <td><p> {{ clinic.dopublish | date : 'yyyy-MM-dd'}}</p></td>
             </tr>
-<!--            <tr>-->
-<!--              <td><p> time </p>:</td>-->
-<!--              <td><p> {{ prescription.date | date : 'hh:mm a' }}</p></td>-->
-<!--            </tr>-->
           </table>
         </div>
 

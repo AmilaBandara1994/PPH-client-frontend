@@ -12,6 +12,8 @@ import {
   CliniccountbyclinictypeComponent
 } from "./report/view/cliniccountbyclinictype/cliniccountbyclinictype.component";
 import {DashboardComponent} from "./view/modules/dashboard/dashboard.component";
+import {PrivilageComponent} from "./view/modules/privilage/privilage.component";
+import {OperationComponent} from "./view/modules/operation/operation.component";
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -20,20 +22,22 @@ const routes: Routes = [
     path: "main",
     component: MainwindowComponent,
     children: [
-      {path: "", component: DashboardComponent},
+      // {path: "", component: DashboardComponent},
       {path: "home", component: HomeComponent},
       {path: "dashboard", component: DashboardComponent},
       {path: "employee", component: EmployeeComponent},
+      {path: "privilege", component: PrivilageComponent},
+      {path: "operation", component: OperationComponent},
       {path: "user", component: UserComponent},
 
-      {path: 'patient', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
-      {path: 'doctor', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
-      {path: 'clinic', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
-      {path: 'appointment', loadChildren: () => import('./view/modules/appointment/appointment.module').then(m => m.AppointmentModule)},
+      {path: 'patients', loadChildren: () => import('./view/modules/patient/patient.module').then(m => m.PatientModule)},
+      {path: 'doctors', loadChildren: () => import('./view/modules/doctor/doctor.module').then(m => m.DoctorModule)},
+      {path: 'clinics', loadChildren: () => import('./view/modules/clinic/clinic.module').then(m => m.ClinicModule)},
+      {path: 'appointments', loadChildren: () => import('./view/modules/appointment/appointment.module').then(m => m.AppointmentModule)},
       {path: 'payment', loadChildren: () => import('./view/modules/payment/payment.module').then(m => m.PaymentModule)},
-      {path: 'drug', loadChildren: () => import('./view/modules/drug/drug.module').then(m => m.DrugModule)},
-      {path: 'diagnosis', loadChildren: () => import('./view/modules/diagnosis/diagnosis.module').then(m => m.DiagnosisModule)},
-      {path: 'report', loadChildren: () => import('./report/view/report/report.module').then(m => m.ReportModule)},
+      {path: 'drugs', loadChildren: () => import('./view/modules/drug/drug.module').then(m => m.DrugModule)},
+      {path: 'diagnoses', loadChildren: () => import('./view/modules/diagnosis/diagnosis.module').then(m => m.DiagnosisModule)},
+      {path: 'reports', loadChildren: () => import('./report/view/report/report.module').then(m => m.ReportModule)},
       {path: 'family', loadChildren: () => import('./view/modules/family/family.module').then(m => m.FamilyModule)},
       {path: 'prescription', loadChildren: () => import('./view/modules/prescription/prescription.module').then(m => m.PrescriptionModule)},
       {path: 'investigation', loadChildren: () => import('./view/modules/investigation/investigation.module').then(m => m.InvestigationModule)},

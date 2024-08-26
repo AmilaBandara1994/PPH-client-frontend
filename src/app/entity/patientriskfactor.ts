@@ -8,9 +8,7 @@ export class Patientriskfactor {
   public patient !: Patient;
 
 
-  constructor(id: number, riskfactor: Riskfactor, patient: Patient) {
-    this.id = id;
+  constructor(riskfactor: Riskfactor) {
     this.riskfactor = riskfactor;
-    this.patient = patient;
   }
 }

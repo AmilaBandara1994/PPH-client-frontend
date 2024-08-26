@@ -102,7 +102,7 @@ export class PrescriptionFormComponent {
   }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
     if (this.arouter.snapshot.params['id']) {
 
@@ -249,7 +249,7 @@ export class PrescriptionFormComponent {
       console.log(this.newpresciption)
       let stirngobj: string = "";
 
-      stirngobj = stirngobj + "<br> Presctiption  status : " + this.newpresciption.prescriptionstatus;
+      stirngobj = stirngobj + "<br> Presctiption  status : " + this.newpresciption.prescriptionstatus.name;
       const confirm = this.dialog.open(ConfirmComponent, {
         width: '500px',
         data: {

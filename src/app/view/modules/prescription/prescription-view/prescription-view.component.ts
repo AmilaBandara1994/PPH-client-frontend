@@ -1,11 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Diagnosis} from "../../../../entity/diagnosis";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {Appointment} from "../../../../entity/appointment";
 import {UiAssist} from "../../../../util/ui/ui.assist";
-import {Treatmentplanservice} from "../../../../service/treatmentplanservice";
 import {Router} from "@angular/router";
 import {RegexService} from "../../../../service/regexservice";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,9 +13,6 @@ import {ConfirmComponent} from "../../../../util/dialog/confirm/confirm.componen
 import {MessageComponent} from "../../../../util/dialog/message/message.component";
 import {Prescription} from "../../../../entity/prescription";
 import {PrescriptionService} from "../../../../service/prescriptionservice";
-import {Meal} from "../../../../entity/meal";
-import {Drugschedule} from "../../../../entity/drugschedule";
-import {Dosage} from "../../../../entity/dosage";
 import {Prescriptionstatus} from "../../../../entity/prescriptionstatus";
 import {Clinictype} from "../../../../entity/clinictype";
 import {ClinictypeService} from "../../../../service/clinictype.service";
@@ -88,6 +83,7 @@ export class PrescriptionViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 

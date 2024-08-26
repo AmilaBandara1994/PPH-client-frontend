@@ -132,6 +132,7 @@ export class PatientComponent {
 
   ngOnInit() {
     this.initialize();
+      window.scrollTo(0, 0);
   }
 
   initialize() {

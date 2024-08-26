@@ -8,7 +8,7 @@
           <img src="assets/my-img/banner/doctor-bg.png" alt="">
         </div>
         <div class="desc">
-          <p>Hi, {{ name }}</p>
+          <p>Hi, {{ authService.getUsername() }}</p>
           <p>
             <span>Find a Doctor and make an</span> <br>
             appointment Online!
@@ -23,7 +23,7 @@
         <div class="prof-left">
           <img src="assets/my-img/user.png" alt="Profile picture">
           <div class="prof-name">
-            <p>{{ name }}</p>
+            <p>{{ authService.getUsername() }}</p>
             <span>Visitor</span>
           </div>
         </div>
@@ -34,7 +34,13 @@
       </div>
       <div class="search">
         <mat-icon>search</mat-icon>
-        <span>Search a Doctor</span>
+
+        <!--        <mat-form-field >-->
+        <!--          <mat-label>Search By Doctor Name <mat-icon>search</mat-icon></mat-label>-->
+        <!--          <input  matInput formControlName="ssdname" >-->
+        <!--        </mat-form-field>-->
+        <input type="text" placeholder="Search a doctor">
+<!--        <span>Search a Doctor</span>-->
       </div>
     </div>
 
@@ -100,7 +106,7 @@
         </div>
         <div class="dashcard-body">
           <span>{{ patientcount }}</span>
-          <p>Total Patients</p>
+          <p>Total Doctors</p>
         </div>
       </div>
     </div>
@@ -124,12 +130,12 @@
       <div class="schedule-header">
         <span>Schedule</span>
       </div>
-      <div class="schedule-body">
+      <div class="schedule-body" *ngFor="let schel of schedulelatest">
         <div class="schedule-clinic">
-          <div class="col title-sub">Cardiology</div>
-          <div class="col">OPD1</div>
-          <div class="col">Wed</div>
-          <div class="col">09.00 AM</div>
+          <div class="col title-sub">{{ schel.clinictype.name }}</div>
+          <div class="col">{{ schel.date | date : 'yyyy-MM-dd' }}</div>
+          <div class="col">{{ schel.date | date : 'EEE' |  uppercase }}</div>
+          <div class="col">{{ schel.starttime }} AM</div>
         </div>
 
       </div>

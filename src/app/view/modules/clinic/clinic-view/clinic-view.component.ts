@@ -75,7 +75,7 @@ export class ClinicViewComponent {
                   public authService:AuthorizationManager
   ) {
 
-    this.uiassist  = new UiAssist(this);
+
 
     this.csearch = this.fb.group({
       'csclinictype': new FormControl(),
@@ -93,16 +93,17 @@ export class ClinicViewComponent {
       "ssdname": new FormControl(),
       "ssclinictype": new FormControl(),
     })
-
+    this.uiassist  = new UiAssist(this);
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
   initialize() {
 
-    this.createView();
+
 
     this.ds.getAllList('').then((docts:Doctor[]) =>{
       this.doctors = docts;
@@ -119,10 +120,11 @@ export class ClinicViewComponent {
       this.employees = emp;
     });
 
-    this.rs.get('clinic').then((regs: []) => {
-      this.regexes = regs;
-      this.createForm();
-    });
+    // this.rs.get('clinic').then((regs: []) => {
+    //   this.regexes = regs;
+    //   this.createForm();
+    // });
+    this.createView();
   }
 
   createView() {
@@ -286,12 +288,13 @@ export class ClinicViewComponent {
 
 
   delete(clinic:Clinic) {
-    console.log(clinic)
+
+    console.log(clinic);
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
         heading: "Confirmation - Clinic Delete",
-        message: "Are you sure to Delete following Clinic ? <br> <br>" + clinic.clinictype.name
+        message: "Are you sure to Delete following Clinic? <br> <br>" + clinic.name
       }
     });
 
@@ -314,7 +317,7 @@ export class ClinicViewComponent {
         } ).finally(() => {
           if (delstatus) {
             delmessage = "Successfully Deleted";
-            Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+            // Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
             this.loadTable("");
           }
 
@@ -330,10 +333,10 @@ export class ClinicViewComponent {
   }
 
   updateclinic(clinic:Clinic) {
-    this.router.navigateByUrl('main/clinic/update/'+clinic.id);
+    this.router.navigateByUrl('main/clinics/update/'+clinic.id);
   }
   viewDetails(clinic:Clinic) {
-    this.router.navigateByUrl('main/clinic/details/'+clinic.id);
+    this.router.navigateByUrl('main/clinics/details/'+clinic.id);
   }
 
 }

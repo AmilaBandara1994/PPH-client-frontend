@@ -25,7 +25,6 @@ import {ClinictypeService} from "../../../../service/clinictype.service";
 import {Clinic} from "../../../../entity/clinic";
 import {ClinicService} from "../../../../service/clinic.service";
 import {Subscription} from "rxjs";
-import {Brand} from "../../../../entity/brand";
 
 @Component({
   selector: 'app-appointment-form',
@@ -36,9 +35,9 @@ export class AppointmentFormComponent {
 
   public form!: FormGroup;
 
-  updateForm:boolean = false;
-  id!: number ;
-  sclinicisempty!:boolean;
+  updateForm: boolean = false;
+  id!: number;
+  sclinicisempty!: boolean;
 
   newappointment!: Appointment;
   oldappointment!: Appointment;
@@ -61,6 +60,7 @@ export class AppointmentFormComponent {
   clinictypes: Array<Clinictype> = [];
   genders: Array<Gender> = [];
   patients: Array<Patient> = [];
+  clinics: Array<Clinic> = [];
   scheduledclinics: Array<Clinic> = [];
   number!: number;
 
@@ -69,7 +69,6 @@ export class AppointmentFormComponent {
   regexes: any;
 
   constructor(
-
     private appointmentservice: AppointmentService,
     private appointmenttypeservice: AppointmenttypeService,
     private appointmentstatusservice: AppointmentstatusService,
@@ -77,15 +76,13 @@ export class AppointmentFormComponent {
     private clinictypeservice: ClinictypeService,
     private clinicservice: ClinicService,
     private patientservice: Patientservice,
-
-
     private _location: Location,
-    private arouter:ActivatedRoute,
+    private arouter: ActivatedRoute,
     private rs: RegexService,
     private fb: FormBuilder,
     private dg: MatDialog,
     private dp: DatePipe,
-    public authService:AuthorizationManager) {
+    public authService: AuthorizationManager) {
 
 
     this.form = this.fb.group({
@@ -104,23 +101,23 @@ export class AppointmentFormComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+
+    this.initialize();
 
     this.id = this.arouter.snapshot.params['id'];
-    if(this.arouter.snapshot.params['id']){
+    if (this.arouter.snapshot.params['id']) {
       // @ts-ignore
       this.appointmentservice.get(this.id).then((appointment: Appointment) => {
         this.oldappointment = appointment;
         this.newappointment = appointment;
-        this.updateForm  = true;
+        this.updateForm = true;
         console.log(this.newappointment);
-        // // console.log('dflsd   ',this.generateNumber( appointment));
-        // console.log('dflsd   ',);
         this.fillForm();
       });
 
     }
 
-    this.initialize();
   }
 
   initialize() {
@@ -131,13 +128,17 @@ export class AppointmentFormComponent {
     this.patientservice.getAll('').then((patient: Patient[]) => {
       this.patients = patient;
     });
-    this.clinictypeservice.getAllList().then((clinictypes:Clinictype[])=>{
+    this.clinictypeservice.getAllList().then((clinictypes: Clinictype[]) => {
       this.clinictypes = clinictypes;
     });
-    this.appointmenttypeservice.getAll().then((appointmenttypes:Appointmenttype[])=>{
+
+    this.clinicservice.getAll('').then((clinics: Clinic[]) => {
+      this.clinics = clinics;
+    });
+    this.appointmenttypeservice.getAll().then((appointmenttypes: Appointmenttype[]) => {
       this.appointmenttypes = appointmenttypes;
     })
-    this.appointmentstatusservice.getAll().then((appointmentstatuses:Appointmentstatus[])=>{
+    this.appointmentstatusservice.getAll().then((appointmentstatuses: Appointmentstatus[]) => {
       this.appointmentstatuses = appointmentstatuses;
     })
 
@@ -149,44 +150,72 @@ export class AppointmentFormComponent {
     this.getcountbyclinic();
   }
 
-getscheduledclinic(){
+  getscheduledclinic() {
     // @ts-ignore
-  // this.schedulesub = this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-  this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-     let query = "";
-     if(value == null )return;
-     query = "?clinicstatusid=1&clinictypeid="+value.id;
-     this.clinicservice.getAllScheduled(query).then((clinics: Clinic[])=>{
-       if(clinics.length == 0){
-         this.sclinicisempty = true;
-       }else{
-         this.sclinicisempty = false;
-       }
-       console.log(this.sclinicisempty);
-       this.scheduledclinics = clinics;
-     });
-  })
-}
-  // generateNumber(app) {
-  generateNumber(clinictype:string) {
-    let str = "AP";
-    let str2 = clinictype.slice(0, 2).toUpperCase();
-    return str + '-' + str2+ '-'+ this.dp.transform( new Date, 'yyMMddhhmm');
+    // this.schedulesub = this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
+    this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) => {
+      let query = "";
+      if (value == null) return;
+      query = "?clinicstatusid=1&clinictypeid=" + value.id;
+      this.clinicservice.getAllScheduled(query).then((clinics: Clinic[]) => {
+        if (clinics.length == 0) {
+          this.sclinicisempty = true;
+        } else {
+          this.sclinicisempty = false;
+        }
+        console.log(this.sclinicisempty);
+        this.scheduledclinics = clinics;
+      });
+    })
   }
 
+  // generateNumber(app) {
+  generateNumber(clinictype: string) {
+    let str = "AP";
+    let str2 = clinictype.slice(0, 2).toUpperCase();
+    return str + '-' + str2 + '-' + this.dp.transform(new Date, 'yyMMddhhmm');
+  }
 
-  getcountbyclinic(){
-    this.form.get('clinic')?.valueChanges.subscribe((value:Clinic) =>{
-      if(value == null )return;
-      this.appointmentservice.getcount(value.id).then((count: number)=>{
-        this.number = parseInt( value.id + '0' + (count+1));
+  fillForm() {
+    // this.schedulesub.unsubscribe();
+
+    this.form.controls['clinictype'].setValue(this.clinictypes.find(c => c.id == this.newappointment.clinic.clinictype.id));
+
+
+    //@ts-ignore
+    this.newappointment.appointmentstatus = this.appointmentstatuses.find(a => a.id === this.newappointment.appointmentstatus.id);
+
+    //@ts-ignore
+    this.newappointment.appointmenttype = this.appointmenttypes.find(a => a.id === this.newappointment.appointmenttype.id);
+    //@ts-ignore
+    this.newappointment.patient = this.patients.find(p => p.id === this.newappointment.patient.id);
+    //@ts-ignore
+    this.newappointment.employee = this.employees.find(e => e.id === this.newappointment.employee.id);
+
+    //@ts-ignore
+    // this.newappointment.clinic = this.clinics.find(e => e.id === this.newappointment.clinic.id);
+
+    this.form.controls['clinic'].setValue(this.clinics.find(sc => sc.id == this.newappointment.clinic.id));
+
+    this.form.patchValue(this.newappointment);
+    this.form.markAsPristine();
+
+  }
+
+  getcountbyclinic() {
+    this.form.get('clinic')?.valueChanges.subscribe((value: Clinic) => {
+      if (value == null) return;
+      this.appointmentservice.getcount(value.id).then((count: number) => {
+        this.number = parseInt(value.id + '0' + (count + 1));
         console.log(this.number)
       });
     });
   }
+
   createForm() {
 
     this.form.controls['clinic'].setValidators([Validators.required]);
+    this.form.controls['clinictype'].setValidators([Validators.required]);
     // this.form.controls['number'].setValidators([Validators.required]);
     this.form.controls['patient'].setValidators([Validators.required]);
     this.form.controls['appointmentstatus'].setValidators([Validators.required]);
@@ -195,7 +224,9 @@ getscheduledclinic(){
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required]);
 
-    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
 
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
@@ -216,11 +247,7 @@ getscheduledclinic(){
           }
         }
       );
-
     }
-
-    // this.enableButtons(true,false,false);
-
   }
 
 
@@ -242,7 +269,7 @@ getscheduledclinic(){
       this.newappointment = this.form.getRawValue()
       this.newappointment.appointmentstatus = this.appointmentstatuses[0];
 
-      this.newappointment.number = '' +this.number
+      this.newappointment.number = '' + this.number
 
       let formdata: string = "";
 
@@ -324,29 +351,6 @@ getscheduledclinic(){
     return errors;
   }
 
-  fillForm() {
-
-    // this.schedulesub.unsubscribe();
-    this.form.controls['clinictype'].setValue( this.clinictypes.find( c => c.id == this.newappointment.clinic.clinictype.id));
-    this.form.controls['clinic'].setValue(this.scheduledclinics.find( sc => sc.id == this.newappointment.clinic.id));
-
-    //@ts-ignore
-    this.newappointment.appointmentstatus  = this.appointmentstatuses.find(a => a.id === this.newappointment.appointmentstatus.id);
-
-    //@ts-ignore
-    this.newappointment.appointmenttype  = this.appointmenttypes.find(a => a.id === this.newappointment.appointmenttype.id);
-    //@ts-ignore
-    this.newappointment.patient = this.patients.find(p => p.id === this.newappointment.patient.id);
-    //@ts-ignore
-    this.newappointment.employee = this.employees.find(e => e.id === this.newappointment.employee.id);
-    //@ts-ignore
-    // this.patient.relationship = this.relationship.find(s => s.id === this.patient.relationship.id);
-
-    this.form.patchValue(this.newappointment);
-    this.form.markAsPristine();
-
-  }
-
 
   getUpdates(): string {
 
@@ -354,7 +358,7 @@ getscheduledclinic(){
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.dirty) {
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
     }
     return updates;
@@ -371,7 +375,11 @@ getscheduledclinic(){
         width: '500px',
         data: {heading: "Errors - Appointment Update ", message: "You have following Errors <br> " + errors}
       });
-      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+      errmsg.afterClosed().subscribe(async result => {
+        if (!result) {
+          return;
+        }
+      });
 
     } else {
 
@@ -396,7 +404,7 @@ getscheduledclinic(){
             // if (this.form.controls['photo'].dirty) this.patient.photo = btoa(this.imageempurl);
             // this.patient.photo = this.oldpatinet.photo;
             this.newappointment.id = this.oldappointment.id;
-            this.newappointment.number  = ''+this.number;
+            this.newappointment.number = '' + this.number;
 
             this.newappointment.number = this.generateNumber(this.newappointment.clinic.clinictype.name)
             console.log(this.newappointment)
@@ -414,12 +422,14 @@ getscheduledclinic(){
                 updstatus = false;
                 updmessage = "Content Not Found"
               }
-            } ).finally(() => {
+            }).finally(() => {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
                 // this.clearImage();
-                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+                Object.values(this.form.controls).forEach(control => {
+                  control.markAsTouched();
+                });
                 // this.loadTable("");
               }
 
@@ -427,19 +437,26 @@ getscheduledclinic(){
                 width: '500px',
                 data: {heading: "Status Appointment Add", message: updmessage}
               });
-              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+              stsmsg.afterClosed().subscribe(async result => {
+                if (!result) {
+                  return;
+                }
+              });
 
             });
           }
         });
-      }
-      else {
+      } else {
 
         const updmsg = this.dg.open(MessageComponent, {
           width: '500px',
           data: {heading: "Confirmation - Appointment Update", message: "Nothing Changed"}
         });
-        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+        updmsg.afterClosed().subscribe(async result => {
+          if (!result) {
+            return;
+          }
+        });
 
       }
     }
@@ -448,8 +465,7 @@ getscheduledclinic(){
   }
 
 
-
-  clear():void{
+  clear(): void {
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {

@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./family.component.css']
 })
 export class FamilyComponent {
-
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 }

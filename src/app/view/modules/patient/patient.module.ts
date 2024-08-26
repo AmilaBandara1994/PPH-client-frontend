@@ -16,6 +16,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -24,21 +25,22 @@ import {MatGridListModule} from "@angular/material/grid-list";
     PatientFormComponent,
     PatientDetailsComponent
   ],
-  imports: [
-    CommonModule,
-    PatientRoutingModule,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatOptionModule,
-    MatPaginatorModule,
-    MatSelectModule,
-    MatTableModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatGridListModule
-  ]
+    imports: [
+        CommonModule,
+        PatientRoutingModule,
+        FormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatOptionModule,
+        MatPaginatorModule,
+        MatSelectModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatGridListModule,
+        MatListModule
+    ]
 })
 export class PatientModule { }

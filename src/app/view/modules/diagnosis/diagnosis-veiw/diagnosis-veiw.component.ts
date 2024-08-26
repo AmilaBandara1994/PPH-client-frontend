@@ -87,6 +87,7 @@ export class DiagnosisVeiwComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -235,10 +236,10 @@ export class DiagnosisVeiwComponent {
 
 
   viewDetails(diagnosis:Diagnosis) {
-    this.router.navigateByUrl('main/diagnosis/details/'+diagnosis.id);
+    this.router.navigateByUrl('main/diagnoses/details/'+diagnosis.id);
   }
 
   updateclinic(diagnosis:Diagnosis) {
-    this.router.navigateByUrl('main/diagnosis/update/'+diagnosis.id);
+    this.router.navigateByUrl('main/diagnoses/update/'+diagnosis.id);
   }
 }

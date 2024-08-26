@@ -69,9 +69,9 @@ export class ClinicFormComponent {
       "date": new FormControl("", Validators.required),
       "starttime": new FormControl("", Validators.required),
       "endtime": new FormControl("", Validators.required),
-      "patientcount": new FormControl("", Validators.required),
-      "totalincome": new FormControl(),
-      "doctorpayment": new FormControl(),
+      // "patientcount": new FormControl("", Validators.required),
+      // "totalincome": new FormControl(),
+      "doctorpayment": new FormControl("", Validators.required),
       "clinictype": new FormControl("", Validators.required),
       "doctor": new FormControl("", Validators.required),
       "nurse1": new FormControl("", Validators.required),
@@ -81,8 +81,9 @@ export class ClinicFormComponent {
       // "dopublish": new FormControl({value: new Date(), disabled:true}, Validators.required),
     }, {updateOn: 'change'})
   }
-
   ngOnInit() {
+    window.scrollTo(0, 0);
+    this.initialize();
     this.id = this.arouter.snapshot.params['id'];
     if (this.arouter.snapshot.params['id']) {
       // @ts-ignore
@@ -96,14 +97,11 @@ export class ClinicFormComponent {
 
 
     }
-    let today =
       // this.mindate = {{Date() | date}};
-      this.initialize();
+
   }
 
   initialize() {
-
-
     this.ds.getAllList('').then((docts: Doctor[]) => {
       this.doctors = docts;
     });
@@ -130,10 +128,9 @@ export class ClinicFormComponent {
   filterDoctorByclinictype() {
     // @ts-ignore
     this.form.get('clinictype')?.valueChanges.subscribe((value: Clinictype) => {
-      console.log('this also executed ?');
       let query = "";
-      query = "?clinictypeid=" + value.id;
-      this.ds.getAllList(query).then((doct: Doctor[]) => {
+
+      this.ds.getbyclinictype(value.id).then((doct: Doctor[]) => {
         this.doctorByClinictype = doct;
       });
     });
@@ -149,8 +146,8 @@ export class ClinicFormComponent {
   }
 
 
-  generateName(clinictype: string, date: string, patientcount: number) {
-    return clinictype + "-(" + this.dp.transform(date, 'yy-MM-dd') + ")-" + patientcount;
+  generateName(clinictype: string, date: string) {
+    return clinictype + "-(" + this.dp.transform(date, 'yy-MM-dd') +")" ;
   }
 
   createForm() {
@@ -159,7 +156,7 @@ export class ClinicFormComponent {
     // this.form.controls['date'].setValidators([Validators.required, Validators.pattern(this.regexes['date']['regex'])]);
     this.form.controls['starttime'].setValidators([Validators.required, Validators.pattern(this.regexes['starttime']['regex'])]);
     this.form.controls['endtime'].setValidators([Validators.required, Validators.pattern(this.regexes['endtime']['regex'])]);
-    this.form.controls['patientcount'].setValidators([Validators.required, Validators.pattern(this.regexes['patientcount']['regex'])]);
+    // this.form.controls['patientcount'].setValidators([Validators.required, Validators.pattern(this.regexes['patientcount']['regex'])]);
     // this.form.controls['totalincome'].setValidators([Validators.pattern(this.regexes['totalincome']['regex'])]);
     // this.form.controls['doctorpayment'].setValidators([Validators.required,Validators.pattern(this.regexes['doctorpayment']['regex'])]);
     this.form.controls['clinictype'].setValidators([Validators.required]);
@@ -198,9 +195,7 @@ export class ClinicFormComponent {
 
   }
 
-  fillForm() {
-
-    // this.filvaluesubscribe.unsubscribe();
+  fillForm( ) {
 
       // @ts-ignore
       this.filformsub = this.form.get('clinictype')?.valueChanges.subscribe((clinictype: Clinictype) => {
@@ -219,12 +214,8 @@ export class ClinicFormComponent {
           // @ts-ignore
           this.newclinic.employee = this.employees.find(cs => cs.id === this.newclinic.employee.id);
 
-    setTimeout(() => {
           this.form.patchValue(this.newclinic);
           this.form.markAsPristine();
-
-    }, 500);
-          // this.enableButtons(false,true,true);
         })
 
       });
@@ -260,7 +251,7 @@ export class ClinicFormComponent {
       // @ts-ignore
       this.newclinic.dopublish = this.dp.transform(this.newclinic.dopublish, 'yyyy-MM-dd');
 
-      this.newclinic.name = this.generateName(this.newclinic.clinictype.name, this.newclinic.date, this.newclinic.patientcount)
+      this.newclinic.name = this.generateName(this.newclinic.clinictype.name, this.newclinic.date)
 
       let clinic: string = "";
 
@@ -458,6 +449,10 @@ export class ClinicFormComponent {
         updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
     }
+    if(this.form.controls['date'].valueChanges){
+      updates += 'Date has changed';
+    }
+
     return updates;
   }
 

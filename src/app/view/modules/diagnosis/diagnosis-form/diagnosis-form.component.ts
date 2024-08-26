@@ -177,6 +177,7 @@ export class DiagnosisFormComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
 
     this.id = this.arouter.snapshot.params['id'];
     if (this.arouter.snapshot.params['id']) {

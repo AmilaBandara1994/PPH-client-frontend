@@ -133,6 +133,7 @@ export class PatientViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -565,11 +566,12 @@ export class PatientViewComponent {
 
   delete(patient:Patient) {
 
+    console.log(patient);
     const confirm = this.dg.open(ConfirmComponent, {
       width: '500px',
       data: {
         heading: "Confirmation - Patient Delete",
-        message: "Are you sure to Delete following Patient? <br> <br>" + this.patient.name
+        message: "Are you sure to Delete following Patient? <br> <br>" + patient.name
       }
     });
 
@@ -578,7 +580,7 @@ export class PatientViewComponent {
         let delstatus: boolean = false;
         let delmessage: string = "Server Not Found";
 
-        this.ps.delete(this.patient.id).then((responce: [] | undefined) => {
+        this.ps.delete(patient.id).then((responce: [] | undefined) => {
 
           if (responce != undefined) { // @ts-ignore
             delstatus = responce['errors'] == "";
@@ -626,10 +628,10 @@ export class PatientViewComponent {
   }
 
   viewDetails(patient:Patient) {
-    this.router.navigateByUrl('main/patient/details/'+patient.id);
+    this.router.navigateByUrl('main/patients/details/'+patient.id);
   }
 
   updateclinic(patient:Patient) {
-    this.router.navigateByUrl('main/patient/update/'+patient.id);
+    this.router.navigateByUrl('main/patients/update/'+patient.id);
   }
 }

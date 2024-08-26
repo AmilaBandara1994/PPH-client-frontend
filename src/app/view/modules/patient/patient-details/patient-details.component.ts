@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {Patient} from "../../../../entity/patient";
 import {Patientservice} from "../../../../service/patientservice";
+import {Diagnosis} from "../../../../entity/diagnosis";
 
 @Component({
   selector: 'app-patient-details',
@@ -13,6 +14,8 @@ export class PatientDetailsComponent {
 
   patient!: Patient;
   id!: number ;
+  imagediagnosispurl: string ="assets/my-img/banner/diagnosis-bg.jpg";
+
   age!:number;
 
   constructor(
@@ -25,6 +28,7 @@ export class PatientDetailsComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
 
     this.initialize();
@@ -52,6 +56,6 @@ export class PatientDetailsComponent {
   }
 
   updateform() {
-    this.router.navigateByUrl('main/doctor/update/'+this.id);
+    this.router.navigateByUrl('main/doctors/update/'+this.id);
   }
 }

@@ -6,7 +6,7 @@
       Back to View
     </button>
   </div>
-  <span class="form-title">  {{ updateForm ? 'Update Clinic' : 'Creat a Clinic' }}</span>
+  <span class="form-title">  {{ updateForm ? 'Update '+title : 'Creat a '+title }}</span>
   <!--    </mat-card-header>-->
   <div id="clinicform">
     <form [formGroup]="form">
@@ -28,9 +28,17 @@
             <mat-label>Select appointment</mat-label>
             <mat-select formControlName="appointment">
               <mat-option [value]="null" selected>Not Selected</mat-option>
-              <mat-option *ngFor="let appointment of appointments" [value]="appointment">{{ appointment.patient.name }}  -  Appointment NO :{{ appointment.number }}
+              <mat-option *ngFor="let appointment of appointments" [value]="appointment">{{ appointment.number }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input  type="number"  matInput  formControlName="amount" readonly>
           </mat-form-field>
         </mat-grid-tile>
 
@@ -46,12 +54,6 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Amount</mat-label>
-            <input type="number" matInput formControlName="amount">
-          </mat-form-field>
-        </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field appearance="outline">

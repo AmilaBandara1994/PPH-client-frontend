@@ -32,7 +32,6 @@ import {Adverseeffect} from "../../../../entity/adverseeffect";
 import {Contraindication} from "../../../../entity/contraindication";
 import {Adverseeffectservice} from "../../../../service/adverseeffect.service";
 import {Contraindicationservice} from "../../../../service/contraindicationservice";
-import {Appointment} from "../../../../entity/appointment";
 
 @Component({
   selector: 'app-drug-form',
@@ -47,12 +46,9 @@ export class DrugFormComponent {
   public form!: FormGroup;
   updateForm: boolean = false;
   id!: number;
-  // sclinicisempty!:boolean;
 
   newDrug!: Drug;
   oldDrug!: Drug;
-
-  // selectedrow: any;
 
   employees: Array<Employee> = [];
   drugforms: Array<Drugform> = [];
@@ -80,8 +76,6 @@ export class DrugFormComponent {
 
   @Input() contraindications: Array<Contraindication> = [];
   oldcontraindications: Array<Contraindication> = [];
-
-  // @Input() selecteddrugadverseeffs: Array<Drugadverseeffect> = [];
 
   @ViewChild('availablelist1') availablelist1!: MatSelectionList;
   @ViewChild('selectedlist1') selectedlist1!: MatSelectionList;
@@ -140,6 +134,8 @@ export class DrugFormComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+    this.initialize();
 
     this.id = this.arouter.snapshot.params['id'];
     if(this.arouter.snapshot.params['id']){
@@ -148,14 +144,15 @@ export class DrugFormComponent {
         this.oldDrug = drug;
         this.newDrug = drug;
         this.updateForm  = true;
+        console.log(drug);
         console.log(this.newDrug);
         this.fillForm();
-      });
 
+      });
     }
 
 
-    this.initialize();
+
   }
 
   initialize() {
@@ -189,10 +186,12 @@ export class DrugFormComponent {
       this.contraindications = contraindications;
     })
 
-    // this.doctorss.getAllList('')then((docs: Doctor[]) => {
-    //   this.regexes = regs;
-    //   this.createForm();
-    // });
+
+    this.rs.get('drugs').then((regs: []) => {
+      this.regexes = regs;
+      this.createForm();
+    });
+
     // this.getscheduledclinic();
     // this.getcountbyclinic();
   }
@@ -207,45 +206,60 @@ export class DrugFormComponent {
     return str + '-' + str2+ '-'+ this.dp.transform( new Date, 'yyMMddhhmm');
   }
 
-  // getscheduledclinic(){
-  //   // @ts-ignore
-  //   // this.schedulesub = this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-  //   this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-  //     let query = "";
-  //     if(value == null )return;
-  //     query = "?clinicstatusid=1&clinictypeid="+value.id;
-  //     this.clinicservice.getAllScheduled(query).then((clinics: Clinic[])=>{
-  //       if(clinics.length == 0){
-  //         this.sclinicisempty = true;
-  //       }else{
-  //         this.sclinicisempty = false;
-  //       }
-  //       console.log(this.sclinicisempty);
-  //       this.scheduledclinics = clinics;
-  //     });
-  //   })
-  // }
+  fillForm() {
+    if (this.newDrug != undefined) {
+      console.log(this.newDrug);
+      if (this.newDrug.photo != null) {
+        this.imagedrugpurl = atob(this.newDrug.photo);
+        this.form.controls['photo'].clearValidators();
+      } else {
+        this.clearImage();
+      }
+      this.newDrug.photo = "";
+      this.drugadverseeffects = this.newDrug.drugadverseeffects;
+      this.drugindications = this.newDrug.drugindications;
+      this.drugcontraindications = this.newDrug.drugcontraindications
+
+      //@ts-ignore
+      this.newDrug.drugroute = this.drugroutes.find(a => a.id === this.newDrug.drugroute.id);
+
+      //@ts-ignore
+      this.newDrug.generic = this.generics.find(a => a.id === this.newDrug.generic.id);
+      console.log(this.newDrug.generic);
+      //@ts-ignore
+      this.newDrug.brand = this.brands.find(a => a.id === this.newDrug.brand.id);
+      console.log(this.newDrug.brand);
+      //@ts-ignore
+      this.newDrug.drugform = this.drugforms.find(p => p.id === this.newDrug.drugform.id);
+      //@ts-ignore
+      this.newDrug.employee = this.employees.find(e => e.id === this.newDrug.employee.id);
+      //@ts-ignore
+      this.newDrug.drugstatus = this.drugstatuses.find(a => a.id === this.newDrug.drugstatus.id);
+
+      this.form.patchValue(this.newDrug);
+      this.form.markAsPristine();
+    }
+
+  }
 
 
-  // getcountbyclinic(){
-  //   this.form.get('clinic')?.valueChanges.subscribe((value:Clinic) =>{
-  //     if(value == null )return;
-  //     this.drugservice.getcount(value.id).then((count: number)=>{
-  //       this.number = parseInt( value.id + '0' + (count+1));
-  //       console.log(this.number)
-  //     });
-  //   });
-  // }
   createForm() {
 
-    this.form.controls['clinic'].setValidators([Validators.required]);
-    this.form.controls['number'].setValidators([Validators.required]);
-    this.form.controls['patient'].setValidators([Validators.required]);
-    this.form.controls['drugstatus'].setValidators([Validators.required]);
-    this.form.controls['drugtype'].setValidators([Validators.required]);
-    this.form.controls['date'].setValidators([Validators.required]);
+    this.form.controls['drugform'].setValidators([Validators.required]);
+    this.form.controls['generic'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
+    this.form.controls['drugroute'].setValidators([Validators.required]);
+    this.form.controls['drugstatus'].setValidators([Validators.required]);
+    this.form.controls['brand'].setValidators([Validators.required]);
+    this.form.controls['drugindication'].setValidators([]);
+    this.form.controls['drugadverseeffect'].setValidators([]);
+    this.form.controls['drugcontaraindication'].setValidators([]);
     this.form.controls['description'].setValidators([Validators.required]);
+    this.form.controls['strength'].setValidators([Validators.required]);
+    this.form.controls['qoh'].setValidators([Validators.required]);
+    this.form.controls['rop'].setValidators([Validators.required]);
+    this.form.controls['sprice'].setValidators([Validators.required]);
+    this.form.controls['pprice'].setValidators([Validators.required]);
 
     Object.values(this.form.controls).forEach(control => {
       control.markAsTouched();
@@ -342,6 +356,9 @@ export class DrugFormComponent {
           }).finally(() => {
 
             if (addstatus) {
+              this.adleftAll();
+              this.inleftAll();
+              this.conleftAll();
               addmessage = "Successfully Saved";
               this.form.reset();
               Object.values(this.form.controls).forEach(control => {
@@ -385,45 +402,7 @@ export class DrugFormComponent {
     return errors;
   }
 
-  fillForm() {
 
-    if (this.newDrug != undefined) {
-
-
-      if (this.newDrug.photo != null) {
-        this.imagedrugpurl = atob(this.newDrug.photo);
-        this.form.controls['photo'].clearValidators();
-      } else {
-        this.clearImage();
-      }
-      this.newDrug.photo = "";
-
-
-      this.drugadverseeffects = this.newDrug.drugadverseeffects;
-      // this.adverseeffects = this.adverseeffects.filter(ad => !this.drugadverseeffects.includes(ad));
-      // this.adverseeffects = this.drugadverseeffects.filter(ad => !this.adverseeffects.includes(ad));
-
-      this.drugindications = this.newDrug.drugindications;
-      // this.indications = this.indications.filter(ad => !this.indications.includes(ad));
-
-      this.drugcontraindications = this.newDrug.drugcontraindications
-      // this.contraindications = this.contraindications.filter(ad => !this.drugcontraindications.includes(ad));
-
-      //@ts-ignore
-      this.newDrug.drugroute = this.drugroutes.find(a => a.id === this.newDrug.drugroute.id);
-      //@ts-ignore
-      this.newDrug.drugform = this.drugforms.find(p => p.id === this.newDrug.drugform.id);
-      //@ts-ignore
-      this.newDrug.employee = this.employees.find(e => e.id === this.newDrug.employee.id);
-
-      //@ts-ignore
-      this.newDrug.drugstatus = this.drugstatuses.find(a => a.id === this.newDrug.drugstatus.id);
-
-      this.form.patchValue(this.newDrug);
-      this.form.markAsPristine();
-    }
-
-  }
 
 
   getUpdates(): string {
@@ -506,6 +485,9 @@ export class DrugFormComponent {
               }
             }).finally(() => {
               if (updstatus) {
+                this.adleftAll();
+                this.inleftAll();
+                this.conleftAll();
                 updmessage = "Successfully Updated";
                 this.form.reset();
                 // this.clearImage();

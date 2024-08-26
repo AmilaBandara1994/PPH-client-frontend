@@ -86,6 +86,7 @@ export class FamilyViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -228,11 +229,11 @@ export class FamilyViewComponent {
 
 
   viewDetails(family:Family) {
-    this.router.navigateByUrl('main/family/details/'+family.id);
+    this.router.navigateByUrl('main/families/details/'+family.id);
   }
 
   updateclinic(family:Family) {
-    this.router.navigateByUrl('main/family/update/'+family.id);
+    this.router.navigateByUrl('main/families/update/'+family.id);
   }
 
 

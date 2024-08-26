@@ -1,0 +1,180 @@
+<div class="charts">
+  <span (click)="bar()">
+    <img src="assets/my-img/icons/barchart.svg" alt="Bar chart">
+    <div class="bar chart-sub">
+      <p>Bar </p>
+    </div>
+  </span>
+<!--  <span (click)="pie()">-->
+<!--    <img src="assets/my-img/icons/pie.svg" alt="Bar chart">-->
+<!--    <div class="pie chart-sub">-->
+<!--      <p>Pie </p>-->
+<!--    </div>-->
+<!--  </span>-->
+<!--  <span (click)="line()">-->
+<!--    <img src="assets/my-img/icons/linechart.svg" alt="Bar chart">-->
+<!--    <div class="line chart-sub">-->
+<!--      <p>Line </p>-->
+<!--    </div>-->
+<!--  </span>-->
+<!--  <span (click)="table()">-->
+<!--    <img src="assets/my-img/icons/table.svg" alt="Bar chart">-->
+<!--    <div class="line chart-sub">-->
+<!--      <p>Table </p>-->
+<!--    </div>-->
+<!-- </span>-->
+  <mat-form [formGroup]="form">
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Brand</mat-label>
+            <mat-select formControlName="brand">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let brand of brands" [value]="brand.id" (click)="getChartData()">{{brand.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+
+
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Generic</mat-label>
+            <mat-select formControlName="generic">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let generic of generics" [value]="generic.id" (click)="getChartData()">{{generic.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+
+
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Drug Status</mat-label>
+            <mat-select formControlName="drugstatus">
+              <mat-option [value]="null" selected>Not Selected</mat-option>
+              <mat-option *ngFor="let drugstatus of drugstatuses" [value]="drugstatus.id" (click)="getChartData()">{{drugstatus.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+  </mat-form>
+<!--  <div [formGroup]="form">-->
+
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Select a Duration</mat-label>-->
+<!--      <mat-select formControlName="time">-->
+<!--        <mat-option value="weekly">Weekly</mat-option>-->
+<!--        <mat-option value="monthly">Monthly</mat-option>-->
+<!--        <mat-option value="yearly">Yearly</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
+</div>
+
+
+<div class="tablesection">
+
+</div>
+
+
+<div class="container">
+  <div class="tabl" [ngStyle]="{ display:displyby === 'table'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Drug by Brand or Generic or Status</mat-card-title>
+      </mat-card-header>
+      <mat-card-content><div #drugbarchart></div></mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="pie" [ngStyle]="{ display:displyby === 'pie'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-content>
+        <div #piechart></div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+<!--  <div class="bar" [ngStyle]="{ display:displyby === 'bar'?  'unset' : 'none' } ">-->
+  <div class="bar" >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Drug by Brand or Generic or Status</mat-card-title>
+      </mat-card-header>
+      <mat-card-content><div #drugbarchart></div></mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="line" [ngStyle]="{ display:displyby === 'line'?  'unset' : 'none' } ">
+    <mat-card>
+      <mat-card-content>
+        <div #linechart></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!--<p>thsi is new module</p>-->
+
+
+
+<!--<mat-grid-list [cols]="12" rowHeight="4rem">-->
+<!--  <mat-form [formGroup]="form">-->
+<!--    <mat-grid-tile [colspan]="4" [rowspan]="2">-->
+<!--      <mat-card>-->
+<!--        <mat-card-content>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Brand</mat-label>-->
+<!--            <mat-select formControlName="brand">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let brand of brands" [value]="brand.id" (click)="getChartData()">{{brand.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </mat-card-content>-->
+<!--      </mat-card>-->
+<!--    </mat-grid-tile>-->
+
+<!--    <mat-grid-tile [colspan]="4" [rowspan]="2">-->
+<!--      <mat-card>-->
+<!--        <mat-card-content>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Generic</mat-label>-->
+<!--            <mat-select formControlName="generic">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let generic of generics" [value]="generic.id" (click)="getChartData()">{{generic.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </mat-card-content>-->
+<!--      </mat-card>-->
+<!--    </mat-grid-tile>-->
+
+<!--    <mat-grid-tile [colspan]="4" [rowspan]="2">-->
+<!--      <mat-card>-->
+<!--        <mat-card-content>-->
+<!--          <mat-form-field appearance="outline">-->
+<!--            <mat-label>Drug Status</mat-label>-->
+<!--            <mat-select formControlName="drugstatus">-->
+<!--              <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--              <mat-option *ngFor="let drugstatus of drugstatuses" [value]="drugstatus.id" (click)="getChartData()">{{drugstatus.name}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </mat-card-content>-->
+<!--      </mat-card>-->
+<!--    </mat-grid-tile>-->
+<!--  </mat-form>-->
+<!--  <mat-grid-tile [colspan]="12" [rowspan]="8">-->
+<!--    <mat-card>-->
+<!--      <mat-card-header>-->
+<!--        <mat-card-title>Drug by Brand or Generic or Status</mat-card-title>-->
+<!--      </mat-card-header>-->
+<!--      <mat-card-content><div #drugbarchart></div></mat-card-content>-->
+<!--    </mat-card>-->
+<!--  </mat-grid-tile>-->
+<!--</mat-grid-list>-->

@@ -24,6 +24,7 @@ export class DiagnosisDetailsComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
     // @ts-ignore
     this.ds.get(this.id).then((diagnosis: Diagnosis) => {
@@ -38,6 +39,6 @@ export class DiagnosisDetailsComponent {
     this._location.back();
   }
   updateform() {
-    this.router.navigateByUrl('main/diagnosis/update/'+this.id);
+    this.router.navigateByUrl('main/diagnoses/update/'+this.id);
   }
 }

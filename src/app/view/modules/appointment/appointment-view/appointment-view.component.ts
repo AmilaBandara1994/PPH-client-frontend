@@ -22,6 +22,7 @@ import {Appointmentstatus} from "../../../../entity/appointmentstatus";
 import {AppointmentService} from "../../../../service/appointment.service";
 import {AppointmenttypeService} from "../../../../service/appointmenttype.service";
 import {AppointmentstatusService} from "../../../../service/appointmentstatus.service";
+import {Clinic} from "../../../../entity/clinic";
 
 @Component({
   selector: 'app-appointment-view',
@@ -29,9 +30,9 @@ import {AppointmentstatusService} from "../../../../service/appointmentstatus.se
   styleUrls: ['./appointment-view.component.css']
 })
 export class AppointmentViewComponent {
-  columns: string[] = ['clinictype', 'patient', 'description', 'appointmentstatus' , 'date', 'time','Number','modi'];
-  headers: string[] = ['Clinic Type', 'Patient Name', 'Description',  'Appointment Status', 'Date','Time', 'Number','Modification'];
-  binders: string[] = ['clinic.clinictype.name', 'patient.name',  'description',  'appointmentstatus.name','getDate()' , 'getTime()', 'number'];
+  columns: string[] = ['Number','clinictype', 'patient', 'description', 'appointmentstatus' , 'date', 'time','modi'];
+  headers: string[] = [ 'Appointment Number','Clinic Type', 'Patient Name', 'Description',  'Appointment Status', 'Date','Time', 'Modification'];
+  binders: string[] = ['number','clinic.clinictype.name', 'patient.name',  'description',  'appointmentstatus.name','getDate()' , 'getTime()' ];
 
   cscolumns: string[] = ['csname', 'csfname'];
   csprompts: string[] = ['Search by Patient', 'Search by Family name' ];
@@ -102,6 +103,7 @@ export class AppointmentViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -165,8 +167,6 @@ export class AppointmentViewComponent {
   filterTable(): void {
 
     const cserchdata = this.clinetsearch.getRawValue();
-
-
     // @ts-ignore
     this.data.filterPredicate = (app: Appointment, filter: string) => {
       return
@@ -269,10 +269,10 @@ export class AppointmentViewComponent {
 
 
   viewDetails(doctor:Doctor) {
-    this.router.navigateByUrl('main/appointment/details/'+doctor.id);
+    this.router.navigateByUrl('main/appointments/details/'+doctor.id);
   }
 
   updateclinic(doctor:Doctor) {
-    this.router.navigateByUrl('main/appointment/update/'+doctor.id);
+    this.router.navigateByUrl('main/appointments/update/'+doctor.id);
   }
 }

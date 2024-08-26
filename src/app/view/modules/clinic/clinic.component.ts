@@ -6,5 +6,7 @@ import {Component, ViewChild} from '@angular/core';
   styleUrls: ['./clinic.component.css']
 })
 export class ClinicComponent {
-
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 }

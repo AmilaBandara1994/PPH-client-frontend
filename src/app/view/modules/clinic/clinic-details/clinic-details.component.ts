@@ -3,7 +3,6 @@ import {Clinic} from "../../../../entity/clinic";
 import {ClinicService} from "../../../../service/clinic.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
-import {Prescription} from "../../../../entity/prescription";
 
 @Component({
   selector: 'app-clinic-details',
@@ -12,8 +11,8 @@ import {Prescription} from "../../../../entity/prescription";
 })
 export class ClinicDetailsComponent{
 
-  title:string = 'Prescription';
-  imagediagnosispurl: string ="assets/my-img/banner/diagnosis-bg.jpg";
+  title:string = 'Clinic';
+  imagediagnosispurl: string ="assets/my-img/clinic-details.jpg";
 
 
   clinic!: Clinic;
@@ -29,6 +28,7 @@ export class ClinicDetailsComponent{
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
     // @ts-ignore
     this.cs.get(this.id).then((clinic: Clinic) => {

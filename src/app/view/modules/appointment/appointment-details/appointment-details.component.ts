@@ -13,7 +13,7 @@ export class AppointmentDetailsComponent {
 
   appointment!: Appointment;
   id!: number ;
-
+  imgappoinmenturl: string ="assets/my-img/banner/appointment-bg.png";
   constructor(
     private as:AppointmentService,
     private arouter:ActivatedRoute,
@@ -24,6 +24,7 @@ export class AppointmentDetailsComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
 
     this.initialize();
@@ -44,6 +45,6 @@ export class AppointmentDetailsComponent {
   }
 
   updateform() {
-    this.router.navigateByUrl('main/appointment/update/'+this.id);
+    this.router.navigateByUrl('main/appointments/update/'+this.id);
   }
 }

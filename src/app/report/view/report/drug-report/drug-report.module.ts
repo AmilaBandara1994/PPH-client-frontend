@@ -12,25 +12,29 @@ import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import { DrugbybrandgenericstatusComponent } from './drugbybrandgenericstatus/drugbybrandgenericstatus.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
   declarations: [
     DrugReportComponent,
     DrugDispensationReportComponent,
+    DrugbybrandgenericstatusComponent,
 
   ],
-    imports: [
-        CommonModule,
-        DrugReportRoutingModule,
-        MatCardModule,
-        MatGridListModule,
-        MatTableModule,
-        MatInputModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule
-    ]
+  imports: [
+    CommonModule,
+    DrugReportRoutingModule,
+    MatCardModule,
+    MatGridListModule,
+    MatTableModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatPaginatorModule
+  ]
 })
 export class DrugReportModule { }

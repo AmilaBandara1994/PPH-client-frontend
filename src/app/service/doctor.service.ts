@@ -16,6 +16,13 @@ export class DoctorService {
     }
     return doctor;
   }
+  async getbyclinictype(id:number): Promise<Array<Doctor>> {
+    const doctor = await this.http.get<Array<Doctor>>('http://localhost:8080/doctors/doctorclinic/'+id).toPromise();
+    if(doctor == undefined){
+      return [];
+    }
+    return doctor;
+  }
 
   async get(id:number): Promise<Doctor|undefined> {
     const doctor = await this.http.get<Doctor>('http://localhost:8080/doctors/details/'+ id).toPromise();

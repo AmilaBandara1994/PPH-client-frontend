@@ -27,9 +27,10 @@ export class DoctorDetailsComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
-
     this.initialize();
+
   }
   initialize() {
     // @ts-ignore
@@ -44,6 +45,6 @@ export class DoctorDetailsComponent {
   }
 
   updateform() {
-    this.router.navigateByUrl('main/doctor/update/'+this.id);
+    this.router.navigateByUrl('main/doctors/update/'+this.id);
   }
 }

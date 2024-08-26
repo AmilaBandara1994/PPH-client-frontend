@@ -1,0 +1,76 @@
+<div class="outer">
+  <!--    <mat-card-header>-->
+  <div class="backtoview">
+    <button mat-raised-button class="btn-p" (click)="backtoview()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to View
+    </button>
+  </div>
+  <span class="form-title">  {{ updateForm ? 'Update ' + title : 'Add ' + title }}</span>
+  <div id="clinicform">
+    <form [formGroup]="form">
+      <mat-grid-list cols="2" rowHeight="80px">
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Clinic</mat-label>
+            <mat-select formControlName="clinic">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let obj of clinics"
+                          [value]="obj"> {{ obj.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Prescription Status</mat-label>
+            <mat-select formControlName="doctorpaymentstatus">
+              <mat-option *ngFor="let obj of doctorpaymentstatuses" [value]="obj">{{ obj.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput formControlName="description">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Select the Employee</mat-label>
+            <mat-select formControlName="employee">
+              <mat-option [value]="null">Not Selected</mat-option>
+              <mat-option *ngFor="let obj of employees"
+                          [value]="obj">{{ obj.fullname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!--      <mat-grid-tile>-->
+      <!--        <mat-form-field appearance="outline">-->
+      <!--          <mat-label>Date of SLMC Registered</mat-label>-->
+      <!--          <input matInput [matDatepicker]="dateofpublished" formControlName="paiddate">-->
+      <!--          <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>-->
+      <!--          <mat-datepicker #dateofpublished></mat-datepicker>-->
+      <!--        </mat-form-field>-->
+      <!--      </mat-grid-tile>-->
+
+
+      <div id="butpanel">
+        <div *ngIf="!updateForm">
+          <button mat-raised-button (click)="add()">Add</button>
+        </div>
+        <div *ngIf="updateForm">
+          <button mat-raised-button (click)="update()">Update</button>
+        </div>
+        <button mat-stroked-button (click)="clear()">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
+

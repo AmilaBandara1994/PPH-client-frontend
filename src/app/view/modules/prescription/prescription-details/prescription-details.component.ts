@@ -25,6 +25,7 @@ export class PrescriptionDetailsComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
     // @ts-ignore
     this.ds.get(this.id).then((prescription: Prescription) => {

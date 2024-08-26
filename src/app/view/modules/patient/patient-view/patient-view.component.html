@@ -64,7 +64,7 @@
 
         </div>
         <div class="table-right">
-          <button mat-raised-button class="btn-p" [routerLink]="['form']"><mat-icon>add</mat-icon>Add Clinic</button>
+          <button mat-raised-button class="btn-p" [routerLink]="['form']"><mat-icon>add</mat-icon>Add Patient</button>
         </div>
 
       </div>
@@ -84,7 +84,7 @@
               <button  mat-icon-button color="warn" (click)="delete(row)">
                 <mat-icon>delete</mat-icon>
               </button>
-              <button  mat-icon-button color="warn" (click)="updateclinic(row)">
+              <button  mat-icon-button color="primary" (click)="updateclinic(row)">
                 <mat-icon>update</mat-icon>
               </button>
             </td>

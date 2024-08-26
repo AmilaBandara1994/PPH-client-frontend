@@ -68,7 +68,7 @@
                   <button  mat-icon-button color="warn" (click)="delete(row)">
                     <mat-icon>delete</mat-icon>
                   </button>
-                  <button  mat-icon-button color="warn" (click)="updateclinic(row)">
+                  <button  mat-icon-button color="primary" (click)="updateclinic(row)">
                     <mat-icon>update</mat-icon>
                   </button>
                 </td>
@@ -89,13 +89,13 @@
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-            <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>
+<!--            <mat-header-row *matHeaderRowDef="cscolumns"></mat-header-row>-->
             <mat-row *matRowDef="let row; columns: columns;"  [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>
 <!--            <mat-row *matRowDef="let row; columns: columns;" [routerLink]="['details/',]" [ngClass]="{'selected-row': row === selectedrow}" ></mat-row>-->
 
           </mat-table>
 
-          <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
+          <mat-paginator [length]="20" [pageSize]="3" [pageSizeOptions]="[3,5,10,20]"  ></mat-paginator>
 
 
     </div>

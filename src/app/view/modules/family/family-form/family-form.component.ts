@@ -65,9 +65,9 @@ export class FamilyFormComponent {
       "name": new FormControl('', [Validators.required]),
       "address": new FormControl('', [Validators.required]),
       "mobile": new FormControl('', [Validators.required]),
-      "land": new FormControl('', [Validators.required]),
-      "description": new FormControl('', [Validators.required]),
-      "maplocation": new FormControl(),
+      "land": new FormControl('', []),
+      "description": new FormControl('', []),
+      "maplocation": new FormControl('',[]),
       "familystatus": new FormControl('', [Validators.required]),
       "employee": new FormControl('', [Validators.required]),
     }, {updateOn: 'change'});
@@ -76,7 +76,8 @@ export class FamilyFormComponent {
   }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
+    this.initialize();
     this.id = this.arouter.snapshot.params['id'];
     if (this.arouter.snapshot.params['id']) {
       // @ts-ignore
@@ -89,9 +90,6 @@ export class FamilyFormComponent {
       });
 
     }
-
-
-    this.initialize();
   }
 
   initialize() {
@@ -121,8 +119,8 @@ export class FamilyFormComponent {
     this.form.controls['name'].setValidators([Validators.required]);
     this.form.controls['address'].setValidators([Validators.required]);
     this.form.controls['mobile'].setValidators([Validators.required]);
-    this.form.controls['land'].setValidators([Validators.required]);
-    this.form.controls['description'].setValidators([Validators.required]);
+    this.form.controls['land'].setValidators([]);
+    this.form.controls['description'].setValidators([]);
     this.form.controls['employee'].setValidators([Validators.required]);
     this.form.controls['maplocation'].setValidators([]);
     this.form.controls['familystatus'].setValidators([Validators.required]);
@@ -257,18 +255,18 @@ export class FamilyFormComponent {
 
   fillForm() {
 
+    console.log(this.newFamily);
     if (this.newFamily != undefined) {
 
+      console.log(this.newFamily)
       //@ts-ignore
       this.newFamily.district = this.districts.find(a => a.id === this.newFamily.district.id);
-      //@ts-ignore
-      this.newFamily.famiys = this.familyforms.find(p => p.id === this.newFamily.familyform.id);
+      // @ts-ignore
+      this.newFamily.familystatus = this.familystatuses.find(p => p.id === this.newFamily.familystatus.id);
       //@ts-ignore
       this.newFamily.employee = this.employees.find(e => e.id === this.newFamily.employee.id);
 
-      //@ts-ignore
-      this.newFamily.familystatus = this.familystatuses.find(a => a.id === this.newFamily.familystatus.id);
-
+      console.log(this.newFamily);
       this.form.patchValue(this.newFamily);
       this.form.markAsPristine();
     }
@@ -355,7 +353,7 @@ export class FamilyFormComponent {
 
               const stsmsg = this.dg.open(MessageComponent, {
                 width: '500px',
-                data: {heading: "Status " + this.title + " Add", message: updmessage}
+                data: {heading: "Status " + this.title + " Update", message: updmessage}
               });
               stsmsg.afterClosed().subscribe(async result => {
                 if (!result) {

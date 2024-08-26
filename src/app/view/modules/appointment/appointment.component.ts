@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./appointment.component.css']
 })
 export class AppointmentComponent {
-
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 }

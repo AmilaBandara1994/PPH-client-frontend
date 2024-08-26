@@ -39,11 +39,12 @@ export class DrugDetailsComponent {
 
   }
   initialize() {
+    window.scrollTo(0, 0);
   }
   backtoview() {
     this._location.back();
   }
   updateform() {
-    this.router.navigateByUrl('main/drug/update/'+this.id);
+    this.router.navigateByUrl('main/drugs/update/'+this.id);
   }
 }

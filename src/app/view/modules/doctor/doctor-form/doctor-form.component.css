@@ -113,9 +113,66 @@ button:disabled {
   justify-content: flex-start;
 }
 
-#innertable{
+.innertable{
   /*background-color: #acf1eb;*/
 
+}
+
+
+
+.listtrnasfer {
+  display: flex;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.listransfer-body{
+  display: inline-flex;
+}
+.listransfer-header p{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+.pnlmiddle button{ margin: 8px; display: block!important;}
+
+.list{
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  border: solid gray;
+  border-radius: 5px;
+  max-height: 160px;
+  width:300px;
+  margin-top: 10px;
+  overflow: auto}
+
+.list mat-list-option{ height: 27px;}
+
+.list .mat-mdc-list-item .mdc-list-item__primary-text{ font-size: 14px!important;}
+
+
+#selectbutton{
+  margin-top: -100px;
+}
+
+
+/* Employee Form > Button Panel  */
+#butpanel{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#butpanel button{
+  width: 82px;
+  margin:3px;
+  background-color: var(--theme-primary);
+  color: white;
 }
 
 .edu-group{

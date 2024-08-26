@@ -34,7 +34,13 @@ export class EmployeeService {
     }
     return employees;
   }
-
+  async getAllDoctors(): Promise<Array<Employee>> {
+    const employees = await this.http.get<Array<Employee>>('http://localhost:8080/employees/doctors').toPromise();
+    if(employees == undefined){
+      return [];
+    }
+    return employees;
+  }
   async getAllListNameId(): Promise<Array<Employee>> {
 
     const employees = await this.http.get<Array<Employee>>('http://localhost:8080/employees/list').toPromise();

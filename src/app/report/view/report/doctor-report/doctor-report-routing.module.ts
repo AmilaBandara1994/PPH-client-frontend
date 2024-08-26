@@ -5,10 +5,11 @@ import {ClinicReportComponent} from "../clinic-report/clinic-report.component";
 import {
   ClinccountbyclinictypeComponent
 } from "../clinic-report/clinccountbyclinictype/clinccountbyclinictype.component";
+import {DoctorcountbyspecialityComponent} from "./doctorcountbyspeciality/doctorcountbyspeciality.component";
 
 const routes: Routes = [{
   path: '', component: DoctorReportComponent, children: [
-    // {path: '', component: ClinccountbyclinictypeComponent},
+    {path: '', component: DoctorcountbyspecialityComponent},
     // {path: 'cliniccountbyclinictype', component: ClinccountbyclinictypeComponent},
   ]
 }];

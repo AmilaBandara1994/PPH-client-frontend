@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {EmployeeService} from "../../../service/employeeservice";
-import {Employee} from "../../../entity/employee";
+import {ClinicService} from "../../../service/clinic.service";
+import {Clinic} from "../../../entity/clinic";
+import {AuthorizationManager} from "../../../service/authorizationmanager";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,18 +13,30 @@ export class DashboardComponent {
   name:string = "Amila Bandara";
   patientcount:any  = 0;
 
+  schedulelatest:Array<Clinic> = [];
+
   constructor(
     private emps:EmployeeService,
+    private clinicService:ClinicService,
+    public authService: AuthorizationManager,
+
   ) {
   }
-  ngOnint():void{
+  ngOnInit() {
     this.initialize();
+      window.scrollTo(0, 0);
   }
   initialize(){
-    console.log("why this not happening")
+
     this.emps.countbydesignation(2).then((emp: number| undefined) => {
-      console.log(emp);
       this.patientcount = emp;
     });
+
+    this.clinicService.getlatest().then((clinics: Clinic[]) => {
+      this.schedulelatest = clinics;
+    });
+
+
   }
+
 }

@@ -24,8 +24,11 @@ import {Patient} from "../../../../entity/patient";
 import {Patientservice} from "../../../../service/patientservice";
 import {AppointmentService} from "../../../../service/appointment.service";
 import {Cardpayment} from "../../../../entity/cardpayment";
-import { MatTableDataSource } from '@angular/material/table';
-import { UiAssist } from 'src/app/util/ui/ui.assist';
+import {MatTableDataSource} from '@angular/material/table';
+import {UiAssist} from 'src/app/util/ui/ui.assist';
+import {Prescription} from "../../../../entity/prescription";
+import {PrescriptionService} from "../../../../service/prescriptionservice";
+import {Drugservice} from "../../../../service/drugservice";
 
 @Component({
   selector: 'app-patient-payment-form',
@@ -35,24 +38,24 @@ import { UiAssist } from 'src/app/util/ui/ui.assist';
 export class PatientPaymentFormComponent {
 
 
-  incolumns: string[] = ['bank','number',  'branch', 'remove'];
-  inheaders: string[] = ['Bank','Card Number',  'Bank Branch', 'Remove',];
+  incolumns: string[] = ['bank', 'number', 'branch', 'remove'];
+  inheaders: string[] = ['Bank', 'Card Number', 'Bank Branch', 'Remove',];
   inbinders: string[] = ['bank.name', 'number', 'bankbranch', 'getBtn()'];
 
   innerdata: any;
   oldinnerdata: any;
-
+  title: string = 'Patient Payment';
 
   public form!: FormGroup;
   innerform!: FormGroup;
 
-  updateForm:boolean = false;
-  cardpayment:boolean = false;
-  id!: number ;
+  updateForm: boolean = false;
+  // amountdisable:boolean = true;
+  cardpayment: boolean = false;
+  id!: number;
 
   newpatientpayment!: Patientpayment;
   odlpatientpayment!: Patientpayment;
-
 
 
   regexes: any;
@@ -73,9 +76,15 @@ export class PatientPaymentFormComponent {
   appointments: Array<Appointment> = [];
   cardpayments: Array<Cardpayment> = [];
 
+  prescriptions: Array<Prescription> = [];
+  filterprescriptions: Array<Prescription> = [];
+
+  // prescription!: Prescription;
+
   indata!: MatTableDataSource<Cardpayment>
 
   uiassist: UiAssist;
+
   constructor(
     private paymentstatusservice: PaymentstatusService,
     private paytypeservice: PaytypeService,
@@ -85,9 +94,10 @@ export class PatientPaymentFormComponent {
     private patientservice: Patientservice,
     private appointmentService: AppointmentService,
     private patientpaymentservice: Patientpaymentservice,
-
+    private prescriptionService: PrescriptionService,
+    private drugservice: Drugservice,
     private _location: Location,
-    private arouter:ActivatedRoute,
+    private arouter: ActivatedRoute,
     private rs: RegexService,
     private formb: FormBuilder,
     private dialog: MatDialog,
@@ -100,7 +110,7 @@ export class PatientPaymentFormComponent {
       // "patient": new FormControl('', [Validators.required]),
       "appointment": new FormControl('', [Validators.required]),
       "paytype": new FormControl('', [Validators.required]),
-      "amount": new FormControl('', [Validators.required]),
+      "amount": new FormControl().disabled,
       "paymentstatus": new FormControl('', [Validators.required]),
       "description": new FormControl('', [Validators.required]),
       // "date": new FormControl('', [Validators.required]),
@@ -117,14 +127,15 @@ export class PatientPaymentFormComponent {
 
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
-    if(this.arouter.snapshot.params['id']){
+    if (this.arouter.snapshot.params['id']) {
       // @ts-ignore
       this.patientpaymentservice.get(this.id).then((patientpayment: Patientpayment) => {
         this.odlpatientpayment = patientpayment;
         this.newpatientpayment = patientpayment;
-        this.updateForm  = true;
-        console.log('this is the when load',this.newpatientpayment);
+        this.updateForm = true;
+        console.log('this is the when load', this.newpatientpayment);
         this.fillForm();
       });
 
@@ -140,51 +151,78 @@ export class PatientPaymentFormComponent {
     this.paymentstatusservice.getAll().then((paystatus: Paymentstatus[]) => {
       this.paymentstatuses = paystatus;
     });
-    this.paytypeservice.getAll().then((paytypes:Paytype[])=>{
+    this.paytypeservice.getAll().then((paytypes: Paytype[]) => {
       this.paytypes = paytypes;
     });
-    this.bankservice.getAll().then((banks:Bank[])=>{
+    this.bankservice.getAll().then((banks: Bank[]) => {
       this.banks = banks;
     })
-    this.patientservice.getAll('').then((patients:Patient[])=>{
+    this.patientservice.getAll('').then((patients: Patient[]) => {
       this.patients = patients;
     })
-    this.empservice.getAll('').then((employees:Employee[])=>{
+    this.empservice.getAll('').then((employees: Employee[]) => {
       this.employees = employees;
     })
-    this.appointmentService.getAll('').then((appointments:Appointment[])=>{
+    this.appointmentService.getAll('?appointmentstatusid=2').then((appointments: Appointment[]) => {
       this.appointments = appointments;
     })
-    this.clinictpeservice.getAllList().then((clinictypes:Clinictype[])=>{
+    this.clinictpeservice.getAllList().then((clinictypes: Clinictype[]) => {
       this.clinictypes = clinictypes;
     })
+    this.prescriptionService.getAll('').then((prescriptions: Prescription[]) => {
+      this.prescriptions = prescriptions;
+    })
+
 
     // this.doctorss.getAllList('')then((docs: Doctor[]) => {
     //   this.regexes = regs;
     //   this.createForm();
     // });
-    // this.setappointments();
+    this.counttotal();
     this.setcardpayment();
 
   }
 
-  // setappointments(){
-  //   // @ts-ignore
-  //   // this.schedulesub = this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-  //   this.form.get('patient')?.valueChanges.subscribe((value:Patient) =>{
-  //     this.appointmentService.getallBypatientId(value.id).then((appoints:Appointment[])=>{
-  //           this.appointments = appoints
-  //     });
-  //   })
-  // }
-  setcardpayment(){
+  counttotal() {
+    this.form.get('appointment')?.valueChanges.subscribe((value: Appointment) => {
+      this.form.controls['amount'].setValue(0);
+      this.filterprescriptions = [];
+      let total = 0;
+
+      setTimeout(() => {
+
+        this.filterprescriptions = this.prescriptions.filter(precrip => {
+          // @ts-ignore
+          return precrip.appointment.id == value.id;
+        })
+        console.log('filtered', this.filterprescriptions);
+        this.filterprescriptions.map(drug => {
+         drug.prescriptiondrugs.map(drg =>{
+
+          // console.log('days ', drug.appointment.)
+          // console.log('dossage ', drug.dosage.value)
+          // console.log('scheule ', drug.drugschedule.value)
+          // console.log('sprice ', drug.drug.sprice)
+          // @ts-ignore
+          total += (drg.days * (drg.dosage.value * drg.drugschedule.value)) * drg.drug.sprice;
+         })
+        })
+        this.form.controls['amount'].setValue(total);
+      }, 500)
+
+      total += value.clinic.doctorpayment;
+      console.log(value)
+    })
+  }
+
+  setcardpayment() {
     // @ts-ignore
     // this.schedulesub = this.form.get('clinictype')?.valueChanges.subscribe((value:Clinictype) =>{
-    this.form.get('paytype')?.valueChanges.subscribe((value:Paytype) =>{
-      if(value.id == 2){
+    this.form.get('paytype')?.valueChanges.subscribe((value: Paytype) => {
+      if (value.id == 2) {
         this.cardpayment = true;
-      }else{
-        this.cardpayment =false;
+      } else {
+        this.cardpayment = false;
       }
     })
   }
@@ -194,12 +232,14 @@ export class PatientPaymentFormComponent {
     this.form.controls['petient'].setValidators([Validators.required]);
     this.form.controls['appointment'].setValidators([Validators.required]);
     this.form.controls['paytype'].setValidators([Validators.required]);
-    this.form.controls['amount'].setValidators([Validators.required]);
+    this.form.controls['amount'].setValidators([]);
     this.form.controls['paymentstatus'].setValidators([Validators.required]);
     this.form.controls['description'].setValidators([Validators.required]);
     this.form.controls['employee'].setValidators([Validators.required]);
 
-    Object.values(this.form.controls).forEach( control => { control.markAsTouched(); } );
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
 
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
@@ -228,13 +268,10 @@ export class PatientPaymentFormComponent {
   }
 
 
-
-
   filterDates = (date: Date | null): boolean => {
     const currentDate = new Date();
     return !date || date.getTime() <= currentDate.getTime();
   };
-
 
 
   add() {
@@ -256,13 +293,17 @@ export class PatientPaymentFormComponent {
 
 
       // @ts-ignore
-      this.newpatientpayment.date = this.datep.transform( this.newpatientpayment.date, 'yyyy-MM-dd');
+      this.newpatientpayment.date = this.datep.transform(this.newpatientpayment.date, 'yyyy-MM-dd');
       // @ts-ignore
 
-      this.newpatientpayment.appointment = this.odlpatientpayment.appointment
 
-      if(this.cardpayment){
+      if (this.cardpayment) {
         this.newpatientpayment.cardpayments = this.cardpayments;
+      }
+
+      if (this.newpatientpayment.paymentstatus.name === 'Completed') {
+        console.log('payment completed');
+        this.updateDrugQoh();
       }
       this.newpatientpayment
 
@@ -330,7 +371,7 @@ export class PatientPaymentFormComponent {
   fillForm() {
 
     //@ts-ignore
-    this.newpatientpayment.appointment  = this.appointments.find(a => a.id === this.newpatientpayment.appointment.id);
+    this.newpatientpayment.appointment = this.appointments.find(a => a.id === this.newpatientpayment.appointment.id);
 
 
     //@ts-ignore
@@ -339,14 +380,14 @@ export class PatientPaymentFormComponent {
     this.newpatientpayment.employee = this.employees.find(e => e.id === this.newpatientpayment.employee.id);
     //@ts-ignore
     // this.patient.relationship = this.relationship.find(s => s.id === this.patient.relationship.id);
-    if(this.newpatientpayment.cardpayments.length >0){
+    if (this.newpatientpayment.cardpayments.length > 0) {
       //@ts-ignore
-      this.newpatientpayment.paytype  = this.paytypes.find(p => p.id === this.newpatientpayment.paytype.id);
+      this.newpatientpayment.paytype = this.paytypes.find(p => p.id === this.newpatientpayment.paytype.id);
 
       this.indata = new MatTableDataSource(this.newpatientpayment.cardpayments);
     }
 
-    console.log( 'update details' ,this.newpatientpayment)
+    console.log('update details', this.newpatientpayment)
     this.form.patchValue(this.newpatientpayment);
     this.form.markAsPristine();
 
@@ -359,7 +400,7 @@ export class PatientPaymentFormComponent {
     for (const controlName in this.form.controls) {
       const control = this.form.controls[controlName];
       if (control.dirty) {
-        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1)+" Changed";
+        updates = updates + "<br>" + controlName.charAt(0).toUpperCase() + controlName.slice(1) + " Changed";
       }
     }
     return updates;
@@ -376,7 +417,11 @@ export class PatientPaymentFormComponent {
         width: '500px',
         data: {heading: "Errors - Patient Payment Update ", message: "You have following Errors <br> " + errors}
       });
-      errmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+      errmsg.afterClosed().subscribe(async result => {
+        if (!result) {
+          return;
+        }
+      });
 
     } else {
 
@@ -397,9 +442,14 @@ export class PatientPaymentFormComponent {
         confirm.afterClosed().subscribe(async result => {
           if (result) {
             this.newpatientpayment = this.form.getRawValue();
-            this.newpatientpayment.cardpayments  = this.cardpayments;
+            this.newpatientpayment.cardpayments = this.cardpayments;
 
             this.newpatientpayment.id = this.odlpatientpayment.id
+
+            if (this.newpatientpayment.paymentstatus.name === 'Completed') {
+              console.log('payment completed');
+              this.updateDrugQoh();
+            }
 
             this.patientpaymentservice.update(this.newpatientpayment).then((responce: [] | undefined) => {
               if (responce != undefined) { // @ts-ignore
@@ -415,12 +465,14 @@ export class PatientPaymentFormComponent {
                 updstatus = false;
                 updmessage = "Content Not Found"
               }
-            } ).finally(() => {
+            }).finally(() => {
               if (updstatus) {
                 updmessage = "Successfully Updated";
                 this.form.reset();
                 // this.clearImage();
-                Object.values(this.form.controls).forEach(control => { control.markAsTouched(); });
+                Object.values(this.form.controls).forEach(control => {
+                  control.markAsTouched();
+                });
                 // this.loadTable("");
               }
 
@@ -428,19 +480,26 @@ export class PatientPaymentFormComponent {
                 width: '500px',
                 data: {heading: "Status Patient Payment Add", message: updmessage}
               });
-              stsmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+              stsmsg.afterClosed().subscribe(async result => {
+                if (!result) {
+                  return;
+                }
+              });
 
             });
           }
         });
-      }
-      else {
+      } else {
 
         const updmsg = this.dialog.open(MessageComponent, {
           width: '500px',
           data: {heading: "Confirmation - Patient Payment Update", message: "Nothing Changed"}
         });
-        updmsg.afterClosed().subscribe(async result => { if (!result) { return; } });
+        updmsg.afterClosed().subscribe(async result => {
+          if (!result) {
+            return;
+          }
+        });
 
       }
     }
@@ -468,7 +527,7 @@ export class PatientPaymentFormComponent {
     return errors;
   }
 
-  clear():void{
+  clear(): void {
     const confirm = this.dialog.open(ConfirmComponent, {
       width: '500px',
       data: {
@@ -483,7 +542,9 @@ export class PatientPaymentFormComponent {
       }
     });
   }
+
   idd = 0;
+
   btnaddMc() {
 
     this.innerdata = this.innerform.getRawValue();
@@ -491,7 +552,7 @@ export class PatientPaymentFormComponent {
 
     if (this.innerdata != null) {
 
-      let cardpayment:Cardpayment;
+      let cardpayment: Cardpayment;
 
 
       cardpayment = this.innerform.getRawValue();
@@ -511,7 +572,7 @@ export class PatientPaymentFormComponent {
       //
       // this.cardpayments.push(cardpayment);
 
-      console.log(' catdpayments ' ,this.cardpayments)
+      console.log(' catdpayments ', this.cardpayments)
       this.indata = new MatTableDataSource(this.cardpayments);
       //
       // this.idd++;
@@ -537,5 +598,14 @@ export class PatientPaymentFormComponent {
 
   backtoview() {
     this._location.back();
+  }
+
+  private updateDrugQoh() {
+
+
+    this.prescriptions.map(prescript => {
+
+    })
+
   }
 }

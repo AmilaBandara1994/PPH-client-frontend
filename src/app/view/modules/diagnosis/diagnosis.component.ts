@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./diagnosis.component.css']
 })
 export class DiagnosisComponent {
-
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 }

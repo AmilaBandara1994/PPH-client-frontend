@@ -92,6 +92,7 @@ export class InvestigationViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 

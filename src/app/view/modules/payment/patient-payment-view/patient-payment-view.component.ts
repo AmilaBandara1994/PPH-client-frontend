@@ -41,8 +41,8 @@ export class PatientPaymentViewComponent {
   public clinetsearch!: FormGroup;
   public serversearch!: FormGroup;
 
-  // appointment!: Appointment;
-  // olddoctor!: Doctor;
+  title:string='Patient Payment';
+
 
   selectedrow: any;
 
@@ -105,6 +105,7 @@ export class PatientPaymentViewComponent {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.initialize();
   }
 
@@ -275,10 +276,10 @@ export class PatientPaymentViewComponent {
 
 
   viewDetails(patientpayment:Patientpayment) {
-    this.router.navigateByUrl('main/patient/payment/details/'+patientpayment.id);
+    this.router.navigateByUrl('main/payment/patient/details/'+patientpayment.id);
   }
 
   updateclinic(patientpayment:Patientpayment) {
-    this.router.navigateByUrl('main/patient/payment/update/'+patientpayment.id);
+    this.router.navigateByUrl('main/payment/patient/update/'+patientpayment.id);
   }
 }

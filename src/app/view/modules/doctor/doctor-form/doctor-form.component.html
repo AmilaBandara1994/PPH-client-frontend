@@ -16,7 +16,6 @@
           <mat-form-field appearance="outline">
             <mat-label>Select the name</mat-label>
             <mat-select formControlName="employee">
-              <!--            <mat-option [value]="null">Not Selected</mat-option>-->
               <mat-option *ngFor="let doctoremployee of doctoremployees"
                           [value]="doctoremployee">{{ doctoremployee.fullname }}
               </mat-option>
@@ -49,11 +48,18 @@
           </mat-form-field>
         </mat-grid-tile>
 
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Per Patient Rate</mat-label>
+            <input type="number" matInput formControlName="perpatientrate">
+          </mat-form-field>
+        </mat-grid-tile>
+
 
         <mat-grid-tile>
           <mat-form-field appearance="outline">
             <mat-label>Date of SLMC Registered</mat-label>
-            <input matInput [matDatepicker]="dateofpublished" formControlName="doslmcregistered">
+            <input matInput [matDatepicker]="dateofpublished" formControlName="doslmcregisterd" [max]="today">
             <mat-datepicker-toggle matIconSuffix [for]="dateofpublished"></mat-datepicker-toggle>
             <mat-datepicker #dateofpublished></mat-datepicker>
           </mat-form-field>
@@ -78,11 +84,42 @@
         </mat-grid-tile>
       </mat-grid-list>
 
+      <div class="listtrnasfer">
+
+        <div class="listransfer-header">
+          <p>Select Specialized section</p>
+        </div>
+        <div class="listransfer-body">
+          <div class="list">
+            <mat-selection-list #availablelist>
+              <mat-list-option multiple *ngFor="let clinictype of clinictypes"
+                               [value]="clinictype">{{ clinictype.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+          <div class="pnlmiddle">
+            <button mat-raised-button (click)="rightSelected()">&gt;</button>
+            <button mat-raised-button (click)="leftSelected()">&lt;</button>
+            <button mat-raised-button (click)="rightAll()">&gt;&gt;</button>
+            <button mat-raised-button (click)="leftAll()">&lt;&lt;</button>
+          </div>
+
+          <div class="list">
+            <mat-selection-list formControlName="doctorclinictype" #selectedlist>
+              <mat-list-option *ngFor="let doclinic of doctorclinictypes"
+                               [value]="doclinic">{{ doclinic.clinictype.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+
+        </div>
+      </div>
 
       <div class="edu">
 
-        <div id="innertable">
-          <p>Add Drugs </p>
+        <div class="innertable">
+          <p>Add Educational Qualifications </p>
 
           <mat-form [formGroup]="innerform">
             <div class="edu-group">
@@ -112,7 +149,7 @@
 
 
             </div>
-            <button mat-raised-button id="btnAdd" [disabled]="!innerform.valid" (click)="btnaddMc()">Add Drug</button>
+            <button mat-raised-button id="btnAdd" [disabled]="!innerform.valid" (click)="btnaddMc()">Add Education</button>
           </mat-form>
 
 
@@ -132,6 +169,61 @@
 
         </div>
       </div>
+
+
+<!--      <div class="edu">-->
+
+<!--        <div class="innertable">-->
+<!--          <p>Add Drugs </p>-->
+
+<!--          <mat-form [formGroup]="innerform">-->
+<!--            <div class="edu-group">-->
+
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Year</mat-label>-->
+<!--                <input type="text" matInput formControlName="year">-->
+<!--              </mat-form-field>-->
+
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>University</mat-label>-->
+<!--                <mat-select formControlName="university">-->
+<!--                  <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                  <mat-option *ngFor="let university of universities" [value]="university">{{ university.name }}-->
+<!--                  </mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Degree</mat-label>-->
+<!--                <mat-select formControlName="degree">-->
+<!--                  <mat-option [value]="null" selected>Not Selected</mat-option>-->
+<!--                  <mat-option *ngFor="let degree of degrees" [value]="degree">{{ degree.name }}-->
+<!--                  </mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+
+
+<!--            </div>-->
+<!--            <button mat-raised-button id="btnAdd" [disabled]="!innerform.valid" (click)="btnaddMc()">Add Drug</button>-->
+<!--          </mat-form>-->
+
+
+<!--          <mat-table [dataSource]="indata">-->
+<!--            <ng-container *ngFor="let column of incolumns;let i = index;" [matColumnDef]="column">-->
+<!--              <mat-header-cell *matHeaderCellDef> {{ inheaders[i] }}</mat-header-cell>-->
+<!--              <mat-cell *matCellDef="let element">-->
+<!--                <div *ngIf="i<inbinders.length-1" [innerHTML]="uiassist.getProperty(element, inbinders[i])"></div>-->
+<!--                <div *ngIf="i>=inbinders.length-1">-->
+<!--                  <button mat-raised-button (click)="deleteRaw(element)">Remove</button>-->
+<!--                </div>-->
+<!--              </mat-cell>-->
+<!--            </ng-container>-->
+<!--            <mat-header-row *matHeaderRowDef="incolumns"></mat-header-row>-->
+<!--            <mat-row *matRowDef="let row; columns: incolumns"></mat-row>-->
+<!--          </mat-table>-->
+
+<!--        </div>-->
+<!--      </div>-->
 
 
       <div id="butpanel">

@@ -123,9 +123,23 @@
   color: gray;
   border-radius: 40px;
 }
+
 .search span{
   font-size: 1rem;
 }
+.search input{
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+ input:focus-visible{
+   outline: none;
+}
+/**:focus {*/
+/*  outline: none;*/
+/*}*/
 
 
 /* Special card style*/

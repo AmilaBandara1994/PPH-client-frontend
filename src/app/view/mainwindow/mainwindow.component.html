@@ -113,113 +113,374 @@
 
   <div class="main-container">
     <div class="side-nav">
-      <div class="nav-logo">
+      <div class="nav-logo" routerLink="/main/home">
         <img src="/assets/my-img/logo-with.png" class="img-logo">
         <p>Pannipitiya Private Hospital (PPH)</p>
+
+
         <!--         <p>( Nursing Home )</p>-->
       </div>
+      <!--      <div class="nav-outer">-->
+      <!--        <a routerLink="dashboard">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>dashboard</mat-icon>-->
+      <!--            <p> Dashboard </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="home">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>home</mat-icon>-->
+      <!--            <p> Home </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="home">-->
+      <!--          <div class="nav-item">-->
+      <!--            &lt;!&ndash;           <img src="assets/my-img/icons/account.svg" alt="account">&ndash;&gt;-->
+      <!--            <mat-icon>person_outline</mat-icon>-->
+
+      <!--            <p> Account </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="chat">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>chat</mat-icon>-->
+      <!--            <p> Chat </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="drug">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">-->
+      <!--            </mat-icon>-->
+      <!--            <p> Drug </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+
+      <!--        <a routerLink="patient">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon><img src="assets/my-img/icons/patient-manu.svg" style="color: white" alt="drugs">-->
+      <!--            </mat-icon>-->
+      <!--            <p> Patient </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+
+      <!--        <a routerLink="diagnosis">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon><img src="assets/my-img/icons/diagnosis.svg" style="color: white" alt="drugs">-->
+      <!--            </mat-icon>-->
+      <!--            <p> Diagnosis </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="prescription">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon><img src="assets/my-img/icons/prescription.svg" style="color: white" alt="drugs">-->
+      <!--            </mat-icon>-->
+      <!--            <p> Prescription </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="investigation">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon><img src="assets/my-img/icons/investigation.svg" style="color: white" alt="drugs">-->
+      <!--            </mat-icon>-->
+      <!--            <p> Investigation </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="appointment">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>event</mat-icon>-->
+      <!--            <p> Appointment </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="clinic">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>schedule</mat-icon>-->
+      <!--            <p> Schedule </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="payment">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>payment</mat-icon>-->
+      <!--            <p> Payment </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+      <!--        <a routerLink="home">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>settings</mat-icon>-->
+      <!--            <p> Settings </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+
+      <!--        <a routerLink="reports">-->
+      <!--          <div class="nav-item">-->
+      <!--            <mat-icon>report</mat-icon>-->
+      <!--            <p> Reports </p>-->
+      <!--          </div>-->
+      <!--        </a>-->
+
+      <!--      </div>-->
       <div class="nav-outer">
-        <a routerLink="dashboard">
-          <div class="nav-item">
-            <mat-icon>dashboard</mat-icon>
-            <p> Dashboard </p>
-          </div>
-        </a>
-        <a routerLink="home">
-          <div class="nav-item">
-            <mat-icon>home</mat-icon>
-            <p> Home </p>
-          </div>
-        </a>
-        <a routerLink="home">
-          <div class="nav-item">
-            <!--           <img src="assets/my-img/icons/account.svg" alt="account">-->
-            <mat-icon>person_outline</mat-icon>
+        <mat-expansion-panel [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon>dashboard</mat-icon>
+              Dashboard</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container>
+              <mat-list-item class="item">
+                <a routerLink="dashboard">
+                  Dashboard
+                </a>
+              </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
 
-            <p> Account </p>
-          </div>
-        </a>
-        <a routerLink="chat">
-          <div class="nav-item">
-            <mat-icon>chat</mat-icon>
-            <p> Chat </p>
-          </div>
-        </a>
-        <a routerLink="drug">
-          <div class="nav-item">
-            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
-            </mat-icon>
-            <p> Drug </p>
-          </div>
-        </a>
+        <mat-expansion-panel *ngIf="isMenuVisible('Admin')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon>person</mat-icon>
+              Admin</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of admMenuItems">
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+              <mat-list-item  *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a>
+              </mat-list-item>
+<!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Registration')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon>person_add</mat-icon>
+              Registration</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <mat-list-item>fsome</mat-list-item>
+          <ng-container *ngFor="let menuItem of regMenuItems">
+            <!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+            <mat-list-item *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+              <a>{{ menuItem.name }}</a>
+            </mat-list-item>
+            <!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Patient')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon><img src="assets/my-img/icons/patient-manu.svg" style="color: white" alt="drugs">
+              </mat-icon>
+              Patient</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of patientMenuItems">
+            <!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+            <mat-list-item *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+              <a>{{ menuItem.name }}</a></mat-list-item>
+            <!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="isMenuVisible('Family')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+        <mat-icon>people</mat-icon>
+              Family</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of familyMenuItems ">
+            <!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+            <mat-list-item *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+              <a>{{ menuItem.name }}</a></mat-list-item>
+            <!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Clinic')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon> schedule</mat-icon>
+              Clinic</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of clinicMenuItems">
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+              <mat-list-item *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+<!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Appointment')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon> event</mat-icon>
+              Appointment</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of appointmentMenuItems">
+            <mat-list-item *ngIf="menuItem.accessFlag">
+              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+            </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Diagnosis')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon><img src="assets/my-img/icons/diagnosis.svg" style="color: white" alt="drugs">
+              </mat-icon>
+              Diagnosis</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of diagnosisMenuItems">
+            <mat-list-item *ngIf="menuItem.accessFlag">
+              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+            </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Prescription')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon><img src="assets/my-img/icons/prescription.svg" style="color: white" alt="drugs">
+              </mat-icon>
+              Prescription</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of prescriptionMenuItems">
+            <mat-list-item *ngIf="menuItem.accessFlag">
+              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+            </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Investigation')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon><img src="assets/my-img/icons/investigation.svg" style="color: white" alt="drugs"></mat-icon>
+              Investigation</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of investigationMenuItems">
+            <mat-list-item *ngIf="menuItem.accessFlag">
+              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+            </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Doctor')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon> local_pharmacy</mat-icon>
+              Doctor</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of doctorMenuItems">
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+              <mat-list-item *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>{{ menuItem.name }}</a></mat-list-item>
+<!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="isMenuVisible('Drug')" [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
+              </mat-icon>
+              Drug</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container *ngFor="let menuItem of drugMenuItems">
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+              <mat-list-item  *ngIf="menuItem.accessFlag" class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">
+                <a>
+                  {{ menuItem.name }}</a>
+              </mat-list-item>
+<!--            </mat-list-item>-->
+          </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [hideToggle]="true">
+          <mat-expansion-panel-header>
+            <mat-list-item><a>
+              <mat-icon>payment</mat-icon>
+              Payment</a></mat-list-item>
+          </mat-expansion-panel-header>
+          <ng-container>
+              <mat-list-item class="item">
+                <a routerLink="payment">
+                  payment
+                </a>
+              </mat-list-item>
+          </ng-container>
+        </mat-expansion-panel>
+
+<!--        <mat-expansion-panel *ngIf="isMenuVisible('DoctorPayment')" [hideToggle]="true">-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-list-item><a>-->
+<!--              <mat-icon> payment</mat-icon>-->
+<!--              Doctor Payment</a></mat-list-item>-->
+<!--          </mat-expansion-panel-header>-->
+<!--          <ng-container *ngFor="let menuItem of doctorPaymentMenuItems">-->
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+<!--              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">-->
+<!--                <a>{{ menuItem.name }}</a></mat-list-item>-->
+<!--            </mat-list-item>-->
+<!--          </ng-container>-->
+<!--        </mat-expansion-panel>-->
+<!--        <mat-expansion-panel *ngIf="isMenuVisible('PatientPayment')" [hideToggle]="true">-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-list-item><a>-->
+<!--              <mat-icon> payment</mat-icon>-->
+<!--              Doctor Payment</a></mat-list-item>-->
+<!--          </mat-expansion-panel-header>-->
+<!--          <ng-container *ngFor="let menuItem of pa">-->
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+<!--              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">-->
+<!--                <a>{{ menuItem.name }}</a></mat-list-item>-->
+<!--            </mat-list-item>-->
+<!--          </ng-container>-->
+<!--        </mat-expansion-panel>-->
 
 
+        <!--        <mat-expansion-panel >-->
+<!--        <mat-expansion-panel *ngIf="isMenuVisible('Clinic')" [hideToggle]="true">-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-list-item>-->
+<!--              <a>-->
+<!--                <mat-icon><img src="assets/my-img/icons/patient-manu.svg" style="color: white" alt="drugs"></mat-icon>-->
+<!--                Clinic-->
+<!--              </a>-->
+<!--            </mat-list-item>-->
+<!--          </mat-expansion-panel-header>-->
 
-        <a routerLink="diagnosis">
-          <div class="nav-item">
-            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
-            </mat-icon>
-            <p> Diagnosis </p>
-          </div>
-        </a>
-        <a routerLink="prescription">
-          <div class="nav-item">
-            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
-            </mat-icon>
-            <p> Prescription </p>
-          </div>
-        </a>
-        <a routerLink="investigation">
-          <div class="nav-item">
-            <mat-icon><img src="assets/my-img/icons/medicines.svg" style="color: white" alt="drugs">
-            </mat-icon>
-            <p> Investigation </p>
-          </div>
-        </a>
-        <a routerLink="appointment">
-          <div class="nav-item">
-            <mat-icon>event</mat-icon>
-            <p> Appointment </p>
-          </div>
-        </a>
-        <a routerLink="clinic">
-          <div class="nav-item">
-            <mat-icon>schedule</mat-icon>
-            <p> Schedule </p>
-          </div>
-        </a>
-        <a routerLink="payment">
-          <div class="nav-item">
-            <mat-icon>payment</mat-icon>
-            <p> Payment </p>
-          </div>
-        </a>
-        <a routerLink="home">
-          <div class="nav-item">
-            <mat-icon>settings</mat-icon>
-            <p> Settings </p>
-          </div>
-        </a>
-
-        <a routerLink="reports">
-          <div class="nav-item">
-            <mat-icon>report</mat-icon>
-            <p> Reports </p>
-          </div>
-        </a>
-
+<!--          <ng-container *ngFor="let menuItem of clinicMenuItems">-->
+<!--            <mat-list-item *ngIf="menuItem.accessFlag">-->
+<!--              <mat-list-item class="item" [routerLink]="menuItem.accessFlag ? menuItem.routerLink : null">-->
+<!--                <a>{{ menuItem.name }}</a></mat-list-item>-->
+<!--            </mat-list-item>-->
+<!--          </ng-container>-->
+<!--        </mat-expansion-panel>-->
       </div>
-
     </div>
     <div class="inner-container">
+      <!--    <span class="toolbar-right">-->
+      <!--      <label class="lbl-user">{{ authService.getUsername().toUpperCase()}}</label>-->
+      <!--      <img src="assets/user.png" class="img-user"/>-->
+      <!--      <button mat-icon-button (click)="logout()" class="btn-logout"><mat-icon>exit_to_app</mat-icon> </button>-->
+      <!--    </span>-->
+
       <div
-        style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain; border-radius: 10px; margin: 2rem 8px; padding: 1rem 0;  display: flex; align-items: center; justify-content: center">
+        style="background-image: url('assets/my-img/banner/banner-background2.jpg'); background-size: contain; border-radius: 10px; margin: 2rem 8px; padding: 1rem 0;  display: flex; align-items: center; justify-content: space-between">
         <div class="logo-back" style="display: flex; align-items: center; justify-content: center; ">
           <img id="headImg" src="assets/my-img/logo-with.png">
           <div class="logo-left-section">
             <p>Pannipitiya Private Hospital</p>
             <span>( Nursing Home )</span>
           </div>
+        </div>
+        <div class="logo-back" style="margin-right: 1rem;">
+
+            <span class="toolbar-right">
+                    <label class="lbl-user">{{ authService.getUsername().toUpperCase() }}</label>
+                    <img src="assets/user.png" class="img-user"/>
+                  <button mat-icon-button (click)="logout()" class="btn-logout"><mat-icon>exit_to_app</mat-icon> </button>
+           </span>
         </div>
       </div>
       <router-outlet></router-outlet>

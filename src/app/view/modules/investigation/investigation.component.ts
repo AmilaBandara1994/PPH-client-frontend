@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./investigation.component.css']
 })
 export class InvestigationComponent {
-
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 }

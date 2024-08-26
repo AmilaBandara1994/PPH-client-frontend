@@ -18,6 +18,9 @@ import {MatTableModule} from "@angular/material/table";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {PaymentComponent} from "./payment.component";
 import { PaymentCommonComponent } from './payment-common/payment-common.component';
+import { DoctorPaymentViewComponent } from './doctor-payment-view/doctor-payment-view.component';
+import { DoctorPaymentDetailsComponent } from './doctor-payment-details/doctor-payment-details.component';
+import { DoctorPaymentFormComponent } from './doctor-payment-form/doctor-payment-form.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { PaymentCommonComponent } from './payment-common/payment-common.componen
     PatientPaymentViewComponent,
     PatientPaymentFormComponent,
     PatientPaymentDetailsComponent,
-    PaymentCommonComponent
+    PaymentCommonComponent,
+    DoctorPaymentViewComponent,
+    DoctorPaymentDetailsComponent,
+    DoctorPaymentFormComponent
   ],
   imports: [
     CommonModule,

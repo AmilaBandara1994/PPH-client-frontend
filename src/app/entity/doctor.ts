@@ -16,9 +16,10 @@ export class Doctor {
   public foreigntraining !: string;
   public doctordegrees!:Array<Doctordegree>;
   public country !: Country;
+  public perpatientrate !: number;
 
 
-  constructor(id: number, doctorclinictype: Array<Doctorclinictype>, employee: Employee, doctorgrade: Doctorgrade, description: string, slmcregno: string, doslmcregisterd: string, foreigntraining: string, doctordegrees: Array<Doctordegree>, country: Country) {
+  constructor(id: number, doctorclinictype: Array<Doctorclinictype>, employee: Employee, doctorgrade: Doctorgrade, description: string, slmcregno: string, doslmcregisterd: string, foreigntraining: string, doctordegrees: Array<Doctordegree>, country: Country, perpatientrate: number) {
     this.id = id;
     this.doctorclinictype = doctorclinictype;
     this.employee = employee;
@@ -29,5 +30,6 @@ export class Doctor {
     this.foreigntraining = foreigntraining;
     this.doctordegrees = doctordegrees;
     this.country = country;
+    this.perpatientrate = perpatientrate;
   }
 }

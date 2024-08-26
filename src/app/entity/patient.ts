@@ -4,6 +4,8 @@ import {Bloodgroup} from "./bloodgroup";
 import {Employee} from "./employee";
 import {Family} from "./family";
 import {Relationship} from "./relationship";
+import {Doctorclinictype} from "./doctorclinictype";
+import {Patientriskfactor} from "./patientriskfactor";
 
 export class Patient {
 
@@ -21,9 +23,10 @@ export class Patient {
   public  employee!: Employee;
   public  family!: Family;
   public  relationship!: Relationship;
+  public patientriskfactors !: Array<Patientriskfactor>;
 
 
-  constructor(id: number, name: string, dob: string, nic: string, email: string, photo: string, contactnumber: string, description: string, patientstatus: Patientstatus, gender: Gender, bloodgroup: Bloodgroup, employee: Employee, family: Family, relationship: Relationship) {
+  constructor(id: number, name: string, dob: string, nic: string, email: string, photo: string, contactnumber: string, description: string, patientstatus: Patientstatus, gender: Gender, bloodgroup: Bloodgroup, employee: Employee, family: Family, relationship: Relationship, patientriskfactors: Array<Patientriskfactor>) {
     this.id = id;
     this.name = name;
     this.dob = dob;
@@ -38,5 +41,6 @@ export class Patient {
     this.employee = employee;
     this.family = family;
     this.relationship = relationship;
+    this.patientriskfactors = patientriskfactors;
   }
 }

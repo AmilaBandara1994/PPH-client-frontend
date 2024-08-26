@@ -83,7 +83,7 @@ export class InvestigationFormComponent {
   }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
     this.id = this.arouter.snapshot.params['id'];
     if (this.arouter.snapshot.params['id']) {
 
@@ -195,7 +195,7 @@ export class InvestigationFormComponent {
       let formdata: string = "";
 
       formdata = formdata + "<br>  Report Type : " + this.newInvestigation.reporttype.name;
-      formdata = formdata + "<br> Investigation status : " + this.newInvestigation.investigationstatus;
+      formdata = formdata + "<br> Investigation status : " + this.newInvestigation.investigationstatus.name;
 
       const confirm = this.dg.open(ConfirmComponent, {
         width: '500px',

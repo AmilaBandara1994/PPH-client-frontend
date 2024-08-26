@@ -16,7 +16,10 @@ export class Familyservice {
     // @ts-ignore
     return this.http.delete('http://localhost:8080/families/' + id).toPromise();
   }
-
+  async get(id: number): Promise<[]|undefined>{
+    // @ts-ignore
+    return this.http.get('http://localhost:8080/families/details/' + id).toPromise();
+  }
   async update(family: Family): Promise<[]|undefined>{
     //console.log("Employee Updating-"+employee.id);
     return this.http.put<[]>('http://localhost:8080/families', family).toPromise();
